@@ -6,6 +6,7 @@ import '../../../core/constants/app_colors.dart';
 import '../../../core/widgets/app_header.dart';
 import '../../../core/widgets/fade_slide_entrance.dart';
 import '../../../data/repositories/profile_repo.dart';
+import 'photo_crop_screen.dart';
 
 class ProfilScreen extends StatefulWidget {
   const ProfilScreen({super.key});
@@ -79,38 +80,48 @@ class _ProfilScreenState extends State<ProfilScreen> {
       final picker = ImagePicker();
       final picked = await picker.pickImage(
         source: source,
-        maxWidth: 600,
-        maxHeight: 600,
-        imageQuality: 85,
+        maxWidth: 1200,
+        maxHeight: 1200,
+        imageQuality: 90,
       );
-      if (picked != null) {
-        final appDir = await getApplicationDocumentsDirectory();
-        final fileName = 'avatar_${DateTime.now().millisecondsSinceEpoch}.jpg';
-        final savedFile = await File(picked.path).copy('${appDir.path}/$fileName');
+      if (picked != null && mounted) {
+        // Buka layar crop interaktif yang sangat halus tanpa lag
+        final File? croppedFile = await Navigator.push<File>(
+          context,
+          MaterialPageRoute(
+            builder: (_) => PhotoCropScreen(imageFile: File(picked.path)),
+          ),
+        );
 
-        // Hapus file avatar lama jika ada
-        if (_avatarPath != null && _avatarPath!.isNotEmpty) {
-          final old = File(_avatarPath!);
-          if (old.existsSync()) {
-            try {
-              old.deleteSync();
-            } catch (_) {}
+        if (croppedFile != null) {
+          final appDir = await getApplicationDocumentsDirectory();
+          final fileName = 'avatar_${DateTime.now().millisecondsSinceEpoch}.png';
+          final savedFile = await croppedFile.copy('${appDir.path}/$fileName');
+
+          // Hapus file avatar lama jika ada
+          if (_avatarPath != null && _avatarPath!.isNotEmpty) {
+            final old = File(_avatarPath!);
+            if (old.existsSync()) {
+              try {
+                old.deleteSync();
+              } catch (_) {}
+            }
           }
-        }
 
-        setState(() {
-          _avatarPath = savedFile.path;
-        });
+          setState(() {
+            _avatarPath = savedFile.path;
+          });
 
-        await _saveProfile(showToast: false);
+          await _saveProfile(showToast: false);
 
-        if (mounted) {
-          ScaffoldMessenger.of(context).showSnackBar(
-            const SnackBar(
-              content: Text('Foto profil berhasil diperbarui!'),
-              backgroundColor: AppColors.primaryGreen,
-            ),
-          );
+          if (mounted) {
+            ScaffoldMessenger.of(context).showSnackBar(
+              const SnackBar(
+                content: Text('Foto profil berhasil disesuaikan & disimpan!'),
+                backgroundColor: AppColors.primaryGreen,
+              ),
+            );
+          }
         }
       }
     } catch (e) {
@@ -613,7 +624,7 @@ class _ProfilScreenState extends State<ProfilScreen> {
             child: Column(
               children: [
                 Text(
-                  'SIMPanan v1.0.8 (Patch 1.0.8)',
+                  'SIMPanan v1.1.11 (Patch 1.1.11)',
                   style: TextStyle(
                     fontSize: 12,
                     color: AppColors.textSecondary.withValues(alpha: 0.8),

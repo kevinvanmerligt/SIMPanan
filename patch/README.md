@@ -8,8 +8,10 @@ Folder ini berisi riwayat pembaruan (*patch notes*), changelog resmi, dan file r
 
 | Versi Patch | Tanggal Rilis | File APK | Ringkasan Utama | Dokumen Lengkap |
 | :---: | :---: | :---: | :--- | :---: |
-| **`v1.0.8`** *(Terbaru)* | 25 Oktober 2026 | [⬇️ `SIMPanan-v1.0.8.apk`](https://raw.githubusercontent.com/kevinvanmerligt/SIMPanan/main/patch/SIMPanan-v1.0.8.apk) | Dukungan 60/90/120/144Hz high refresh rate, transisi halaman halus, animasi navigasi interaktif, upload foto profil (kamera/galeri), dan grafik pengeluaran 7 hari | [Baca Patch Notes](./patch-1.0.8.md) |
-| **`v1.0.3`** *(Sebelumnya)* | 25 Oktober 2026 | *Telah diperbarui ke v1.0.8* | Logo anime kosmik baru, direct APK download tanpa pindah halaman, hapus patokan saldo & keamanan profil, header di semua tabs | [Baca Patch Notes](./patch-1.0.3.md) |
+| **`v1.1.11`** *(Terbaru)* | 25 Oktober 2026 | [⬇️ `SIMPanan-v1.1.11.apk`](https://raw.githubusercontent.com/kevinvanmerligt/SIMPanan/main/patch/SIMPanan-v1.1.11.apk) | Segmented control tab transaksi animasi sliding pill tanpa jerking scroll, crop foto profil native tanpa lag 60-144Hz | [Baca Patch Notes](./patch-1.1.11.md) |
+| **`v1.0.8`** *(Sebelumnya)* | 25 Oktober 2026 | *Telah diperbarui ke v1.1.11* | Dukungan 60/90/120/144Hz high refresh rate, transisi halaman halus, animasi navigasi, upload foto profil, grafik 7 hari | [Baca Patch Notes](./patch-1.0.8.md) |
+| **`v1.0.3`** *(Arsip)* | 25 Oktober 2026 | *Telah digantikan ke v1.1.11* | Logo anime kosmik baru, direct APK download tanpa pindah halaman, hapus patokan saldo & keamanan profil, header di semua tabs | [Baca Patch Notes](./patch-1.0.3.md) |
+| **`v1.0.0`** *(Rilis Perdana)* | 25 Oktober 2026 | *Telah digantikan ke v1.1.11* | Rilis perdana: Saldo harian, profil pengguna, tombol center docking, navigasi tabs | [Baca Patch Notes](./patch-1.0.0.md) |
 
 ---
 
