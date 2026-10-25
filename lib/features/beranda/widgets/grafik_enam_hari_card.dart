@@ -1,0 +1,177 @@
+import 'package:fl_chart/fl_chart.dart';
+import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
+import '../../../core/constants/app_colors.dart';
+import '../../../core/constants/app_strings.dart';
+import '../../../core/utils/currency_format.dart';
+
+class GrafikEnamHariCard extends StatelessWidget {
+  final List<Map<String, dynamic>> data6Hari;
+  final int totalExpense;
+  final VoidCallback onTapLihatGrafik;
+
+  const GrafikEnamHariCard({
+    super.key,
+    required this.data6Hari,
+    required this.totalExpense,
+    required this.onTapLihatGrafik,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    double maxY = 100000;
+    for (final item in data6Hari) {
+      final amt = (item['amount'] as int).toDouble();
+      if (amt > maxY) maxY = amt * 1.2;
+    }
+
+    return Container(
+      padding: const EdgeInsets.all(20),
+      decoration: BoxDecoration(
+        color: AppColors.cardSurface,
+        borderRadius: BorderRadius.circular(16),
+        border: Border.all(color: AppColors.cardBorder),
+      ),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          // Header
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              const Text(
+                AppStrings.pengeluaran6Hari,
+                style: TextStyle(
+                  fontSize: 16,
+                  fontWeight: FontWeight.w700,
+                  color: AppColors.textPrimary,
+                ),
+              ),
+              Text(
+                'Total ${CurrencyFormat.toRupiah(totalExpense)}',
+                style: const TextStyle(
+                  fontSize: 13,
+                  color: AppColors.textSecondary,
+                ),
+              ),
+            ],
+          ),
+          const SizedBox(height: 24),
+
+          // Area Grafik Batang & Garis Horizontal
+          SizedBox(
+            height: 120,
+            child: BarChart(
+              BarChartData(
+                maxY: maxY,
+                gridData: FlGridData(
+                  show: true,
+                  drawVerticalLine: false,
+                  horizontalInterval: maxY / 3,
+                  getDrawingHorizontalLine: (value) => const FlLine(
+                    color: AppColors.cardBorder,
+                    strokeWidth: 1,
+                  ),
+                ),
+                borderData: FlBorderData(
+                  show: true,
+                  border: const Border(
+                    bottom: BorderSide(color: AppColors.cardBorder, width: 1),
+                  ),
+                ),
+                titlesData: FlTitlesData(
+                  topTitles: const AxisTitles(sideTitles: SideTitles(showTitles: false)),
+                  leftTitles: const AxisTitles(sideTitles: SideTitles(showTitles: false)),
+                  rightTitles: const AxisTitles(sideTitles: SideTitles(showTitles: false)),
+                  bottomTitles: AxisTitles(
+                    sideTitles: SideTitles(
+                      showTitles: true,
+                      getTitlesWidget: (value, meta) {
+                        final idx = value.toInt();
+                        if (idx < 0 || idx >= data6Hari.length) return const SizedBox();
+                        final date = data6Hari[idx]['date'] as DateTime;
+                        return Padding(
+                          padding: const EdgeInsets.only(top: 6),
+                          child: Text(
+                            DateFormat('E', 'id_ID').format(date),
+                            style: const TextStyle(
+                              fontSize: 11,
+                              color: AppColors.textSecondary,
+                            ),
+                          ),
+                        );
+                      },
+                    ),
+                  ),
+                ),
+                barGroups: List.generate(data6Hari.length, (index) {
+                  final amount = (data6Hari[index]['amount'] as int).toDouble();
+                  final hasData = amount > 0;
+                  return BarChartGroupData(
+                    x: index,
+                    barRods: [
+                      BarChartRodData(
+                        toY: hasData ? amount : maxY * 0.08,
+                        color: hasData ? AppColors.primaryGreen : AppColors.chartEmpty,
+                        width: 22,
+                        borderRadius: BorderRadius.circular(6),
+                      ),
+                    ],
+                  );
+                }),
+              ),
+            ),
+          ),
+          const SizedBox(height: 16),
+
+          // Legenda
+          Row(
+            children: [
+              _buildLegendDot(AppColors.primaryGreen, AppStrings.harimuIniDanSebelumnya),
+              const SizedBox(width: 16),
+              _buildLegendDot(AppColors.chartEmpty, AppStrings.belumAdaCatatan),
+            ],
+          ),
+          const SizedBox(height: 12),
+
+          // Tombol Lihat Data Grafik
+          InkWell(
+            onTap: onTapLihatGrafik,
+            child: const Text(
+              AppStrings.lihatDataGrafik,
+              style: TextStyle(
+                fontSize: 12,
+                fontWeight: FontWeight.w600,
+                color: AppColors.textSecondary,
+              ),
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+
+  Widget _buildLegendDot(Color color, String label) {
+    return Row(
+      mainAxisSize: MainAxisSize.min,
+      children: [
+        Container(
+          width: 10,
+          height: 10,
+          decoration: BoxDecoration(
+            color: color,
+            borderRadius: BorderRadius.circular(3),
+          ),
+        ),
+        const SizedBox(width: 6),
+        Text(
+          label,
+          style: const TextStyle(
+            fontSize: 12,
+            color: AppColors.textSecondary,
+          ),
+        ),
+      ],
+    );
+  }
+}
