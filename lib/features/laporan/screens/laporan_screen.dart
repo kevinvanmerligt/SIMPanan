@@ -3,6 +3,7 @@ import 'package:provider/provider.dart';
 import '../../../core/constants/app_colors.dart';
 import '../../../core/utils/currency_format.dart';
 import '../../../core/widgets/app_header.dart';
+import '../../../core/widgets/fade_slide_entrance.dart';
 import '../../../providers/finance_provider.dart';
 
 class LaporanScreen extends StatelessWidget {
@@ -25,23 +26,31 @@ class LaporanScreen extends StatelessWidget {
         return ListView(
           padding: const EdgeInsets.all(16),
           children: [
-            const SimpananAppHeader(),
+            const FadeSlideEntrance(
+              delayMs: 0,
+              child: SimpananAppHeader(),
+            ),
             const SizedBox(height: 18),
-            const Text(
-              'Laporan Pengeluaran',
-              style: TextStyle(fontSize: 20, fontWeight: FontWeight.w800),
+            const FadeSlideEntrance(
+              delayMs: 40,
+              child: Text(
+                'Laporan Pengeluaran',
+                style: TextStyle(fontSize: 20, fontWeight: FontWeight.w800),
+              ),
             ),
             const SizedBox(height: 16),
-            Container(
-              padding: const EdgeInsets.all(20),
-              decoration: BoxDecoration(
-                color: Colors.white,
-                borderRadius: BorderRadius.circular(16),
-                border: Border.all(color: AppColors.cardBorder),
-              ),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
+            FadeSlideEntrance(
+              delayMs: 80,
+              child: Container(
+                padding: const EdgeInsets.all(20),
+                decoration: BoxDecoration(
+                  color: Colors.white,
+                  borderRadius: BorderRadius.circular(16),
+                  border: Border.all(color: AppColors.cardBorder),
+                ),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
                   const Text(
                     'Total Seluruh Pengeluaran',
                     style: TextStyle(color: AppColors.textSecondary, fontSize: 13),
@@ -101,9 +110,10 @@ class LaporanScreen extends StatelessWidget {
                 ],
               ),
             ),
-          ],
-        );
-      },
+          ),
+        ],
+      );
+    },
     );
   }
 }

@@ -72,12 +72,12 @@ class FinanceProvider extends ChangeNotifier {
     );
   }
 
-  // Data Grafik Pengeluaran 6 Hari Terakhir
-  List<Map<String, dynamic>> get last6DaysExpenses {
+  // Data Grafik Pengeluaran 7 Hari Terakhir (Seminggu Penuh)
+  List<Map<String, dynamic>> get last7DaysExpenses {
     final now = DateTime.now();
     final List<Map<String, dynamic>> result = [];
 
-    for (int i = 5; i >= 0; i--) {
+    for (int i = 6; i >= 0; i--) {
       final targetDate = now.subtract(Duration(days: i));
       int dailyExpense = 0;
       for (final tx in _allTransactions) {
@@ -93,9 +93,13 @@ class FinanceProvider extends ChangeNotifier {
     return result;
   }
 
-  int get total6DaysExpense {
-    return last6DaysExpenses.fold(0, (sum, item) => sum + (item['amount'] as int));
+  int get total7DaysExpense {
+    return last7DaysExpenses.fold(0, (sum, item) => sum + (item['amount'] as int));
   }
+
+  // Alias kompatibilitas
+  List<Map<String, dynamic>> get last6DaysExpenses => last7DaysExpenses;
+  int get total6DaysExpense => total7DaysExpense;
 
   // Auto-save transaksi baru
   Future<void> addTransaction({

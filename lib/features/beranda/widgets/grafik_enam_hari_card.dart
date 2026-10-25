@@ -5,14 +5,14 @@ import '../../../core/constants/app_colors.dart';
 import '../../../core/constants/app_strings.dart';
 import '../../../core/utils/currency_format.dart';
 
-class GrafikEnamHariCard extends StatelessWidget {
-  final List<Map<String, dynamic>> data6Hari;
+class GrafikTujuhHariCard extends StatelessWidget {
+  final List<Map<String, dynamic>> data7Hari;
   final int totalExpense;
   final VoidCallback onTapLihatGrafik;
 
-  const GrafikEnamHariCard({
+  const GrafikTujuhHariCard({
     super.key,
-    required this.data6Hari,
+    required this.data7Hari,
     required this.totalExpense,
     required this.onTapLihatGrafik,
   });
@@ -20,7 +20,7 @@ class GrafikEnamHariCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     double maxY = 100000;
-    for (final item in data6Hari) {
+    for (final item in data7Hari) {
       final amt = (item['amount'] as int).toDouble();
       if (amt > maxY) maxY = amt * 1.2;
     }
@@ -40,7 +40,7 @@ class GrafikEnamHariCard extends StatelessWidget {
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
               const Text(
-                AppStrings.pengeluaran6Hari,
+                AppStrings.pengeluaran7Hari,
                 style: TextStyle(
                   fontSize: 16,
                   fontWeight: FontWeight.w700,
@@ -60,8 +60,10 @@ class GrafikEnamHariCard extends StatelessWidget {
 
           // Area Grafik Batang & Garis Horizontal
           SizedBox(
-            height: 120,
+            height: 124,
             child: BarChart(
+              swapAnimationDuration: const Duration(milliseconds: 450),
+              swapAnimationCurve: Curves.easeOutCubic,
               BarChartData(
                 maxY: maxY,
                 gridData: FlGridData(
@@ -88,15 +90,17 @@ class GrafikEnamHariCard extends StatelessWidget {
                       showTitles: true,
                       getTitlesWidget: (value, meta) {
                         final idx = value.toInt();
-                        if (idx < 0 || idx >= data6Hari.length) return const SizedBox();
-                        final date = data6Hari[idx]['date'] as DateTime;
+                        if (idx < 0 || idx >= data7Hari.length) return const SizedBox();
+                        final date = data7Hari[idx]['date'] as DateTime;
+                        final isToday = idx == data7Hari.length - 1;
                         return Padding(
                           padding: const EdgeInsets.only(top: 6),
                           child: Text(
-                            DateFormat('E', 'id_ID').format(date),
-                            style: const TextStyle(
-                              fontSize: 11,
-                              color: AppColors.textSecondary,
+                            isToday ? 'Hari ini' : DateFormat('E', 'id_ID').format(date),
+                            style: TextStyle(
+                              fontSize: 10,
+                              fontWeight: isToday ? FontWeight.w700 : FontWeight.w500,
+                              color: isToday ? AppColors.primaryGreen : AppColors.textSecondary,
                             ),
                           ),
                         );
@@ -104,16 +108,19 @@ class GrafikEnamHariCard extends StatelessWidget {
                     ),
                   ),
                 ),
-                barGroups: List.generate(data6Hari.length, (index) {
-                  final amount = (data6Hari[index]['amount'] as int).toDouble();
+                barGroups: List.generate(data7Hari.length, (index) {
+                  final amount = (data7Hari[index]['amount'] as int).toDouble();
                   final hasData = amount > 0;
+                  final isToday = index == data7Hari.length - 1;
                   return BarChartGroupData(
                     x: index,
                     barRods: [
                       BarChartRodData(
                         toY: hasData ? amount : maxY * 0.08,
-                        color: hasData ? AppColors.primaryGreen : AppColors.chartEmpty,
-                        width: 22,
+                        color: hasData
+                            ? (isToday ? AppColors.primaryGreen : const Color(0xFF2E7D32))
+                            : AppColors.chartEmpty,
+                        width: 18,
                         borderRadius: BorderRadius.circular(6),
                       ),
                     ],
@@ -175,3 +182,26 @@ class GrafikEnamHariCard extends StatelessWidget {
     );
   }
 }
+
+// Backward-compatible wrapper
+class GrafikEnamHariCard extends StatelessWidget {
+  final List<Map<String, dynamic>> data6Hari;
+  final int totalExpense;
+  final VoidCallback onTapLihatGrafik;
+
+  const GrafikEnamHariCard({
+    super.key,
+    required this.data6Hari,
+    required this.totalExpense,
+    required this.onTapLihatGrafik,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    return GrafikTujuhHariCard(
+      data7Hari: data6Hari,
+      totalExpense: totalExpense,
+      onTapLihatGrafik: onTapLihatGrafik,
+    );
+  }
+}

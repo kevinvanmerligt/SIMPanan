@@ -4,6 +4,7 @@ import '../../../core/constants/app_colors.dart';
 import '../../../core/utils/currency_format.dart';
 import '../../../core/utils/date_format_id.dart';
 import '../../../core/widgets/app_header.dart';
+import '../../../core/widgets/fade_slide_entrance.dart';
 import '../../../providers/finance_provider.dart';
 
 class RiwayatScreen extends StatefulWidget {
@@ -31,23 +32,32 @@ class _RiwayatScreenState extends State<RiwayatScreen> {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              const SimpananAppHeader(),
+              const FadeSlideEntrance(
+                delayMs: 0,
+                child: SimpananAppHeader(),
+              ),
               const SizedBox(height: 18),
-              const Text(
-                'Riwayat Transaksi',
-                style: TextStyle(fontSize: 20, fontWeight: FontWeight.w800),
+              const FadeSlideEntrance(
+                delayMs: 40,
+                child: Text(
+                  'Riwayat Transaksi',
+                  style: TextStyle(fontSize: 20, fontWeight: FontWeight.w800),
+                ),
               ),
               const SizedBox(height: 12),
-              TextField(
-                onChanged: (val) => setState(() => _searchQuery = val),
-                decoration: InputDecoration(
-                  hintText: 'Cari catatan transaksi...',
-                  prefixIcon: const Icon(Icons.search),
-                  filled: true,
-                  fillColor: Colors.white,
-                  border: OutlineInputBorder(
-                    borderRadius: BorderRadius.circular(14),
-                    borderSide: const BorderSide(color: AppColors.cardBorder),
+              FadeSlideEntrance(
+                delayMs: 80,
+                child: TextField(
+                  onChanged: (val) => setState(() => _searchQuery = val),
+                  decoration: InputDecoration(
+                    hintText: 'Cari catatan transaksi...',
+                    prefixIcon: const Icon(Icons.search),
+                    filled: true,
+                    fillColor: Colors.white,
+                    border: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(14),
+                      borderSide: const BorderSide(color: AppColors.cardBorder),
+                    ),
                   ),
                 ),
               ),

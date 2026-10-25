@@ -15,30 +15,51 @@ class MainNavScreen extends StatefulWidget {
 
 class _MainNavScreenState extends State<MainNavScreen> {
   int _selectedIndex = 0;
+  late final PageController _pageController;
+
+  @override
+  void initState() {
+    super.initState();
+    _pageController = PageController(initialPage: _selectedIndex);
+  }
+
+  @override
+  void dispose() {
+    _pageController.dispose();
+    super.dispose();
+  }
 
   void _onItemTapped(int index) {
+    if (_selectedIndex == index) return;
     setState(() {
       _selectedIndex = index;
     });
+    _pageController.animateToPage(
+      index,
+      duration: const Duration(milliseconds: 320),
+      curve: Curves.easeOutCubic,
+    );
   }
 
   @override
   Widget build(BuildContext context) {
-    final List<Widget> screens = [
-      BerandaScreen(onNavigateToLaporan: () => _onItemTapped(1)),
-      const LaporanScreen(),
-      const RiwayatScreen(),
-      const ProfilScreen(),
-    ];
-
     return Scaffold(
       body: SafeArea(
-        child: screens[_selectedIndex],
+        child: PageView(
+          controller: _pageController,
+          physics: const NeverScrollableScrollPhysics(),
+          children: [
+            BerandaScreen(onNavigateToLaporan: () => _onItemTapped(1)),
+            const LaporanScreen(),
+            const RiwayatScreen(),
+            const ProfilScreen(),
+          ],
+        ),
       ),
       floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
       floatingActionButton: SizedBox(
-        width: 56,
-        height: 56,
+        width: 58,
+        height: 58,
         child: FloatingActionButton(
           onPressed: () {
             showModalBottomSheet(
@@ -49,9 +70,9 @@ class _MainNavScreenState extends State<MainNavScreen> {
             );
           },
           backgroundColor: AppColors.primaryGreen,
-          elevation: 2,
+          elevation: 3,
           shape: const CircleBorder(),
-          child: const Icon(Icons.add, color: Colors.white, size: 28),
+          child: const Icon(Icons.add, color: Colors.white, size: 30),
         ),
       ),
       bottomNavigationBar: Container(
@@ -63,7 +84,7 @@ class _MainNavScreenState extends State<MainNavScreen> {
           color: Colors.white,
           elevation: 0,
           padding: EdgeInsets.zero,
-          height: 68,
+          height: 70,
           shape: const CircularNotchedRectangle(),
           notchMargin: 8,
           child: Row(
@@ -72,18 +93,18 @@ class _MainNavScreenState extends State<MainNavScreen> {
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                   children: [
-                    _buildNavItem(Icons.home_outlined, Icons.home, 'Beranda', 0),
-                    _buildNavItem(Icons.bar_chart_outlined, Icons.bar_chart, 'Laporan', 1),
+                    _buildNavItem(Icons.home_outlined, Icons.home_rounded, 'Beranda', 0),
+                    _buildNavItem(Icons.bar_chart_outlined, Icons.bar_chart_rounded, 'Laporan', 1),
                   ],
                 ),
               ),
-              const SizedBox(width: 64),
+              const SizedBox(width: 60),
               Expanded(
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                   children: [
-                    _buildNavItem(Icons.calendar_today_outlined, Icons.calendar_today, 'Riwayat', 2),
-                    _buildNavItem(Icons.person_outline, Icons.person, 'Profil', 3),
+                    _buildNavItem(Icons.calendar_today_outlined, Icons.calendar_month_rounded, 'Riwayat', 2),
+                    _buildNavItem(Icons.person_outline_rounded, Icons.person_rounded, 'Profil', 3),
                   ],
                 ),
               ),
@@ -98,27 +119,50 @@ class _MainNavScreenState extends State<MainNavScreen> {
     final isSelected = _selectedIndex == index;
     final color = isSelected ? AppColors.primaryGreen : AppColors.textSecondary;
 
-    return InkWell(
+    return InkResponse(
       onTap: () => _onItemTapped(index),
-      borderRadius: BorderRadius.circular(12),
-      child: Padding(
-        padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
+      radius: 36,
+      splashColor: AppColors.primaryGreen.withValues(alpha: 0.15),
+      highlightColor: Colors.transparent,
+      child: AnimatedContainer(
+        duration: const Duration(milliseconds: 260),
+        curve: Curves.easeOutCubic,
+        padding: EdgeInsets.symmetric(
+          horizontal: isSelected ? 12 : 8,
+          vertical: 6,
+        ),
+        decoration: BoxDecoration(
+          color: isSelected ? AppColors.primaryPillBg : Colors.transparent,
+          borderRadius: BorderRadius.circular(16),
+        ),
         child: Column(
           mainAxisSize: MainAxisSize.min,
           children: [
-            Icon(isSelected ? activeIcon : icon, color: color, size: 24),
-            const SizedBox(height: 4),
-            Text(
-              label,
+            AnimatedScale(
+              scale: isSelected ? 1.16 : 1.0,
+              duration: const Duration(milliseconds: 240),
+              curve: Curves.easeOutBack,
+              child: Icon(
+                isSelected ? activeIcon : icon,
+                color: color,
+                size: 24,
+              ),
+            ),
+            const SizedBox(height: 3),
+            AnimatedDefaultTextStyle(
+              duration: const Duration(milliseconds: 220),
+              curve: Curves.easeOutCubic,
               style: TextStyle(
                 color: color,
-                fontSize: 12,
-                fontWeight: isSelected ? FontWeight.w600 : FontWeight.w500,
+                fontSize: 11,
+                fontWeight: isSelected ? FontWeight.w700 : FontWeight.w500,
+                letterSpacing: -0.1,
               ),
+              child: Text(label),
             ),
           ],
         ),
       ),
     );
   }
-}
+}

@@ -6,55 +6,59 @@
 
 <p align="center">
   <a href="https://flutter.dev"><img src="https://img.shields.io/badge/Flutter-3.47.7-blue.svg?logo=flutter" alt="Flutter" /></a>
-  <a href="https://raw.githubusercontent.com/kevinvanmerligt/SIMPanan/main/patch/SIMPanan-v1.0.3.apk" download="SIMPanan-v1.0.3.apk"><img src="https://img.shields.io/badge/Platform-Android%20APK-green.svg?logo=android" alt="Platform" /></a>
-  <a href="./patch/patch-1.0.3.md"><img src="https://img.shields.io/badge/Patch-v1.0.3-emerald.svg" alt="Patch Version" /></a>
+  <a href="https://raw.githubusercontent.com/kevinvanmerligt/SIMPanan/main/patch/SIMPanan-v1.0.8.apk" download="SIMPanan-v1.0.8.apk"><img src="https://img.shields.io/badge/Platform-Android%20APK-green.svg?logo=android" alt="Platform" /></a>
+  <a href="./patch/patch-1.0.8.md"><img src="https://img.shields.io/badge/Patch-v1.0.8-emerald.svg" alt="Patch Version" /></a>
+  <a href="#dukungan-layar-60--90--120--144hz"><img src="https://img.shields.io/badge/Display-60--144Hz%20Smooth-9cf.svg" alt="High Refresh Rate" /></a>
   <a href="https://sqlite.org"><img src="https://img.shields.io/badge/Database-SQLite%20Offline-blueviolet.svg?logo=sqlite" alt="Database" /></a>
   <a href="#keamanan--privasi-100-offline"><img src="https://img.shields.io/badge/Security-Android%20Keystore%20Encrypted-success.svg" alt="Security" /></a>
 </p>
 
-**SIMPanan** adalah aplikasi pengelolaan keuangan harian yang dirancang dengan antarmuka modern, interaktif, dan berfokus penuh pada **keamanan privasi lokal 100% offline**. Seluruh data pengeluaran dan pemasukan Anda tersimpan langsung di perangkat pribadi tanpa memerlukan koneksi internet ataupun akun pihak ketiga.
+**SIMPanan** adalah aplikasi pengelolaan keuangan harian yang dirancang dengan antarmuka modern, interaktif, **animasi super halus (*ultra-smooth*)**, dan berfokus penuh pada **keamanan privasi lokal 100% offline**. Seluruh data pengeluaran dan pemasukan Anda tersimpan langsung di perangkat pribadi tanpa memerlukan koneksi internet ataupun akun pihak ketiga.
 
 ---
 
 ## 📥 Download File APK (Langsung Download Tanpa Pindah Halaman)
 
-Anda dapat langsung mengunduh dan memasang aplikasi **SIMPanan** di smartphone Android. Tautan di bawah telah dioptimasi dengan tautan langsung (*direct stream*): **begitu diklik, aplikasi langsung otomatis terunduh di HP/laptop Anda tanpa dialihkan ke halaman lain**.
+Anda dapat langsung mengunduh dan memasang aplikasi **SIMPanan v1.0.8** di smartphone Android. Tautan di bawah telah dioptimasi dengan tautan langsung (*direct stream*): **begitu diklik, aplikasi langsung otomatis terunduh di HP/laptop Anda tanpa dialihkan ke halaman lain**.
 
 <p align="center">
-  <a href="https://raw.githubusercontent.com/kevinvanmerligt/SIMPanan/main/patch/SIMPanan-v1.0.3.apk" download="SIMPanan-v1.0.3.apk">
-    <img src="https://img.shields.io/badge/⬇️%20DOWNLOAD%20APK%20v1.0.3-KLIK%20LANGSUNG%20UNDUH-059669?style=for-the-badge&logo=android&logoColor=white" alt="Download Langsung SIMPanan APK" />
+  <a href="https://raw.githubusercontent.com/kevinvanmerligt/SIMPanan/main/patch/SIMPanan-v1.0.8.apk" download="SIMPanan-v1.0.8.apk">
+    <img src="https://img.shields.io/badge/⬇️%20DOWNLOAD%20APK%20v1.0.8-KLIK%20LANGSUNG%20UNDUH-059669?style=for-the-badge&logo=android&logoColor=white" alt="Download Langsung SIMPanan APK" />
   </a>
 </p>
 
 ### 🔗 Pilihan Tautan Unduh Langsung:
-- 🚀 **[⬇️ Unduh SIMPanan v1.0.3 APK (Direct Download Otomatis)](https://raw.githubusercontent.com/kevinvanmerligt/SIMPanan/main/patch/SIMPanan-v1.0.3.apk)**
-- 🔗 **[Link Mirror Unduh GitHub Raw](https://github.com/kevinvanmerligt/SIMPanan/raw/main/patch/SIMPanan-v1.0.3.apk)**
+- 🚀 **[⬇️ Unduh SIMPanan v1.0.8 APK (Direct Download Otomatis)](https://raw.githubusercontent.com/kevinvanmerligt/SIMPanan/main/patch/SIMPanan-v1.0.8.apk)**
+- 🔗 **[Link Mirror Unduh GitHub Raw](https://github.com/kevinvanmerligt/SIMPanan/raw/main/patch/SIMPanan-v1.0.8.apk)**
 
 > **Informasi Berkas Rilis:**
-> - **Nama Berkas:** `SIMPanan-v1.0.3.apk`
-> - **Versi Patch:** `1.0.3 (Build 1.0.3+4)`
+> - **Nama Berkas:** `SIMPanan-v1.0.8.apk`
+> - **Versi Patch:** `1.0.8 (Build 1.0.8+9)`
 > - **Kategori:** Keuangan Pribadi / Finance Management
 > - **Target OS:** Android 6.0+ (Marshmallow ke atas)
-> - **Lokasi Berkas di Repositori:** [`patch/SIMPanan-v1.0.3.apk`](https://raw.githubusercontent.com/kevinvanmerligt/SIMPanan/main/patch/SIMPanan-v1.0.3.apk)
+> - **Lokasi Berkas di Repositori:** [`patch/SIMPanan-v1.0.8.apk`](https://raw.githubusercontent.com/kevinvanmerligt/SIMPanan/main/patch/SIMPanan-v1.0.8.apk)
 
 ### 📲 Cara Install APK di HP Android:
-1. Klik tombol hijau **[Download APK v1.0.3]** di atas. File akan langsung terunduh otomatis ke ponsel Anda.
+1. Klik tombol hijau **[Download APK v1.0.8]** di atas. File akan langsung terunduh otomatis ke ponsel Anda.
 2. Setelah unduhan selesai, buka berkas APK melalui panel notifikasi atau *Pengelola File / File Manager*.
 3. Jika muncul dialog keamanan *"Aplikasi dari sumber tidak dikenal"* (*Install Unknown Apps*), berikan izin untuk browser / pengelola berkas Anda.
-4. Tekan tombol **Install / Pasang**, lalu buka aplikasi **SIMPanan**!
+4. Tekan tombol **Install / Pasang**, lalu nikmati aplikasi **SIMPanan**!
 
 ---
 
-## 📦 Informasi Patch Saat Ini: `Patch 1.0.3`
+## 📦 Informasi Patch Saat Ini: `Patch 1.0.8`
 
-> 📄 Catatan rilis lengkap dan changelog tersedia di dokumen: **[`patch/patch-1.0.3.md`](./patch/patch-1.0.3.md)**
+> 📄 Catatan rilis lengkap dan changelog tersedia di dokumen: **[`patch/patch-1.0.8.md`](./patch/patch-1.0.8.md)**
 
-### ✨ Sorotan Pembaruan Patch 1.0.3:
-- 🌟 **Logo Resmi Baru Pilihan Pengguna (Cosmic Anime Vector):** Desain visual karakter kosmik bermahkota cincin planet dan aksen bintang yang estetik, terpasang pada header aplikasi serta ikon aplikasi Android launcher.
-- ⚡ **Direct APK Download:** Tautan unduh APK langsung tersimpan ke penyimpanan perangkat saat diklik tanpa dialihkan ke halaman preview GitHub.
-- ✂️ **Hapus Patokan Saldo Awal:** Saldo harian kini murni dihitung transparan dari akumulasi transaksi nyata (**Total Pemasukan - Total Pengeluaran**), tanpa patokan nominal buatan.
-- 👤 **Profil Pengguna Lebih Bersih & Rapi:** Seksi keamanan dan penyimpanan lokal yang berlebihan telah dihapus sehingga menu profil kini ringkas dan berfokus pada informasi identitas pengguna.
-- 🏷️ **Header Aplikasi Seragam di Seluruh Tabs:** Komponen header aplikasi (`SimpananAppHeader`) kini hadir di semua tab (**Beranda**, **Laporan**, **Riwayat**, dan **Profil**) lengkap dengan logo baru, badge patch `v1.0.3`, dan status `Offline Safe`.
+### ✨ Sorotan Pembaruan Patch 1.0.8:
+- ⚡ **Dukungan Layar 60Hz, 90Hz, 120Hz, dan 144Hz:** Integrasi mode refresh rate tinggi (`flutter_displaymode`) sehingga semua pergerakan dan animasi terasa super mulus tanpa *stuttering* (*butter-smooth*).
+- 🎬 **Animasi Halus & Dinamis di Seluruh Aplikasi:**
+  - **Transisi Halaman:** Berpindah tab menggunakan transisi sliding halus (`PageView` + `Curves.easeOutCubic`, durasi 320ms).
+  - **Animasi Navigasi Bawah:** Ikon membesar elastis saat dipilih (`AnimatedScale` + `Curves.easeOutBack`), label bertransisi dinamis, serta pill highlight latar hijau tematik.
+  - **Entrance Micro-Animations:** Setiap kartu (Hero Saldo, Catat Cepat, Grafik, Daftar Transaksi, Laporan, Riwayat, dan Profil) meluncur masuk dengan efek fade & slide bertahap.
+- 📸 **Fitur Foto Profil Interaktif (Kamera & Galeri):** Pengguna kini dapat memotret foto dari kamera atau memilih dari galeri sebagai foto profil, serta terdapat opsi hapus foto profil. Berkas tersimpan permanen secara lokal.
+- 📊 **Pengeluaran 7 Hari Terakhir (Seminggu Penuh):** Grafik pengeluaran ditingkatkan dari 6 hari menjadi 7 hari penuh (seminggu) lengkap dengan label "Hari ini" dan animasi batang (*FlChart swap animation* 450ms).
+- 🧹 **Pembersihan Versi Lama:** Menghapus berkas patch lama (`patch-1.0.0.md`) dan APK versi sebelumnya agar repositori tetap rapi.
 
 ---
 
@@ -62,8 +66,8 @@ Anda dapat langsung mengunduh dan memasang aplikasi **SIMPanan** di smartphone A
 
 | Versi Patch | Tanggal Rilis | File APK | Ringkasan Utama | Dokumen Rilis |
 | :---: | :---: | :---: | :--- | :---: |
-| **`v1.0.3`** *(Aktif)* | 25 Oktober 2026 | [⬇️ `SIMPanan-v1.0.3.apk`](https://raw.githubusercontent.com/kevinvanmerligt/SIMPanan/main/patch/SIMPanan-v1.0.3.apk) | Logo anime kosmik baru, direct APK download tanpa pindah halaman, hapus patokan saldo & keamanan profil, header di semua tabs | [Baca Patch 1.0.3](./patch/patch-1.0.3.md) |
-| **`v1.0.0`** *(Arsip)* | 25 Oktober 2026 | *Telah digantikan ke v1.0.3* | Rilis perdana: Saldo 0 awal, profil kustomisasi, tombol plus center, header dasar | [Baca Patch 1.0.0](./patch/patch-1.0.0.md) |
+| **`v1.0.8`** *(Terbaru)* | 25 Oktober 2026 | [⬇️ `SIMPanan-v1.0.8.apk`](https://raw.githubusercontent.com/kevinvanmerligt/SIMPanan/main/patch/SIMPanan-v1.0.8.apk) | Dukungan 60/90/120/144Hz, transisi halaman halus, animasi navigasi interaktif, foto profil (kamera/galeri), dan grafik 7 hari | [Baca Patch 1.0.8](./patch/patch-1.0.8.md) |
+| **`v1.0.3`** *(Sebelumnya)* | 25 Oktober 2026 | *Telah diperbarui ke v1.0.8* | Logo anime kosmik baru, direct APK download tanpa pindah halaman, hapus patokan saldo & keamanan profil, header di semua tabs | [Baca Patch 1.0.3](./patch/patch-1.0.3.md) |
 
 ---
 
@@ -76,21 +80,25 @@ Anda dapat langsung mengunduh dan memasang aplikasi **SIMPanan** di smartphone A
 
 2. **⚡ Catat Cepat (Income & Expense)**
    - Modal pencatatan instan dengan pilihan kategori ikonik (*Makan & Minum, Belanja, Transportasi, Tagihan, Gaji, dll.*).
-   - Otomatis tersimpan ke basis data lokal dalam hitungan detik.
+   - Numpad responsif dan otomatis tersimpan ke basis data lokal dalam hitungan detik.
 
-3. **📈 Grafik Pengeluaran 6 Hari Terakhir**
-   - Visualisasi grafik batang interaktif (*Powered by FlChart*).
-   - Mengetahui tren dan akumulasi pengeluaran harian pengguna.
+3. **📈 Grafik Pengeluaran 7 Hari Terakhir (Seminggu Penuh)**
+   - Visualisasi grafik batang interaktif yang halus (*Powered by FlChart*).
+   - Mengetahui tren dan akumulasi pengeluaran harian pengguna selama 7 hari berturut-turut.
 
-4. **🔍 Riwayat & Pencarian Fleksibel**
+4. **📸 Profil Pengguna & Foto Profil Kustom**
+   - Unggah foto profil langsung dari Kamera atau Galeri ponsel.
+   - Kustomisasi nama, umur, dan pekerjaan (dengan opsi custom job).
+
+5. **🔍 Riwayat & Pencarian Fleksibel**
    - Filter transaksi: *Semua*, *Pemasukan*, dan *Pengeluaran*.
    - Pencarian instan riwayat transaksi berdasarkan nama transaksi atau kategori.
 
-5. **🥧 Laporan Pengeluaran per Kategori**
+6. **🥧 Laporan Pengeluaran per Kategori**
    - Rangkuman total seluruh pengeluaran.
    - Progress bar persentase visual untuk setiap kategori pengeluaran.
 
-6. **🔒 Keamanan & Privasi 100% Offline**
+7. **🔒 Keamanan & Privasi 100% Offline**
    - Database SQLite lokal di perangkat smartphone (`simpanan.db`).
    - Preferensi terlindungi Android Keystore.
    - Bebas pelacak data, tanpa analitik pihak ketiga, tanpa server luar, dan tanpa iklan.
@@ -104,27 +112,28 @@ c:\SIMPanan\
 ├── android\                    # Android native configuration, res/mipmap launcher icons
 ├── assets\
 │   └── images\
-│       └── logo.png            # Logo resmi baru aplikasi SIMPanan (Cosmic Vector)
+│       └── logo.png            # Logo resmi aplikasi SIMPanan (Cosmic Vector)
 ├── lib\
 │   ├── core\                   # Tema, AppColors, utils Rupiah/tanggal, SimpananAppHeader
 │   │   └── widgets\
-│   │       └── app_header.dart # Header terpusat untuk semua tabs navigasi
-│   ├── data\                   # Model transaksi, kategori, & repositori profil
+│   │       ├── app_header.dart         # Header terpusat untuk semua tabs navigasi (v1.0.8)
+│   │       └── fade_slide_entrance.dart # Widget animasi entrance halus 60-144Hz
+│   ├── data\                   # Model transaksi, kategori, & repositori profil (avatar path)
 │   ├── features\
-│   │   ├── beranda\            # Beranda dengan AppHeader, Hero Card, Grafik 6 Hari
+│   │   ├── beranda\            # Beranda dengan AppHeader, Hero Card, Grafik 7 Hari
 │   │   ├── catat_transaksi\    # Modal sheet catat pengeluaran & pemasukan
 │   │   ├── laporan\            # Laporan rincian per kategori dengan AppHeader
-│   │   ├── navigation\         # Bottom bar dengan FAB center docking
-│   │   ├── profil\             # Form profil ringkas, avatar profesi, & AppHeader
+│   │   ├── navigation\         # Bottom bar dengan animasi interaktif & PageView
+│   │   ├── profil\             # Form profil, selector foto profil (kamera/galeri), & AppHeader
 │   │   └── riwayat\            # Riwayat & pencarian transaksi dengan AppHeader
-│   ├── providers\              # FinanceProvider state management
+│   ├── providers\              # FinanceProvider state management (7 hari pengeluaran)
 │   ├── app.dart
-│   └── main.dart
+│   └── main.dart               # High refresh rate initialization (60/90/120/144Hz)
 ├── patch\                      # Folder Patch & File Rilis GitHub
 │   ├── README.md               # Indeks seluruh patch rilis
-│   ├── patch-1.0.3.md          # Detail catatan rilis Patch 1.0.3
-│   ├── SIMPanan-v1.0.3.apk     # File APK rilis v1.0.3 (direct download siap pakai)
-│   └── patch-1.0.0.md          # Arsip catatan rilis Patch 1.0.0
+│   ├── patch-1.0.8.md          # Detail catatan rilis Patch 1.0.8
+│   ├── patch-1.0.3.md          # Catatan rilis Patch 1.0.3
+│   └── SIMPanan-v1.0.8.apk     # File APK rilis v1.0.8 (direct download siap pakai)
 ├── pubspec.yaml
 └── README.md                   # Dokumentasi utama proyek
 ```
