@@ -91,7 +91,7 @@ class HeroSaldoCard extends StatelessWidget {
           ),
           const SizedBox(height: 6),
           Text(
-            'Dari ${summary.transactionCount} transaksi · mulai ${CurrencyFormat.toRupiah(summary.initialBalance)}',
+            'Total ${summary.transactionCount} transaksi tercatat hari ini',
             style: const TextStyle(
               color: Colors.white70,
               fontSize: 12,

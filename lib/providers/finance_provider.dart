@@ -65,7 +65,7 @@ class FinanceProvider extends ChangeNotifier {
       }
     }
     return DailySummaryModel(
-      initialBalance: _startingBudget,
+      initialBalance: 0,
       totalIncome: income,
       totalExpense: expense,
       transactionCount: todayTransactions.length,

@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import '../../../core/constants/app_colors.dart';
 import '../../../core/utils/currency_format.dart';
+import '../../../core/widgets/app_header.dart';
 import '../../../providers/finance_provider.dart';
 
 class LaporanScreen extends StatelessWidget {
@@ -24,6 +25,8 @@ class LaporanScreen extends StatelessWidget {
         return ListView(
           padding: const EdgeInsets.all(16),
           children: [
+            const SimpananAppHeader(),
+            const SizedBox(height: 18),
             const Text(
               'Laporan Pengeluaran',
               style: TextStyle(fontSize: 20, fontWeight: FontWeight.w800),

@@ -8,7 +8,8 @@ Folder ini berisi riwayat pembaruan (*patch notes*), changelog resmi, dan file r
 
 | Versi Patch | Tanggal Rilis | File APK | Ringkasan Utama | Dokumen Lengkap |
 | :---: | :---: | :---: | :--- | :---: |
-| **`v1.0.0`** | 25 Oktober 2026 | [`SIMPanan-v1.0.0.apk`](./SIMPanan-v1.0.0.apk) | Rilis perdana: Saldo 0 awal, profil nama/umur/pekerjaan, tombol plus center, header & logo SIMPanan | [Baca Patch Notes](./patch-1.0.0.md) |
+| **`v1.0.3`** *(Terbaru)* | 25 Oktober 2026 | [⬇️ `SIMPanan-v1.0.3.apk`](https://raw.githubusercontent.com/kevinvanmerligt/SIMPanan/main/patch/SIMPanan-v1.0.3.apk) | Logo anime kosmik baru, direct APK download tanpa pindah halaman, hapus patokan saldo & keamanan profil, header di semua tabs | [Baca Patch Notes](./patch-1.0.3.md) |
+| **`v1.0.0`** *(Arsip)* | 25 Oktober 2026 | *Telah digantikan ke v1.0.3* | Rilis perdana: Saldo 0 awal, profil nama/umur/pekerjaan, tombol plus center, header & logo SIMPanan | [Baca Patch Notes](./patch-1.0.0.md) |
 
 ---
 

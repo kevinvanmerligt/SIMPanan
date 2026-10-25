@@ -1,80 +1,99 @@
 # 💰 SIMPanan — Catatan Keuangan Pribadi Offline & Aman
 
-[![Flutter](https://img.shields.io/badge/Flutter-3.47.7-blue.svg?logo=flutter)](https://flutter.dev)
-[![Platform](https://img.shields.io/badge/Platform-Android%20APK-green.svg?logo=android)](./patch/SIMPanan-v1.0.0.apk)
-[![Patch Version](https://img.shields.io/badge/Patch-v1.0.0-emerald.svg)](./patch/patch-1.0.0.md)
-[![Database](https://img.shields.io/badge/Database-SQLite%20Offline-blueviolet.svg?logo=sqlite)](https://sqlite.org)
-[![Security](https://img.shields.io/badge/Security-Android%20Keystore%20Encrypted-success.svg)](#keamanan--privasi)
+<p align="center">
+  <img src="assets/images/logo.png" alt="SIMPanan Logo" width="120" style="border-radius: 24px; box-shadow: 0 4px 16px rgba(0,0,0,0.15);" />
+</p>
 
-**SIMPanan** adalah aplikasi pengelolaan keuangan harian yang dirancang dengan antarmuka modern, interaktif, dan berfokus penuh pada **keamanan privasi lokal 100% offline**. Seluruh data pengeluaran dan pemasukan Anda tersimpan di perangkat pribadi tanpa memerlukan internet ataupun akun pihak ketiga.
+<p align="center">
+  <a href="https://flutter.dev"><img src="https://img.shields.io/badge/Flutter-3.47.7-blue.svg?logo=flutter" alt="Flutter" /></a>
+  <a href="https://raw.githubusercontent.com/kevinvanmerligt/SIMPanan/main/patch/SIMPanan-v1.0.3.apk" download="SIMPanan-v1.0.3.apk"><img src="https://img.shields.io/badge/Platform-Android%20APK-green.svg?logo=android" alt="Platform" /></a>
+  <a href="./patch/patch-1.0.3.md"><img src="https://img.shields.io/badge/Patch-v1.0.3-emerald.svg" alt="Patch Version" /></a>
+  <a href="https://sqlite.org"><img src="https://img.shields.io/badge/Database-SQLite%20Offline-blueviolet.svg?logo=sqlite" alt="Database" /></a>
+  <a href="#keamanan--privasi-100-offline"><img src="https://img.shields.io/badge/Security-Android%20Keystore%20Encrypted-success.svg" alt="Security" /></a>
+</p>
+
+**SIMPanan** adalah aplikasi pengelolaan keuangan harian yang dirancang dengan antarmuka modern, interaktif, dan berfokus penuh pada **keamanan privasi lokal 100% offline**. Seluruh data pengeluaran dan pemasukan Anda tersimpan langsung di perangkat pribadi tanpa memerlukan koneksi internet ataupun akun pihak ketiga.
 
 ---
 
-## 📥 Download File APK (Siap Pakai)
+## 📥 Download File APK (Langsung Download Tanpa Pindah Halaman)
 
-Anda dapat langsung mengunduh dan memasang aplikasi **SIMPanan** di smartphone Android:
+Anda dapat langsung mengunduh dan memasang aplikasi **SIMPanan** di smartphone Android. Tautan di bawah telah dioptimasi dengan tautan langsung (*direct stream*): **begitu diklik, aplikasi langsung otomatis terunduh di HP/laptop Anda tanpa dialihkan ke halaman lain**.
 
-### 🔗 **[Unduh SIMPanan v1.0.0 APK (Klik di Sini)](./patch/SIMPanan-v1.0.0.apk)**
+<p align="center">
+  <a href="https://raw.githubusercontent.com/kevinvanmerligt/SIMPanan/main/patch/SIMPanan-v1.0.3.apk" download="SIMPanan-v1.0.3.apk">
+    <img src="https://img.shields.io/badge/⬇️%20DOWNLOAD%20APK%20v1.0.3-KLIK%20LANGSUNG%20UNDUH-059669?style=for-the-badge&logo=android&logoColor=white" alt="Download Langsung SIMPanan APK" />
+  </a>
+</p>
 
-> **Informasi File Rilis:**
-> - **Nama Berkas:** `SIMPanan-v1.0.0.apk`
-> - **Versi Patch:** `1.0.0 (Release 1.0.0+1)`
-> - **Kategori:** Keuangan Pribadi / Finance
+### 🔗 Pilihan Tautan Unduh Langsung:
+- 🚀 **[⬇️ Unduh SIMPanan v1.0.3 APK (Direct Download Otomatis)](https://raw.githubusercontent.com/kevinvanmerligt/SIMPanan/main/patch/SIMPanan-v1.0.3.apk)**
+- 🔗 **[Link Mirror Unduh GitHub Raw](https://github.com/kevinvanmerligt/SIMPanan/raw/main/patch/SIMPanan-v1.0.3.apk)**
+
+> **Informasi Berkas Rilis:**
+> - **Nama Berkas:** `SIMPanan-v1.0.3.apk`
+> - **Versi Patch:** `1.0.3 (Build 1.0.3+4)`
+> - **Kategori:** Keuangan Pribadi / Finance Management
 > - **Target OS:** Android 6.0+ (Marshmallow ke atas)
-> - **Lokasi Folder:** [`patch/SIMPanan-v1.0.0.apk`](./patch/SIMPanan-v1.0.0.apk)
+> - **Lokasi Berkas di Repositori:** [`patch/SIMPanan-v1.0.3.apk`](https://raw.githubusercontent.com/kevinvanmerligt/SIMPanan/main/patch/SIMPanan-v1.0.3.apk)
 
 ### 📲 Cara Install APK di HP Android:
-1. Klik tautan unduh [**`SIMPanan-v1.0.0.apk`**](./patch/SIMPanan-v1.0.0.apk).
-2. Setelah unduhan selesai, buka berkas APK dari bilah notifikasi atau *Pengelola File / File Manager*.
+1. Klik tombol hijau **[Download APK v1.0.3]** di atas. File akan langsung terunduh otomatis ke ponsel Anda.
+2. Setelah unduhan selesai, buka berkas APK melalui panel notifikasi atau *Pengelola File / File Manager*.
 3. Jika muncul dialog keamanan *"Aplikasi dari sumber tidak dikenal"* (*Install Unknown Apps*), berikan izin untuk browser / pengelola berkas Anda.
 4. Tekan tombol **Install / Pasang**, lalu buka aplikasi **SIMPanan**!
 
 ---
 
-## 📦 Informasi Patch Saat Ini: `Patch 1.0.0`
+## 📦 Informasi Patch Saat Ini: `Patch 1.0.3`
 
-> 📄 Catatan rilis lengkap dan changelog tersedia di dokumen: **[`patch/patch-1.0.0.md`](./patch/patch-1.0.0.md)**
+> 📄 Catatan rilis lengkap dan changelog tersedia di dokumen: **[`patch/patch-1.0.3.md`](./patch/patch-1.0.3.md)**
 
-### Sorotan Pembaruan Patch 1.0.0:
-- 🟢 **Saldo Awal Bersih (Kosongan):** Memulai aplikasi dengan saldo Rp0 dan riwayat transaksi kosong, tanpa transaksi dummy.
-- 👤 **Kustomisasi Profil Pengguna:**
-  - Menampilkan Nama, Umur, dan Pekerjaan.
-  - Pilihan pekerjaan mencakup: **Pelajar**, **Mahasiswa**, **Karyawan Swasta**, **PNS / ASN / BUMN**, **Wiraswasta / Pengusaha**, **Freelancer / Kreator**, **Ibu Rumah Tangga**, atau opsi **Lainnya**.
-  - Avatar dinamis dengan badge ikon sesuai bidang profesi Anda.
-- 🎯 **Tombol Plus (+) Navigasi Presisi di Tengah:** Tata letak Floating Action Button (FAB) di bottom navigation bar kini sejajar 100% di tengah layar ponsel.
-- 🏷️ **Header & Identitas "SIMPanan":** Header modern dengan nama **SIMPanan**, logo aplikasi, dan indikator status **Offline Safe**.
-- 📁 **Sistem Folder Patch:** Folder `patch/` khusus untuk menyimpan changelog dan arsip file APK setiap kali melakukan update ke GitHub.
+### ✨ Sorotan Pembaruan Patch 1.0.3:
+- 🌟 **Logo Resmi Baru Pilihan Pengguna (Cosmic Anime Vector):** Desain visual karakter kosmik bermahkota cincin planet dan aksen bintang yang estetik, terpasang pada header aplikasi serta ikon aplikasi Android launcher.
+- ⚡ **Direct APK Download:** Tautan unduh APK langsung tersimpan ke penyimpanan perangkat saat diklik tanpa dialihkan ke halaman preview GitHub.
+- ✂️ **Hapus Patokan Saldo Awal:** Saldo harian kini murni dihitung transparan dari akumulasi transaksi nyata (**Total Pemasukan - Total Pengeluaran**), tanpa patokan nominal buatan.
+- 👤 **Profil Pengguna Lebih Bersih & Rapi:** Seksi keamanan dan penyimpanan lokal yang berlebihan telah dihapus sehingga menu profil kini ringkas dan berfokus pada informasi identitas pengguna.
+- 🏷️ **Header Aplikasi Seragam di Seluruh Tabs:** Komponen header aplikasi (`SimpananAppHeader`) kini hadir di semua tab (**Beranda**, **Laporan**, **Riwayat**, dan **Profil**) lengkap dengan logo baru, badge patch `v1.0.3`, dan status `Offline Safe`.
+
+---
+
+## 📌 Riwayat Versi & Folder Patch
+
+| Versi Patch | Tanggal Rilis | File APK | Ringkasan Utama | Dokumen Rilis |
+| :---: | :---: | :---: | :--- | :---: |
+| **`v1.0.3`** *(Aktif)* | 25 Oktober 2026 | [⬇️ `SIMPanan-v1.0.3.apk`](https://raw.githubusercontent.com/kevinvanmerligt/SIMPanan/main/patch/SIMPanan-v1.0.3.apk) | Logo anime kosmik baru, direct APK download tanpa pindah halaman, hapus patokan saldo & keamanan profil, header di semua tabs | [Baca Patch 1.0.3](./patch/patch-1.0.3.md) |
+| **`v1.0.0`** *(Arsip)* | 25 Oktober 2026 | *Telah digantikan ke v1.0.3* | Rilis perdana: Saldo 0 awal, profil kustomisasi, tombol plus center, header dasar | [Baca Patch 1.0.0](./patch/patch-1.0.0.md) |
 
 ---
 
 ## ✨ Fitur-Fitur Utama
 
-1. **📊 Hero Saldo Harian**
-   - Menghitung sisa saldo harian secara otomatis (*Realtime Balance*).
+1. **📊 Hero Saldo Harian Realtime**
+   - Menghitung sisa saldo harian secara otomatis dan transparan.
    - Indikator total pemasukan dan total pengeluaran hari ini.
-   - Penanda tanggal kalender Indonesia.
+   - Penanda tanggal kalender lokal Indonesia.
 
 2. **⚡ Catat Cepat (Income & Expense)**
-   - Modal pencatatan cepat dengan pilihan kategori ikonik (*Makan & Minum, Belanja, Transportasi, Tagihan, Gaji, dll.*).
-   - Otomatis tersimpan ke basis data lokal.
+   - Modal pencatatan instan dengan pilihan kategori ikonik (*Makan & Minum, Belanja, Transportasi, Tagihan, Gaji, dll.*).
+   - Otomatis tersimpan ke basis data lokal dalam hitungan detik.
 
 3. **📈 Grafik Pengeluaran 6 Hari Terakhir**
    - Visualisasi grafik batang interaktif (*Powered by FlChart*).
-   - Mengetahui tren dan akumulasi pengeluaran harian.
+   - Mengetahui tren dan akumulasi pengeluaran harian pengguna.
 
-4. **🔍 Riwayat & Filter Fleksibel**
+4. **🔍 Riwayat & Pencarian Fleksibel**
    - Filter transaksi: *Semua*, *Pemasukan*, dan *Pengeluaran*.
-   - Pencarian instan riwayat transaksi berdasarkan nama atau kategori.
-   - Opsi hapus transaksi per item.
+   - Pencarian instan riwayat transaksi berdasarkan nama transaksi atau kategori.
 
 5. **🥧 Laporan Pengeluaran per Kategori**
    - Rangkuman total seluruh pengeluaran.
-   - Progress bar persentase per kategori pengeluaran.
+   - Progress bar persentase visual untuk setiap kategori pengeluaran.
 
 6. **🔒 Keamanan & Privasi 100% Offline**
-   - Database SQLite lokal di perangkat (`simpanan.db`).
+   - Database SQLite lokal di perangkat smartphone (`simpanan.db`).
    - Preferensi terlindungi Android Keystore.
-   - Tanpa analitik pelacak, tanpa server eksternal, dan tanpa iklan.
+   - Bebas pelacak data, tanpa analitik pihak ketiga, tanpa server luar, dan tanpa iklan.
 
 ---
 
@@ -82,27 +101,30 @@ Anda dapat langsung mengunduh dan memasang aplikasi **SIMPanan** di smartphone A
 
 ```text
 c:\SIMPanan\
-├── android\                    # Android native configuration & wrapper
+├── android\                    # Android native configuration, res/mipmap launcher icons
 ├── assets\
 │   └── images\
-│       └── logo.png            # Logo resmi aplikasi SIMPanan
+│       └── logo.png            # Logo resmi baru aplikasi SIMPanan (Cosmic Vector)
 ├── lib\
-│   ├── core\                   # Tema, konstanta warna, utils format Rupiah/tanggal
+│   ├── core\                   # Tema, AppColors, utils Rupiah/tanggal, SimpananAppHeader
+│   │   └── widgets\
+│   │       └── app_header.dart # Header terpusat untuk semua tabs navigasi
 │   ├── data\                   # Model transaksi, kategori, & repositori profil
 │   ├── features\
-│   │   ├── beranda\            # Header SIMPanan, Hero Card, Grafik 6 Hari
+│   │   ├── beranda\            # Beranda dengan AppHeader, Hero Card, Grafik 6 Hari
 │   │   ├── catat_transaksi\    # Modal sheet catat pengeluaran & pemasukan
-│   │   ├── laporan\            # Laporan rincian per kategori
+│   │   ├── laporan\            # Laporan rincian per kategori dengan AppHeader
 │   │   ├── navigation\         # Bottom bar dengan FAB center docking
-│   │   ├── profil\             # Pengaturan profil, nama, umur, pekerjaan, reset
-│   │   └── riwayat\            # Riwayat & pencarian transaksi
+│   │   ├── profil\             # Form profil ringkas, avatar profesi, & AppHeader
+│   │   └── riwayat\            # Riwayat & pencarian transaksi dengan AppHeader
 │   ├── providers\              # FinanceProvider state management
 │   ├── app.dart
 │   └── main.dart
 ├── patch\                      # Folder Patch & File Rilis GitHub
 │   ├── README.md               # Indeks seluruh patch rilis
-│   ├── patch-1.0.0.md          # Detail catatan rilis Patch 1.0.0
-│   └── SIMPanan-v1.0.0.apk     # File APK rilis v1.0.0 (siap unduh)
+│   ├── patch-1.0.3.md          # Detail catatan rilis Patch 1.0.3
+│   ├── SIMPanan-v1.0.3.apk     # File APK rilis v1.0.3 (direct download siap pakai)
+│   └── patch-1.0.0.md          # Arsip catatan rilis Patch 1.0.0
 ├── pubspec.yaml
 └── README.md                   # Dokumentasi utama proyek
 ```
@@ -121,7 +143,7 @@ Jika ingin menjalankan atau mengembangkan aplikasi di komputer lokal:
 ### Langkah-langkah:
 ```bash
 # 1. Clone repository
-git clone https://github.com/username/SIMPanan.git
+git clone https://github.com/kevinvanmerligt/SIMPanan.git
 cd SIMPanan
 
 # 2. Ambil dependensi paket

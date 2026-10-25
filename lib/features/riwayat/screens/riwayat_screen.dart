@@ -3,6 +3,7 @@ import 'package:provider/provider.dart';
 import '../../../core/constants/app_colors.dart';
 import '../../../core/utils/currency_format.dart';
 import '../../../core/utils/date_format_id.dart';
+import '../../../core/widgets/app_header.dart';
 import '../../../providers/finance_provider.dart';
 
 class RiwayatScreen extends StatefulWidget {
@@ -30,6 +31,8 @@ class _RiwayatScreenState extends State<RiwayatScreen> {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
+              const SimpananAppHeader(),
+              const SizedBox(height: 18),
               const Text(
                 'Riwayat Transaksi',
                 style: TextStyle(fontSize: 20, fontWeight: FontWeight.w800),

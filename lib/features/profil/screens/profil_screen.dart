@@ -1,9 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
 import '../../../core/constants/app_colors.dart';
-import '../../../core/utils/currency_format.dart';
+import '../../../core/widgets/app_header.dart';
 import '../../../data/repositories/profile_repo.dart';
-import '../../../providers/finance_provider.dart';
 
 class ProfilScreen extends StatefulWidget {
   const ProfilScreen({super.key});
@@ -17,7 +15,6 @@ class _ProfilScreenState extends State<ProfilScreen> {
   final TextEditingController _nameController = TextEditingController();
   final TextEditingController _ageController = TextEditingController();
   final TextEditingController _customJobController = TextEditingController();
-  final TextEditingController _budgetController = TextEditingController();
 
   String _selectedJob = 'Pelajar';
   bool _isLoading = true;
@@ -94,14 +91,11 @@ class _ProfilScreenState extends State<ProfilScreen> {
     _nameController.dispose();
     _ageController.dispose();
     _customJobController.dispose();
-    _budgetController.dispose();
     super.dispose();
   }
 
   @override
   Widget build(BuildContext context) {
-    final provider = context.watch<FinanceProvider>();
-
     if (_isLoading) {
       return const Center(child: CircularProgressIndicator());
     }
@@ -113,6 +107,8 @@ class _ProfilScreenState extends State<ProfilScreen> {
     return ListView(
       padding: const EdgeInsets.all(16),
       children: [
+        const SimpananAppHeader(),
+        const SizedBox(height: 18),
         // Judul Halaman
         const Text(
           'Profil Pengguna',
@@ -384,166 +380,14 @@ class _ProfilScreenState extends State<ProfilScreen> {
             ],
           ),
         ),
-        const SizedBox(height: 16),
+        const SizedBox(height: 24),
 
-        // 3. Patokan Saldo Harian
-        Container(
-          padding: const EdgeInsets.all(20),
-          decoration: BoxDecoration(
-            color: Colors.white,
-            borderRadius: BorderRadius.circular(16),
-            border: Border.all(color: AppColors.cardBorder),
-          ),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              const Row(
-                children: [
-                  Icon(Icons.account_balance_wallet_outlined, color: AppColors.primaryGreen, size: 22),
-                  SizedBox(width: 8),
-                  Text(
-                    'Patokan Saldo Awal Harian',
-                    style: TextStyle(fontWeight: FontWeight.w700, fontSize: 16),
-                  ),
-                ],
-              ),
-              const SizedBox(height: 8),
-              Text(
-                'Saldo patokan saat ini: ${CurrencyFormat.toRupiah(provider.startingBudget)}',
-                style: const TextStyle(fontWeight: FontWeight.w600, color: AppColors.primaryGreen),
-              ),
-              const SizedBox(height: 10),
-              TextField(
-                controller: _budgetController,
-                keyboardType: TextInputType.number,
-                decoration: InputDecoration(
-                  hintText: 'Masukkan nominal baru (contoh: 100000)',
-                  prefixIcon: const Icon(Icons.payments_outlined, size: 20),
-                  filled: true,
-                  fillColor: AppColors.background,
-                  border: OutlineInputBorder(
-                    borderRadius: BorderRadius.circular(12),
-                    borderSide: BorderSide.none,
-                  ),
-                ),
-              ),
-              const SizedBox(height: 12),
-              SizedBox(
-                width: double.infinity,
-                child: OutlinedButton(
-                  onPressed: () {
-                    final val = int.tryParse(_budgetController.text.trim());
-                    if (val != null && val >= 0) {
-                      provider.updateStartingBudget(val);
-                      _budgetController.clear();
-                      ScaffoldMessenger.of(context).showSnackBar(
-                        const SnackBar(
-                          content: Text('Patokan saldo harian berhasil diperbarui!'),
-                          backgroundColor: AppColors.primaryGreen,
-                        ),
-                      );
-                    }
-                  },
-                  style: OutlinedButton.styleFrom(
-                    foregroundColor: AppColors.primaryGreen,
-                    side: const BorderSide(color: AppColors.primaryGreen),
-                    padding: const EdgeInsets.symmetric(vertical: 12),
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(12),
-                    ),
-                  ),
-                  child: const Text('Update Saldo Awal'),
-                ),
-              ),
-            ],
-          ),
-        ),
-        const SizedBox(height: 16),
-
-        // 4. Keamanan Lokal & Reset Data
-        Container(
-          padding: const EdgeInsets.all(20),
-          decoration: BoxDecoration(
-            color: Colors.white,
-            borderRadius: BorderRadius.circular(16),
-            border: Border.all(color: AppColors.cardBorder),
-          ),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              const Row(
-                children: [
-                  Icon(Icons.shield_outlined, color: AppColors.primaryGreen, size: 22),
-                  SizedBox(width: 8),
-                  Text(
-                    'Keamanan & Penyimpanan Lokal',
-                    style: TextStyle(fontWeight: FontWeight.w700, fontSize: 16),
-                  ),
-                ],
-              ),
-              const SizedBox(height: 8),
-              const Text(
-                '100% Offline SQLite database. Data keuangan pribadi Anda tidak pernah dikirim ke internet ataupun server pihak ketiga manapun.',
-                style: TextStyle(fontSize: 12, color: AppColors.textSecondary, height: 1.4),
-              ),
-              const Divider(height: 28),
-              SizedBox(
-                width: double.infinity,
-                child: TextButton.icon(
-                  onPressed: () {
-                    showDialog(
-                      context: context,
-                      builder: (ctx) => AlertDialog(
-                        title: const Text('Kosongkan Semua Data?'),
-                        content: const Text(
-                          'Tindakan ini akan menghapus semua riwayat transaksi dan mengembalikan saldo awal ke Rp0. Anda akan memulai dari awal yang bersih.',
-                        ),
-                        actions: [
-                          TextButton(
-                            onPressed: () => Navigator.pop(ctx),
-                            child: const Text('Batal'),
-                          ),
-                          ElevatedButton(
-                            onPressed: () async {
-                              await provider.clearAllTransactions();
-                              await provider.updateStartingBudget(0);
-                              if (ctx.mounted) Navigator.pop(ctx);
-                              if (context.mounted) {
-                                ScaffoldMessenger.of(context).showSnackBar(
-                                  const SnackBar(
-                                    content: Text('Semua data transaksi telah dikosongkan (Saldo Rp0)!'),
-                                  ),
-                                );
-                              }
-                            },
-                            style: ElevatedButton.styleFrom(
-                              backgroundColor: AppColors.expenseIcon,
-                              foregroundColor: Colors.white,
-                            ),
-                            child: const Text('Kosongkan Data'),
-                          ),
-                        ],
-                      ),
-                    );
-                  },
-                  icon: const Icon(Icons.delete_sweep_outlined, color: AppColors.expenseIcon, size: 20),
-                  label: const Text(
-                    'Kosongkan Semua Transaksi (Reset ke 0)',
-                    style: TextStyle(color: AppColors.expenseIcon, fontWeight: FontWeight.w600),
-                  ),
-                ),
-              ),
-            ],
-          ),
-        ),
-        const SizedBox(height: 16),
-
-        // 5. Informasi Patch & Versi
+        // 3. Informasi Patch & Versi
         Center(
           child: Column(
             children: [
               Text(
-                'SIMPanan v1.0.0 (Patch 1.0.0)',
+                'SIMPanan v1.0.3 (Patch 1.0.3)',
                 style: TextStyle(fontSize: 12, color: AppColors.textSecondary.withValues(alpha: 0.8), fontWeight: FontWeight.w600),
               ),
               const SizedBox(height: 4),

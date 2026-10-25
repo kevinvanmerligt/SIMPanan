@@ -1,7 +1,7 @@
 name: dompet_harian
 description: Aplikasi Pengelola Keuangan Pribadi Offline & Aman.
 publish_to: 'none'
-version: 1.0.0+1
+version: 1.0.3+4
 
 environment:
   sdk: ^3.13.5
