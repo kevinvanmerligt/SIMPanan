@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:path_provider/path_provider.dart';
 import '../../../core/constants/app_colors.dart';
+import '../../../core/widgets/floating_notification.dart';
 
 /// Halaman crop foto profil interaktif, halus, tanpa lag (60/90/120/144Hz)
 class PhotoCropScreen extends StatefulWidget {
@@ -70,11 +71,10 @@ class _PhotoCropScreenState extends State<PhotoCropScreen> {
       }
     } catch (e) {
       if (mounted) {
-        ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(
-            content: Text('Gagal memotong foto: $e'),
-            backgroundColor: Colors.red.shade700,
-          ),
+        FloatingNotification.showError(
+          context,
+          title: 'Gagal Memotong Foto',
+          message: '$e',
         );
       }
     } finally {

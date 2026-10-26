@@ -6,8 +6,10 @@ import 'package:provider/provider.dart';
 import '../../../core/constants/app_colors.dart';
 import '../../../core/widgets/app_header.dart';
 import '../../../core/widgets/fade_slide_entrance.dart';
+import '../../../core/widgets/floating_notification.dart';
 import '../../../data/repositories/profile_repo.dart';
 import '../../../providers/theme_provider.dart';
+import '../../splash/screens/splash_screen.dart';
 import 'photo_crop_screen.dart';
 
 class ProfilScreen extends StatefulWidget {
@@ -51,7 +53,6 @@ class _ProfilScreenState extends State<ProfilScreen> {
   }
 
   Future<void> _saveProfile({bool showToast = true}) async {
-    final colors = context.colors;
     final name = _nameController.text.trim();
     final age = int.tryParse(_ageController.text.trim()) ?? 17;
     final occupation = _selectedJob == 'Lainnya' && _customJobController.text.trim().isNotEmpty
@@ -68,18 +69,16 @@ class _ProfilScreenState extends State<ProfilScreen> {
     await _profileRepo.saveProfile(updated);
 
     if (mounted && showToast) {
-      ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(
-          content: const Text('Profil berhasil diperbarui!'),
-          backgroundColor: colors.primaryGreen,
-        ),
+      FloatingNotification.showSuccess(
+        context,
+        title: 'Profil Berhasil Disimpan',
+        message: 'Informasi akun & pekerjaan Anda telah diperbarui.',
       );
       setState(() {});
     }
   }
 
   Future<void> _pickImage(ImageSource source) async {
-    final colors = context.colors;
     try {
       final picker = ImagePicker();
       final picked = await picker.pickImage(
@@ -119,22 +118,20 @@ class _ProfilScreenState extends State<ProfilScreen> {
           await _saveProfile(showToast: false);
 
           if (mounted) {
-            ScaffoldMessenger.of(context).showSnackBar(
-              SnackBar(
-                content: const Text('Foto profil berhasil disesuaikan & disimpan!'),
-                backgroundColor: colors.primaryGreen,
-              ),
+            FloatingNotification.showSuccess(
+              context,
+              title: 'Foto Profil Diperbarui',
+              message: 'Foto profil berhasil disesuaikan & disimpan!',
             );
           }
         }
       }
     } catch (e) {
       if (mounted) {
-        ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(
-            content: Text('Gagal memilih foto: $e'),
-            backgroundColor: Colors.red.shade700,
-          ),
+        FloatingNotification.showError(
+          context,
+          title: 'Gagal Memilih Foto',
+          message: '$e',
         );
       }
     }
@@ -252,11 +249,10 @@ class _ProfilScreenState extends State<ProfilScreen> {
                   });
                   await _saveProfile(showToast: false);
                   if (mounted) {
-                    ScaffoldMessenger.of(context).showSnackBar(
-                      SnackBar(
-                        content: const Text('Foto profil berhasil dihapus.'),
-                        backgroundColor: colors.primaryGreen,
-                      ),
+                    FloatingNotification.showInfo(
+                      context,
+                      title: 'Foto Profil Dihapus',
+                      message: 'Foto profil kembali menggunakan avatar bawaan.',
                     );
                   }
                 },
@@ -847,14 +843,95 @@ class _ProfilScreenState extends State<ProfilScreen> {
         ),
         const SizedBox(height: 24),
 
-        // 4. Informasi Patch & Versi
+        // 4. Fitur Animasi Pembuka Lucu
+        FadeSlideEntrance(
+          delayMs: 170,
+          child: Container(
+            padding: const EdgeInsets.all(16),
+            decoration: BoxDecoration(
+              color: colors.cardSurface,
+              borderRadius: BorderRadius.circular(16),
+              border: Border.all(color: colors.cardBorder),
+            ),
+            child: Row(
+              children: [
+                Container(
+                  width: 42,
+                  height: 42,
+                  decoration: BoxDecoration(
+                    color: colors.primaryPillBg,
+                    borderRadius: BorderRadius.circular(12),
+                  ),
+                  child: Center(
+                    child: Text(
+                      '✨',
+                      style: const TextStyle(fontSize: 20),
+                    ),
+                  ),
+                ),
+                const SizedBox(width: 12),
+                Expanded(
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text(
+                        'Animasi Pembuka Lucu',
+                        style: TextStyle(
+                          fontSize: 14,
+                          fontWeight: FontWeight.w700,
+                          color: colors.textPrimary,
+                        ),
+                      ),
+                      const SizedBox(height: 2),
+                      Text(
+                        'Putar ulang animasi maskot celengan & koin kawaii',
+                        style: TextStyle(
+                          fontSize: 11,
+                          color: colors.textSecondary,
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+                ElevatedButton(
+                  onPressed: () {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (_) => const SplashScreen(isPreviewOnly: true),
+                      ),
+                    );
+                  },
+                  style: ElevatedButton.styleFrom(
+                    backgroundColor: colors.primaryGreen,
+                    foregroundColor: colors.isDark ? const Color(0xFF0F1411) : Colors.white,
+                    padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 8),
+                    minimumSize: Size.zero,
+                    tapTargetSize: MaterialTapTargetSize.shrinkWrap,
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(10),
+                    ),
+                    elevation: 0,
+                  ),
+                  child: const Text(
+                    'Putar ✨',
+                    style: TextStyle(fontSize: 12, fontWeight: FontWeight.w700),
+                  ),
+                ),
+              ],
+            ),
+          ),
+        ),
+        const SizedBox(height: 24),
+
+        // 5. Informasi Patch & Versi
         FadeSlideEntrance(
           delayMs: 200,
           child: Center(
             child: Column(
               children: [
                 Text(
-                  'SIMPanan v1.2.2 (Patch 1.2.2)',
+                  'SIMPanan v1.2.7 (Patch 1.2.7)',
                   style: TextStyle(
                     fontSize: 12,
                     color: colors.textSecondary.withValues(alpha: 0.8),

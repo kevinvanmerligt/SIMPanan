@@ -20,7 +20,7 @@ android {
         targetSdk = flutter.targetSdkVersion
 
         // Pastikan versionCode selalu naik agar update APK tidak gagal downgrade
-        versionCode = if (flutter.versionCode < 13) 13 else flutter.versionCode
+        versionCode = if (flutter.versionCode < 17) 17 else flutter.versionCode
         versionName = flutter.versionName
 
         // Optimasi ABI ponsel fisik: hanya sertakan arsitektur ARM nyata (arm64-v8a & armeabi-v7a)

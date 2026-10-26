@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'core/theme/app_theme.dart';
-import 'features/navigation/main_nav_screen.dart';
+import 'features/splash/screens/splash_screen.dart';
 import 'providers/finance_provider.dart';
 import 'providers/theme_provider.dart';
 
@@ -23,7 +23,7 @@ class DompetHarianApp extends StatelessWidget {
             theme: AppTheme.lightTheme,
             darkTheme: AppTheme.darkTheme,
             themeMode: themeProvider.themeMode,
-            home: const MainNavScreen(),
+            home: const SplashScreen(),
           );
         },
       ),
