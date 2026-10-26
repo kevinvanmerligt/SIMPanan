@@ -28,6 +28,12 @@ class _CatatModalSheetState extends State<CatatModalSheet> {
     _selectedCategory = _type == 'EXPENSE' ? 'Belanja' : 'Gaji & Saldo Awal';
   }
 
+  @override
+  void dispose() {
+    _noteController.dispose();
+    super.dispose();
+  }
+
   void _switchType(String newType) {
     setState(() {
       _type = newType;
@@ -71,6 +77,7 @@ class _CatatModalSheetState extends State<CatatModalSheet> {
 
   @override
   Widget build(BuildContext context) {
+    final colors = context.colors;
     final parsedAmount = int.tryParse(_rawAmount) ?? 0;
 
     return Container(
@@ -80,9 +87,10 @@ class _CatatModalSheetState extends State<CatatModalSheet> {
         top: 16,
         bottom: MediaQuery.of(context).viewInsets.bottom + 20,
       ),
-      decoration: const BoxDecoration(
-        color: Colors.white,
-        borderRadius: BorderRadius.vertical(top: Radius.circular(24)),
+      decoration: BoxDecoration(
+        color: colors.cardSurface,
+        borderRadius: const BorderRadius.vertical(top: Radius.circular(24)),
+        border: Border.all(color: colors.cardBorder),
       ),
       child: SingleChildScrollView(
         child: Column(
@@ -94,7 +102,7 @@ class _CatatModalSheetState extends State<CatatModalSheet> {
                 width: 40,
                 height: 4,
                 decoration: BoxDecoration(
-                  color: Colors.grey.shade300,
+                  color: colors.cardBorder,
                   borderRadius: BorderRadius.circular(10),
                 ),
               ),
@@ -105,8 +113,9 @@ class _CatatModalSheetState extends State<CatatModalSheet> {
             Container(
               padding: const EdgeInsets.all(4),
               decoration: BoxDecoration(
-                color: AppColors.background,
+                color: colors.inputBg,
                 borderRadius: BorderRadius.circular(30),
+                border: Border.all(color: colors.cardBorder),
               ),
               child: Row(
                 children: [
@@ -116,13 +125,17 @@ class _CatatModalSheetState extends State<CatatModalSheet> {
                       child: Container(
                         padding: const EdgeInsets.symmetric(vertical: 10),
                         decoration: BoxDecoration(
-                          color: _type == 'EXPENSE' ? Colors.white : Colors.transparent,
+                          color: _type == 'EXPENSE' ? colors.cardSurface : Colors.transparent,
                           borderRadius: BorderRadius.circular(26),
+                          border: _type == 'EXPENSE' ? Border.all(color: colors.cardBorder) : null,
                         ),
                         alignment: Alignment.center,
-                        child: const Text(
+                        child: Text(
                           'Pengeluaran',
-                          style: TextStyle(fontWeight: FontWeight.w700),
+                          style: TextStyle(
+                            fontWeight: FontWeight.w700,
+                            color: _type == 'EXPENSE' ? colors.expenseIcon : colors.textSecondary,
+                          ),
                         ),
                       ),
                     ),
@@ -133,13 +146,17 @@ class _CatatModalSheetState extends State<CatatModalSheet> {
                       child: Container(
                         padding: const EdgeInsets.symmetric(vertical: 10),
                         decoration: BoxDecoration(
-                          color: _type == 'INCOME' ? Colors.white : Colors.transparent,
+                          color: _type == 'INCOME' ? colors.cardSurface : Colors.transparent,
                           borderRadius: BorderRadius.circular(26),
+                          border: _type == 'INCOME' ? Border.all(color: colors.cardBorder) : null,
                         ),
                         alignment: Alignment.center,
-                        child: const Text(
+                        child: Text(
                           'Pemasukan',
-                          style: TextStyle(fontWeight: FontWeight.w700),
+                          style: TextStyle(
+                            fontWeight: FontWeight.w700,
+                            color: _type == 'INCOME' ? colors.incomeIcon : colors.textSecondary,
+                          ),
                         ),
                       ),
                     ),
@@ -156,7 +173,7 @@ class _CatatModalSheetState extends State<CatatModalSheet> {
                 style: TextStyle(
                   fontSize: 34,
                   fontWeight: FontWeight.w800,
-                  color: _type == 'EXPENSE' ? AppColors.expenseIcon : AppColors.incomeIcon,
+                  color: _type == 'EXPENSE' ? colors.expenseIcon : colors.incomeIcon,
                 ),
               ),
             ),
@@ -173,13 +190,23 @@ class _CatatModalSheetState extends State<CatatModalSheet> {
             // Input Catatan
             TextField(
               controller: _noteController,
+              style: TextStyle(color: colors.textPrimary),
               decoration: InputDecoration(
                 hintText: 'Tulis catatan singkat (opsional)...',
+                hintStyle: TextStyle(color: colors.textMuted),
                 filled: true,
-                fillColor: AppColors.background,
+                fillColor: colors.inputBg,
                 border: OutlineInputBorder(
                   borderRadius: BorderRadius.circular(12),
-                  borderSide: BorderSide.none,
+                  borderSide: BorderSide(color: colors.cardBorder),
+                ),
+                enabledBorder: OutlineInputBorder(
+                  borderRadius: BorderRadius.circular(12),
+                  borderSide: BorderSide(color: colors.cardBorder),
+                ),
+                focusedBorder: OutlineInputBorder(
+                  borderRadius: BorderRadius.circular(12),
+                  borderSide: BorderSide(color: colors.primaryGreen, width: 1.5),
                 ),
                 contentPadding: const EdgeInsets.symmetric(horizontal: 14, vertical: 12),
               ),
@@ -200,15 +227,20 @@ class _CatatModalSheetState extends State<CatatModalSheet> {
               child: ElevatedButton(
                 onPressed: _saveTransaction,
                 style: ElevatedButton.styleFrom(
-                  backgroundColor: AppColors.primaryGreen,
-                  foregroundColor: Colors.white,
+                  backgroundColor: colors.primaryGreen,
+                  foregroundColor: colors.isDark ? const Color(0xFF0F1411) : Colors.white,
+                  elevation: 0,
                   shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(14),
                   ),
                 ),
-                child: const Text(
+                child: Text(
                   'Simpan Otomatis',
-                  style: TextStyle(fontSize: 15, fontWeight: FontWeight.w700),
+                  style: TextStyle(
+                    fontSize: 15,
+                    fontWeight: FontWeight.w700,
+                    color: colors.isDark ? const Color(0xFF0F1411) : Colors.white,
+                  ),
                 ),
               ),
             ),

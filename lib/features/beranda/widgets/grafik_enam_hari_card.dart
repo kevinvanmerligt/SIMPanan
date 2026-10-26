@@ -19,6 +19,8 @@ class GrafikTujuhHariCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final colors = context.colors;
+
     double maxY = 100000;
     for (final item in data7Hari) {
       final amt = (item['amount'] as int).toDouble();
@@ -28,9 +30,9 @@ class GrafikTujuhHariCard extends StatelessWidget {
     return Container(
       padding: const EdgeInsets.all(20),
       decoration: BoxDecoration(
-        color: AppColors.cardSurface,
+        color: colors.cardSurface,
         borderRadius: BorderRadius.circular(16),
-        border: Border.all(color: AppColors.cardBorder),
+        border: Border.all(color: colors.cardBorder),
       ),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
@@ -39,19 +41,19 @@ class GrafikTujuhHariCard extends StatelessWidget {
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
-              const Text(
+              Text(
                 AppStrings.pengeluaran7Hari,
                 style: TextStyle(
                   fontSize: 16,
                   fontWeight: FontWeight.w700,
-                  color: AppColors.textPrimary,
+                  color: colors.textPrimary,
                 ),
               ),
               Text(
                 'Total ${CurrencyFormat.toRupiah(totalExpense)}',
-                style: const TextStyle(
+                style: TextStyle(
                   fontSize: 13,
-                  color: AppColors.textSecondary,
+                  color: colors.textSecondary,
                 ),
               ),
             ],
@@ -70,15 +72,15 @@ class GrafikTujuhHariCard extends StatelessWidget {
                   show: true,
                   drawVerticalLine: false,
                   horizontalInterval: maxY / 3,
-                  getDrawingHorizontalLine: (value) => const FlLine(
-                    color: AppColors.cardBorder,
+                  getDrawingHorizontalLine: (value) => FlLine(
+                    color: colors.cardBorder,
                     strokeWidth: 1,
                   ),
                 ),
                 borderData: FlBorderData(
                   show: true,
-                  border: const Border(
-                    bottom: BorderSide(color: AppColors.cardBorder, width: 1),
+                  border: Border(
+                    bottom: BorderSide(color: colors.cardBorder, width: 1),
                   ),
                 ),
                 titlesData: FlTitlesData(
@@ -100,7 +102,7 @@ class GrafikTujuhHariCard extends StatelessWidget {
                             style: TextStyle(
                               fontSize: 10,
                               fontWeight: isToday ? FontWeight.w700 : FontWeight.w500,
-                              color: isToday ? AppColors.primaryGreen : AppColors.textSecondary,
+                              color: isToday ? colors.primaryGreen : colors.textSecondary,
                             ),
                           ),
                         );
@@ -118,8 +120,8 @@ class GrafikTujuhHariCard extends StatelessWidget {
                       BarChartRodData(
                         toY: hasData ? amount : maxY * 0.08,
                         color: hasData
-                            ? (isToday ? AppColors.primaryGreen : const Color(0xFF2E7D32))
-                            : AppColors.chartEmpty,
+                            ? (isToday ? colors.primaryGreen : (colors.isDark ? colors.primaryGreen.withValues(alpha: 0.6) : const Color(0xFF1B6B45)))
+                            : colors.chartEmpty,
                         width: 18,
                         borderRadius: BorderRadius.circular(6),
                       ),
@@ -134,9 +136,9 @@ class GrafikTujuhHariCard extends StatelessWidget {
           // Legenda
           Row(
             children: [
-              _buildLegendDot(AppColors.primaryGreen, AppStrings.harimuIniDanSebelumnya),
+              _buildLegendDot(colors.primaryGreen, AppStrings.harimuIniDanSebelumnya, colors),
               const SizedBox(width: 16),
-              _buildLegendDot(AppColors.chartEmpty, AppStrings.belumAdaCatatan),
+              _buildLegendDot(colors.chartEmpty, AppStrings.belumAdaCatatan, colors),
             ],
           ),
           const SizedBox(height: 12),
@@ -144,12 +146,12 @@ class GrafikTujuhHariCard extends StatelessWidget {
           // Tombol Lihat Data Grafik
           InkWell(
             onTap: onTapLihatGrafik,
-            child: const Text(
+            child: Text(
               AppStrings.lihatDataGrafik,
               style: TextStyle(
                 fontSize: 12,
                 fontWeight: FontWeight.w600,
-                color: AppColors.textSecondary,
+                color: colors.textSecondary,
               ),
             ),
           ),
@@ -158,7 +160,7 @@ class GrafikTujuhHariCard extends StatelessWidget {
     );
   }
 
-  Widget _buildLegendDot(Color color, String label) {
+  Widget _buildLegendDot(Color color, String label, AppColorScheme colors) {
     return Row(
       mainAxisSize: MainAxisSize.min,
       children: [
@@ -173,35 +175,12 @@ class GrafikTujuhHariCard extends StatelessWidget {
         const SizedBox(width: 6),
         Text(
           label,
-          style: const TextStyle(
+          style: TextStyle(
             fontSize: 12,
-            color: AppColors.textSecondary,
+            color: colors.textSecondary,
           ),
         ),
       ],
     );
   }
 }
-
-// Backward-compatible wrapper
-class GrafikEnamHariCard extends StatelessWidget {
-  final List<Map<String, dynamic>> data6Hari;
-  final int totalExpense;
-  final VoidCallback onTapLihatGrafik;
-
-  const GrafikEnamHariCard({
-    super.key,
-    required this.data6Hari,
-    required this.totalExpense,
-    required this.onTapLihatGrafik,
-  });
-
-  @override
-  Widget build(BuildContext context) {
-    return GrafikTujuhHariCard(
-      data7Hari: data6Hari,
-      totalExpense: totalExpense,
-      onTapLihatGrafik: onTapLihatGrafik,
-    );
-  }
-}

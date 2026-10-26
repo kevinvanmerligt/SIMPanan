@@ -15,6 +15,7 @@ class KategoriSelector extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final colors = context.colors;
     final categories = type == 'EXPENSE'
         ? ['Belanja', 'Makan & Minum', 'Transportasi', 'Tagihan', 'Lainnya']
         : ['Gaji & Saldo Awal', 'Jualan', 'Transfer Masuk', 'Bonus'];
@@ -27,10 +28,16 @@ class KategoriSelector extends StatelessWidget {
         return ChoiceChip(
           label: Text(cat),
           selected: isSelected,
-          selectedColor: AppColors.primaryGreen,
+          selectedColor: colors.primaryGreen,
+          backgroundColor: colors.inputBg,
+          side: BorderSide(
+            color: isSelected ? colors.primaryGreen : colors.cardBorder,
+          ),
           labelStyle: TextStyle(
-            color: isSelected ? Colors.white : AppColors.textPrimary,
-            fontWeight: isSelected ? FontWeight.w600 : FontWeight.w500,
+            color: isSelected
+                ? (colors.isDark ? const Color(0xFF0F1411) : Colors.white)
+                : colors.textPrimary,
+            fontWeight: isSelected ? FontWeight.w700 : FontWeight.w500,
             fontSize: 13,
           ),
           onSelected: (_) => onSelected(cat),

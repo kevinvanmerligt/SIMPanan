@@ -2,10 +2,12 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:path_provider/path_provider.dart';
+import 'package:provider/provider.dart';
 import '../../../core/constants/app_colors.dart';
 import '../../../core/widgets/app_header.dart';
 import '../../../core/widgets/fade_slide_entrance.dart';
 import '../../../data/repositories/profile_repo.dart';
+import '../../../providers/theme_provider.dart';
 import 'photo_crop_screen.dart';
 
 class ProfilScreen extends StatefulWidget {
@@ -49,6 +51,7 @@ class _ProfilScreenState extends State<ProfilScreen> {
   }
 
   Future<void> _saveProfile({bool showToast = true}) async {
+    final colors = context.colors;
     final name = _nameController.text.trim();
     final age = int.tryParse(_ageController.text.trim()) ?? 17;
     final occupation = _selectedJob == 'Lainnya' && _customJobController.text.trim().isNotEmpty
@@ -66,9 +69,9 @@ class _ProfilScreenState extends State<ProfilScreen> {
 
     if (mounted && showToast) {
       ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(
-          content: Text('Profil berhasil diperbarui!'),
-          backgroundColor: AppColors.primaryGreen,
+        SnackBar(
+          content: const Text('Profil berhasil diperbarui!'),
+          backgroundColor: colors.primaryGreen,
         ),
       );
       setState(() {});
@@ -76,6 +79,7 @@ class _ProfilScreenState extends State<ProfilScreen> {
   }
 
   Future<void> _pickImage(ImageSource source) async {
+    final colors = context.colors;
     try {
       final picker = ImagePicker();
       final picked = await picker.pickImage(
@@ -116,9 +120,9 @@ class _ProfilScreenState extends State<ProfilScreen> {
 
           if (mounted) {
             ScaffoldMessenger.of(context).showSnackBar(
-              const SnackBar(
-                content: Text('Foto profil berhasil disesuaikan & disimpan!'),
-                backgroundColor: AppColors.primaryGreen,
+              SnackBar(
+                content: const Text('Foto profil berhasil disesuaikan & disimpan!'),
+                backgroundColor: colors.primaryGreen,
               ),
             );
           }
@@ -137,13 +141,16 @@ class _ProfilScreenState extends State<ProfilScreen> {
   }
 
   void _showImagePickerSheet() {
+    final colors = context.colors;
+
     showModalBottomSheet(
       context: context,
       backgroundColor: Colors.transparent,
       builder: (ctx) => Container(
-        decoration: const BoxDecoration(
-          color: Colors.white,
-          borderRadius: BorderRadius.vertical(top: Radius.circular(24)),
+        decoration: BoxDecoration(
+          color: colors.cardSurface,
+          borderRadius: const BorderRadius.vertical(top: Radius.circular(24)),
+          border: Border.all(color: colors.cardBorder),
         ),
         padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 24),
         child: Column(
@@ -155,26 +162,26 @@ class _ProfilScreenState extends State<ProfilScreen> {
                 width: 40,
                 height: 4,
                 decoration: BoxDecoration(
-                  color: Colors.grey.shade300,
+                  color: colors.cardBorder,
                   borderRadius: BorderRadius.circular(10),
                 ),
               ),
             ),
             const SizedBox(height: 18),
-            const Text(
+            Text(
               'Foto Profil',
               style: TextStyle(
                 fontSize: 18,
                 fontWeight: FontWeight.w800,
-                color: AppColors.textPrimary,
+                color: colors.textPrimary,
               ),
             ),
             const SizedBox(height: 4),
-            const Text(
+            Text(
               'Pilih sumber foto profil Anda',
               style: TextStyle(
                 fontSize: 13,
-                color: AppColors.textSecondary,
+                color: colors.textSecondary,
               ),
             ),
             const SizedBox(height: 20),
@@ -182,12 +189,15 @@ class _ProfilScreenState extends State<ProfilScreen> {
               leading: Container(
                 padding: const EdgeInsets.all(10),
                 decoration: BoxDecoration(
-                  color: AppColors.primaryPillBg,
+                  color: colors.primaryPillBg,
                   borderRadius: BorderRadius.circular(12),
                 ),
-                child: const Icon(Icons.camera_alt_outlined, color: AppColors.primaryGreen),
+                child: Icon(Icons.camera_alt_outlined, color: colors.primaryGreen),
               ),
-              title: const Text('Ambil dari Kamera', style: TextStyle(fontWeight: FontWeight.w600)),
+              title: Text(
+                'Ambil dari Kamera',
+                style: TextStyle(fontWeight: FontWeight.w600, color: colors.textPrimary),
+              ),
               onTap: () {
                 Navigator.pop(ctx);
                 _pickImage(ImageSource.camera);
@@ -198,12 +208,15 @@ class _ProfilScreenState extends State<ProfilScreen> {
               leading: Container(
                 padding: const EdgeInsets.all(10),
                 decoration: BoxDecoration(
-                  color: AppColors.primaryPillBg,
+                  color: colors.primaryPillBg,
                   borderRadius: BorderRadius.circular(12),
                 ),
-                child: const Icon(Icons.photo_library_outlined, color: AppColors.primaryGreen),
+                child: Icon(Icons.photo_library_outlined, color: colors.primaryGreen),
               ),
-              title: const Text('Pilih dari Galeri', style: TextStyle(fontWeight: FontWeight.w600)),
+              title: Text(
+                'Pilih dari Galeri',
+                style: TextStyle(fontWeight: FontWeight.w600, color: colors.textPrimary),
+              ),
               onTap: () {
                 Navigator.pop(ctx);
                 _pickImage(ImageSource.gallery);
@@ -215,12 +228,15 @@ class _ProfilScreenState extends State<ProfilScreen> {
                 leading: Container(
                   padding: const EdgeInsets.all(10),
                   decoration: BoxDecoration(
-                    color: Colors.red.shade50,
+                    color: Colors.red.shade900.withValues(alpha: 0.2),
                     borderRadius: BorderRadius.circular(12),
                   ),
-                  child: Icon(Icons.delete_outline, color: Colors.red.shade600),
+                  child: Icon(Icons.delete_outline, color: Colors.red.shade400),
                 ),
-                title: Text('Hapus Foto Profil', style: TextStyle(fontWeight: FontWeight.w600, color: Colors.red.shade600)),
+                title: Text(
+                  'Hapus Foto Profil',
+                  style: TextStyle(fontWeight: FontWeight.w600, color: Colors.red.shade400),
+                ),
                 onTap: () async {
                   Navigator.pop(ctx);
                   if (_avatarPath != null) {
@@ -237,9 +253,9 @@ class _ProfilScreenState extends State<ProfilScreen> {
                   await _saveProfile(showToast: false);
                   if (mounted) {
                     ScaffoldMessenger.of(context).showSnackBar(
-                      const SnackBar(
-                        content: Text('Foto profil berhasil dihapus.'),
-                        backgroundColor: AppColors.primaryGreen,
+                      SnackBar(
+                        content: const Text('Foto profil berhasil dihapus.'),
+                        backgroundColor: colors.primaryGreen,
                       ),
                     );
                   }
@@ -282,8 +298,12 @@ class _ProfilScreenState extends State<ProfilScreen> {
 
   @override
   Widget build(BuildContext context) {
+    final colors = context.colors;
+
     if (_isLoading) {
-      return const Center(child: CircularProgressIndicator());
+      return Center(
+        child: CircularProgressIndicator(color: colors.primaryGreen),
+      );
     }
 
     final currentJob = _selectedJob == 'Lainnya' && _customJobController.text.trim().isNotEmpty
@@ -301,11 +321,15 @@ class _ProfilScreenState extends State<ProfilScreen> {
         ),
         const SizedBox(height: 18),
         // Judul Halaman
-        const FadeSlideEntrance(
+        FadeSlideEntrance(
           delayMs: 40,
           child: Text(
             'Profil Pengguna',
-            style: TextStyle(fontSize: 22, fontWeight: FontWeight.w800),
+            style: TextStyle(
+              fontSize: 22,
+              fontWeight: FontWeight.w800,
+              color: colors.textPrimary,
+            ),
           ),
         ),
         const SizedBox(height: 16),
@@ -316,12 +340,12 @@ class _ProfilScreenState extends State<ProfilScreen> {
           child: Container(
             padding: const EdgeInsets.all(20),
             decoration: BoxDecoration(
-              color: Colors.white,
+              color: colors.cardSurface,
               borderRadius: BorderRadius.circular(20),
-              border: Border.all(color: AppColors.cardBorder),
+              border: Border.all(color: colors.cardBorder),
               boxShadow: [
                 BoxShadow(
-                  color: Colors.black.withValues(alpha: 0.03),
+                  color: Colors.black.withValues(alpha: colors.isDark ? 0.2 : 0.03),
                   blurRadius: 10,
                   offset: const Offset(0, 4),
                 ),
@@ -338,23 +362,23 @@ class _ProfilScreenState extends State<ProfilScreen> {
                         decoration: BoxDecoration(
                           shape: BoxShape.circle,
                           border: Border.all(
-                            color: AppColors.primaryGreen.withValues(alpha: 0.35),
+                            color: colors.primaryGreen.withValues(alpha: 0.45),
                             width: 2.5,
                           ),
                         ),
                         child: CircleAvatar(
                           radius: 38,
-                          backgroundColor: AppColors.primaryGreen.withValues(alpha: 0.12),
+                          backgroundColor: colors.primaryGreen.withValues(alpha: 0.15),
                           backgroundImage: hasValidAvatar ? FileImage(File(_avatarPath!)) : null,
                           child: !hasValidAvatar
                               ? Text(
                                   _nameController.text.trim().isNotEmpty
                                       ? _nameController.text.trim()[0].toUpperCase()
                                       : 'S',
-                                  style: const TextStyle(
+                                  style: TextStyle(
                                     fontSize: 28,
                                     fontWeight: FontWeight.w800,
-                                    color: AppColors.primaryGreen,
+                                    color: colors.primaryGreen,
                                   ),
                                 )
                               : null,
@@ -366,21 +390,24 @@ class _ProfilScreenState extends State<ProfilScreen> {
                         child: Container(
                           padding: const EdgeInsets.all(6),
                           decoration: BoxDecoration(
-                            color: AppColors.primaryGreen,
+                            color: colors.primaryGreen,
                             shape: BoxShape.circle,
-                            border: Border.all(color: Colors.white, width: 2),
+                            border: Border.all(
+                              color: colors.cardSurface,
+                              width: 2,
+                            ),
                             boxShadow: [
                               BoxShadow(
-                                color: Colors.black.withValues(alpha: 0.2),
+                                color: Colors.black.withValues(alpha: 0.25),
                                 blurRadius: 4,
                                 offset: const Offset(0, 2),
                               ),
                             ],
                           ),
-                          child: const Icon(
+                          child: Icon(
                             Icons.camera_alt,
                             size: 14,
-                            color: Colors.white,
+                            color: colors.isDark ? const Color(0xFF0F1411) : Colors.white,
                           ),
                         ),
                       ),
@@ -397,25 +424,25 @@ class _ProfilScreenState extends State<ProfilScreen> {
                         _nameController.text.trim().isNotEmpty
                             ? _nameController.text.trim()
                             : 'Pengguna',
-                        style: const TextStyle(
+                        style: TextStyle(
                           fontSize: 18,
                           fontWeight: FontWeight.w800,
-                          color: AppColors.textPrimary,
+                          color: colors.textPrimary,
                         ),
                       ),
                       const SizedBox(height: 4),
                       GestureDetector(
                         onTap: _showImagePickerSheet,
-                        child: const Text(
+                        child: Text(
                           'Ubah Foto Profil',
                           style: TextStyle(
                             fontSize: 12,
                             fontWeight: FontWeight.w700,
-                            color: AppColors.primaryGreen,
+                            color: colors.primaryGreen,
                           ),
                         ),
                       ),
-                      const SizedBox(height: 6),
+                      const SizedBox(height: 8),
                       Wrap(
                         spacing: 6,
                         runSpacing: 4,
@@ -423,20 +450,20 @@ class _ProfilScreenState extends State<ProfilScreen> {
                           Container(
                             padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
                             decoration: BoxDecoration(
-                              color: AppColors.primaryPillBg,
+                              color: colors.primaryPillBg,
                               borderRadius: BorderRadius.circular(8),
                             ),
                             child: Row(
                               mainAxisSize: MainAxisSize.min,
                               children: [
-                                Icon(_getJobIcon(currentJob), size: 12, color: AppColors.primaryGreen),
+                                Icon(_getJobIcon(currentJob), size: 12, color: colors.primaryGreen),
                                 const SizedBox(width: 4),
                                 Text(
                                   currentJob,
-                                  style: const TextStyle(
+                                  style: TextStyle(
                                     fontSize: 11,
                                     fontWeight: FontWeight.w700,
-                                    color: AppColors.primaryGreen,
+                                    color: colors.primaryGreen,
                                   ),
                                 ),
                               ],
@@ -445,16 +472,16 @@ class _ProfilScreenState extends State<ProfilScreen> {
                           Container(
                             padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
                             decoration: BoxDecoration(
-                              color: AppColors.background,
+                              color: colors.inputBg,
                               borderRadius: BorderRadius.circular(8),
-                              border: Border.all(color: AppColors.cardBorder),
+                              border: Border.all(color: colors.cardBorder),
                             ),
                             child: Text(
                               '${_ageController.text.trim().isNotEmpty ? _ageController.text.trim() : "17"} Tahun',
-                              style: const TextStyle(
+                              style: TextStyle(
                                 fontSize: 11,
                                 fontWeight: FontWeight.w600,
-                                color: AppColors.textSecondary,
+                                color: colors.textSecondary,
                               ),
                             ),
                           ),
@@ -469,100 +496,282 @@ class _ProfilScreenState extends State<ProfilScreen> {
         ),
         const SizedBox(height: 16),
 
-        // 2. Form Edit Profil (Nama, Umur, Pekerjaan)
+        // 2. KARTU PENGATURAN TEMA (SISTEM / TERANG / GELAP)
+        FadeSlideEntrance(
+          delayMs: 110,
+          child: Consumer<ThemeProvider>(
+            builder: (context, themeProvider, _) {
+              final activePref = themeProvider.preference;
+
+              return Container(
+                padding: const EdgeInsets.all(20),
+                decoration: BoxDecoration(
+                  color: colors.cardSurface,
+                  borderRadius: BorderRadius.circular(16),
+                  border: Border.all(color: colors.cardBorder),
+                ),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Row(
+                      children: [
+                        Icon(
+                          Icons.palette_outlined,
+                          color: colors.primaryGreen,
+                          size: 22,
+                        ),
+                        const SizedBox(width: 8),
+                        Text(
+                          'Tema Tampilan',
+                          style: TextStyle(
+                            fontWeight: FontWeight.w700,
+                            fontSize: 16,
+                            color: colors.textPrimary,
+                          ),
+                        ),
+                        const Spacer(),
+                        Container(
+                          padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 3),
+                          decoration: BoxDecoration(
+                            color: colors.primaryPillBg,
+                            borderRadius: BorderRadius.circular(8),
+                          ),
+                          child: Text(
+                            activePref.label,
+                            style: TextStyle(
+                              fontSize: 11,
+                              fontWeight: FontWeight.w700,
+                              color: colors.primaryGreen,
+                            ),
+                          ),
+                        ),
+                      ],
+                    ),
+                    const SizedBox(height: 6),
+                    Text(
+                      'Pilih tema tampilan atau sesuaikan otomatis dengan preferensi perangkat Anda.',
+                      style: TextStyle(
+                        fontSize: 12,
+                        color: colors.textSecondary,
+                      ),
+                    ),
+                    const SizedBox(height: 16),
+
+                    // 3 Pilihan Tema: Sistem, Terang, Gelap
+                    Row(
+                      children: AppThemeModePreference.values.map((pref) {
+                        final isSelected = activePref == pref;
+
+                        return Expanded(
+                          child: Padding(
+                            padding: const EdgeInsets.symmetric(horizontal: 4),
+                            child: InkWell(
+                              onTap: () => themeProvider.setThemePreference(pref),
+                              borderRadius: BorderRadius.circular(12),
+                              child: AnimatedContainer(
+                                duration: const Duration(milliseconds: 220),
+                                curve: Curves.easeOutCubic,
+                                padding: const EdgeInsets.symmetric(vertical: 12, horizontal: 8),
+                                decoration: BoxDecoration(
+                                  color: isSelected ? colors.primaryPillBg : colors.inputBg,
+                                  borderRadius: BorderRadius.circular(12),
+                                  border: Border.all(
+                                    color: isSelected ? colors.primaryGreen : colors.cardBorder,
+                                    width: isSelected ? 1.8 : 1,
+                                  ),
+                                ),
+                                child: Column(
+                                  mainAxisSize: MainAxisSize.min,
+                                  children: [
+                                    Icon(
+                                      pref.icon,
+                                      size: 22,
+                                      color: isSelected ? colors.primaryGreen : colors.textSecondary,
+                                    ),
+                                    const SizedBox(height: 6),
+                                    Text(
+                                      pref.label,
+                                      style: TextStyle(
+                                        fontSize: 12,
+                                        fontWeight: isSelected ? FontWeight.w700 : FontWeight.w600,
+                                        color: isSelected ? colors.primaryGreen : colors.textPrimary,
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                              ),
+                            ),
+                          ),
+                        );
+                      }).toList(),
+                    ),
+                    const SizedBox(height: 12),
+
+                    // Penjelasan Palet Warna Hijau Adaptif
+                    Container(
+                      width: double.infinity,
+                      padding: const EdgeInsets.all(12),
+                      decoration: BoxDecoration(
+                        color: colors.inputBg,
+                        borderRadius: BorderRadius.circular(10),
+                      ),
+                      child: Row(
+                        children: [
+                          Icon(
+                            Icons.info_outline,
+                            size: 16,
+                            color: colors.primaryGreen,
+                          ),
+                          const SizedBox(width: 8),
+                          Expanded(
+                            child: Text(
+                              activePref == AppThemeModePreference.system
+                                  ? 'Mode Sistem: Palet hijau menyesuaikan otomatis (lebih gelap di mode terang, lebih cerah di mode gelap).'
+                                  : activePref == AppThemeModePreference.light
+                                      ? 'Mode Terang: Palet hijau dirancang lebih gelap & elegan untuk kontras tajam.'
+                                      : 'Mode Gelap: Palet hijau dirancang lebih cerah & bercahaya untuk kenyamanan visual.',
+                              style: TextStyle(
+                                fontSize: 11,
+                                color: colors.textSecondary,
+                                height: 1.3,
+                              ),
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+                  ],
+                ),
+              );
+            },
+          ),
+        ),
+        const SizedBox(height: 16),
+
+        // 3. Form Edit Profil (Nama, Umur, Pekerjaan)
         FadeSlideEntrance(
           delayMs: 140,
           child: Container(
             padding: const EdgeInsets.all(20),
             decoration: BoxDecoration(
-              color: Colors.white,
+              color: colors.cardSurface,
               borderRadius: BorderRadius.circular(16),
-              border: Border.all(color: AppColors.cardBorder),
+              border: Border.all(color: colors.cardBorder),
             ),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                const Row(
+                Row(
                   children: [
-                    Icon(Icons.edit_note_outlined, color: AppColors.primaryGreen, size: 22),
-                    SizedBox(width: 8),
+                    Icon(Icons.edit_note_outlined, color: colors.primaryGreen, size: 22),
+                    const SizedBox(width: 8),
                     Text(
                       'Informasi Akun & Pekerjaan',
-                      style: TextStyle(fontWeight: FontWeight.w700, fontSize: 16),
+                      style: TextStyle(
+                        fontWeight: FontWeight.w700,
+                        fontSize: 16,
+                        color: colors.textPrimary,
+                      ),
                     ),
                   ],
                 ),
                 const SizedBox(height: 16),
 
                 // Input Nama
-                const Text(
+                Text(
                   'Nama Lengkap',
-                  style: TextStyle(fontSize: 12, fontWeight: FontWeight.w600, color: AppColors.textSecondary),
+                  style: TextStyle(fontSize: 12, fontWeight: FontWeight.w600, color: colors.textSecondary),
                 ),
                 const SizedBox(height: 6),
                 TextField(
                   controller: _nameController,
+                  style: TextStyle(color: colors.textPrimary),
                   decoration: InputDecoration(
                     hintText: 'Contoh: Budi Santoso',
-                    prefixIcon: const Icon(Icons.person_outline, size: 20),
+                    hintStyle: TextStyle(color: colors.textMuted),
+                    prefixIcon: Icon(Icons.person_outline, size: 20, color: colors.textSecondary),
                     filled: true,
-                    fillColor: AppColors.background,
+                    fillColor: colors.inputBg,
                     border: OutlineInputBorder(
                       borderRadius: BorderRadius.circular(12),
-                      borderSide: BorderSide.none,
+                      borderSide: BorderSide(color: colors.cardBorder),
+                    ),
+                    enabledBorder: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(12),
+                      borderSide: BorderSide(color: colors.cardBorder),
+                    ),
+                    focusedBorder: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(12),
+                      borderSide: BorderSide(color: colors.primaryGreen, width: 1.5),
                     ),
                   ),
                 ),
                 const SizedBox(height: 14),
 
                 // Input Umur
-                const Text(
+                Text(
                   'Umur',
-                  style: TextStyle(fontSize: 12, fontWeight: FontWeight.w600, color: AppColors.textSecondary),
+                  style: TextStyle(fontSize: 12, fontWeight: FontWeight.w600, color: colors.textSecondary),
                 ),
                 const SizedBox(height: 6),
                 TextField(
                   controller: _ageController,
                   keyboardType: TextInputType.number,
+                  style: TextStyle(color: colors.textPrimary),
                   decoration: InputDecoration(
                     hintText: 'Contoh: 17',
-                    prefixIcon: const Icon(Icons.cake_outlined, size: 20),
+                    hintStyle: TextStyle(color: colors.textMuted),
+                    prefixIcon: Icon(Icons.cake_outlined, size: 20, color: colors.textSecondary),
                     suffixText: 'Tahun',
+                    suffixStyle: TextStyle(color: colors.textSecondary, fontWeight: FontWeight.w600),
                     filled: true,
-                    fillColor: AppColors.background,
+                    fillColor: colors.inputBg,
                     border: OutlineInputBorder(
                       borderRadius: BorderRadius.circular(12),
-                      borderSide: BorderSide.none,
+                      borderSide: BorderSide(color: colors.cardBorder),
+                    ),
+                    enabledBorder: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(12),
+                      borderSide: BorderSide(color: colors.cardBorder),
+                    ),
+                    focusedBorder: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(12),
+                      borderSide: BorderSide(color: colors.primaryGreen, width: 1.5),
                     ),
                   ),
                 ),
                 const SizedBox(height: 14),
 
                 // Pilihan Pekerjaan
-                const Text(
+                Text(
                   'Pekerjaan',
-                  style: TextStyle(fontSize: 12, fontWeight: FontWeight.w600, color: AppColors.textSecondary),
+                  style: TextStyle(fontSize: 12, fontWeight: FontWeight.w600, color: colors.textSecondary),
                 ),
                 const SizedBox(height: 6),
                 Container(
                   padding: const EdgeInsets.symmetric(horizontal: 14),
                   decoration: BoxDecoration(
-                    color: AppColors.background,
+                    color: colors.inputBg,
                     borderRadius: BorderRadius.circular(12),
+                    border: Border.all(color: colors.cardBorder),
                   ),
                   child: DropdownButtonHideUnderline(
                     child: DropdownButton<String>(
                       isExpanded: true,
+                      dropdownColor: colors.cardSurface,
                       value: _selectedJob,
-                      icon: const Icon(Icons.keyboard_arrow_down, color: AppColors.textSecondary),
+                      icon: Icon(Icons.keyboard_arrow_down, color: colors.textSecondary),
                       items: ProfileRepository.availableOccupations.map((job) {
                         return DropdownMenuItem<String>(
                           value: job,
                           child: Row(
                             children: [
-                              Icon(_getJobIcon(job), size: 18, color: AppColors.primaryGreen),
+                              Icon(_getJobIcon(job), size: 18, color: colors.primaryGreen),
                               const SizedBox(width: 10),
-                              Text(job, style: const TextStyle(fontSize: 14)),
+                              Text(
+                                job,
+                                style: TextStyle(fontSize: 14, color: colors.textPrimary),
+                              ),
                             ],
                           ),
                         );
@@ -581,14 +790,24 @@ class _ProfilScreenState extends State<ProfilScreen> {
                   const SizedBox(height: 12),
                   TextField(
                     controller: _customJobController,
+                    style: TextStyle(color: colors.textPrimary),
                     decoration: InputDecoration(
                       hintText: 'Tulis pekerjaan Anda...',
-                      prefixIcon: const Icon(Icons.work_outline, size: 20),
+                      hintStyle: TextStyle(color: colors.textMuted),
+                      prefixIcon: Icon(Icons.work_outline, size: 20, color: colors.textSecondary),
                       filled: true,
-                      fillColor: AppColors.background,
+                      fillColor: colors.inputBg,
                       border: OutlineInputBorder(
                         borderRadius: BorderRadius.circular(12),
-                        borderSide: BorderSide.none,
+                        borderSide: BorderSide(color: colors.cardBorder),
+                      ),
+                      enabledBorder: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(12),
+                        borderSide: BorderSide(color: colors.cardBorder),
+                      ),
+                      focusedBorder: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(12),
+                        borderSide: BorderSide(color: colors.primaryGreen, width: 1.5),
                       ),
                     ),
                   ),
@@ -599,15 +818,26 @@ class _ProfilScreenState extends State<ProfilScreen> {
                   width: double.infinity,
                   child: ElevatedButton.icon(
                     onPressed: () => _saveProfile(showToast: true),
-                    icon: const Icon(Icons.check, size: 18),
-                    label: const Text('Simpan Perubahan Profil'),
+                    icon: Icon(
+                      Icons.check,
+                      size: 18,
+                      color: colors.isDark ? const Color(0xFF0F1411) : Colors.white,
+                    ),
+                    label: Text(
+                      'Simpan Perubahan Profil',
+                      style: TextStyle(
+                        fontWeight: FontWeight.w700,
+                        color: colors.isDark ? const Color(0xFF0F1411) : Colors.white,
+                      ),
+                    ),
                     style: ElevatedButton.styleFrom(
-                      backgroundColor: AppColors.primaryGreen,
-                      foregroundColor: Colors.white,
+                      backgroundColor: colors.primaryGreen,
+                      foregroundColor: colors.isDark ? const Color(0xFF0F1411) : Colors.white,
                       padding: const EdgeInsets.symmetric(vertical: 14),
                       shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(12),
                       ),
+                      elevation: 0,
                     ),
                   ),
                 ),
@@ -617,17 +847,17 @@ class _ProfilScreenState extends State<ProfilScreen> {
         ),
         const SizedBox(height: 24),
 
-        // 3. Informasi Patch & Versi
+        // 4. Informasi Patch & Versi
         FadeSlideEntrance(
           delayMs: 200,
           child: Center(
             child: Column(
               children: [
                 Text(
-                  'SIMPanan v1.1.11 (Patch 1.1.11)',
+                  'SIMPanan v1.2.2 (Patch 1.2.2)',
                   style: TextStyle(
                     fontSize: 12,
-                    color: AppColors.textSecondary.withValues(alpha: 0.8),
+                    color: colors.textSecondary.withValues(alpha: 0.8),
                     fontWeight: FontWeight.w600,
                   ),
                 ),
@@ -636,7 +866,7 @@ class _ProfilScreenState extends State<ProfilScreen> {
                   'Aplikasi Pengelola Keuangan Pribadi Offline & Aman',
                   style: TextStyle(
                     fontSize: 11,
-                    color: AppColors.textSecondary.withValues(alpha: 0.6),
+                    color: colors.textSecondary.withValues(alpha: 0.6),
                   ),
                 ),
               ],

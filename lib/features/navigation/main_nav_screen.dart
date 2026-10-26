@@ -43,7 +43,10 @@ class _MainNavScreenState extends State<MainNavScreen> {
 
   @override
   Widget build(BuildContext context) {
+    final colors = context.colors;
+
     return Scaffold(
+      backgroundColor: colors.background,
       body: SafeArea(
         child: PageView(
           controller: _pageController,
@@ -69,19 +72,23 @@ class _MainNavScreenState extends State<MainNavScreen> {
               builder: (_) => const CatatModalSheet(initialType: 'EXPENSE'),
             );
           },
-          backgroundColor: AppColors.primaryGreen,
+          backgroundColor: colors.primaryGreen,
           elevation: 3,
           shape: const CircleBorder(),
-          child: const Icon(Icons.add, color: Colors.white, size: 30),
+          child: Icon(
+            Icons.add,
+            color: colors.isDark ? const Color(0xFF0F1411) : Colors.white,
+            size: 30,
+          ),
         ),
       ),
       bottomNavigationBar: Container(
-        decoration: const BoxDecoration(
-          color: Colors.white,
-          border: Border(top: BorderSide(color: AppColors.cardBorder, width: 1)),
+        decoration: BoxDecoration(
+          color: colors.cardSurface,
+          border: Border(top: BorderSide(color: colors.cardBorder, width: 1)),
         ),
         child: BottomAppBar(
-          color: Colors.white,
+          color: colors.cardSurface,
           elevation: 0,
           padding: EdgeInsets.zero,
           height: 70,
@@ -93,8 +100,8 @@ class _MainNavScreenState extends State<MainNavScreen> {
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                   children: [
-                    _buildNavItem(Icons.home_outlined, Icons.home_rounded, 'Beranda', 0),
-                    _buildNavItem(Icons.bar_chart_outlined, Icons.bar_chart_rounded, 'Laporan', 1),
+                    _buildNavItem(Icons.home_outlined, Icons.home_rounded, 'Beranda', 0, colors),
+                    _buildNavItem(Icons.bar_chart_outlined, Icons.bar_chart_rounded, 'Laporan', 1, colors),
                   ],
                 ),
               ),
@@ -103,8 +110,8 @@ class _MainNavScreenState extends State<MainNavScreen> {
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                   children: [
-                    _buildNavItem(Icons.calendar_today_outlined, Icons.calendar_month_rounded, 'Riwayat', 2),
-                    _buildNavItem(Icons.person_outline_rounded, Icons.person_rounded, 'Profil', 3),
+                    _buildNavItem(Icons.calendar_today_outlined, Icons.calendar_month_rounded, 'Riwayat', 2, colors),
+                    _buildNavItem(Icons.person_outline_rounded, Icons.person_rounded, 'Profil', 3, colors),
                   ],
                 ),
               ),
@@ -115,14 +122,20 @@ class _MainNavScreenState extends State<MainNavScreen> {
     );
   }
 
-  Widget _buildNavItem(IconData icon, IconData activeIcon, String label, int index) {
+  Widget _buildNavItem(
+    IconData icon,
+    IconData activeIcon,
+    String label,
+    int index,
+    AppColorScheme colors,
+  ) {
     final isSelected = _selectedIndex == index;
-    final color = isSelected ? AppColors.primaryGreen : AppColors.textSecondary;
+    final color = isSelected ? colors.primaryGreen : colors.textSecondary;
 
     return InkResponse(
       onTap: () => _onItemTapped(index),
       radius: 36,
-      splashColor: AppColors.primaryGreen.withValues(alpha: 0.15),
+      splashColor: colors.primaryGreen.withValues(alpha: 0.15),
       highlightColor: Colors.transparent,
       child: AnimatedContainer(
         duration: const Duration(milliseconds: 260),
@@ -132,7 +145,7 @@ class _MainNavScreenState extends State<MainNavScreen> {
           vertical: 6,
         ),
         decoration: BoxDecoration(
-          color: isSelected ? AppColors.primaryPillBg : Colors.transparent,
+          color: isSelected ? colors.primaryPillBg : Colors.transparent,
           borderRadius: BorderRadius.circular(16),
         ),
         child: Column(
@@ -165,4 +178,4 @@ class _MainNavScreenState extends State<MainNavScreen> {
       ),
     );
   }
-}
+}

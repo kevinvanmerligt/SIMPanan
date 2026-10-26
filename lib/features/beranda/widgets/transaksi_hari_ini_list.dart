@@ -24,6 +24,8 @@ class TransaksiHariIniList extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final colors = context.colors;
+
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
@@ -31,19 +33,19 @@ class TransaksiHariIniList extends StatelessWidget {
         Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
-            const Text(
+            Text(
               AppStrings.transaksiHariIni,
               style: TextStyle(
                 fontSize: 16,
                 fontWeight: FontWeight.w700,
-                color: AppColors.textPrimary,
+                color: colors.textPrimary,
               ),
             ),
             Text(
               '$totalCount catatan',
-              style: const TextStyle(
+              style: TextStyle(
                 fontSize: 12,
-                color: AppColors.textSecondary,
+                color: colors.textSecondary,
                 fontWeight: FontWeight.w600,
               ),
             ),
@@ -62,13 +64,13 @@ class TransaksiHariIniList extends StatelessWidget {
               height: 48,
               padding: const EdgeInsets.all(4),
               decoration: BoxDecoration(
-                color: const Color(0xFFF0F2F1),
+                color: colors.inputBg,
                 borderRadius: BorderRadius.circular(28),
-                border: Border.all(color: AppColors.cardBorder.withValues(alpha: 0.6)),
+                border: Border.all(color: colors.cardBorder),
               ),
               child: Stack(
                 children: [
-                  // Pill Putih Aktif yang Meluncur Halus (Curves.easeOutCubic)
+                  // Pill Aktif yang Meluncur Halus (Curves.easeOutCubic)
                   AnimatedPositioned(
                     duration: const Duration(milliseconds: 260),
                     curve: Curves.easeOutCubic,
@@ -78,11 +80,12 @@ class TransaksiHariIniList extends StatelessWidget {
                     bottom: 0,
                     child: Container(
                       decoration: BoxDecoration(
-                        color: Colors.white,
+                        color: colors.cardSurface,
                         borderRadius: BorderRadius.circular(24),
+                        border: Border.all(color: colors.cardBorder),
                         boxShadow: [
                           BoxShadow(
-                            color: Colors.black.withValues(alpha: 0.08),
+                            color: Colors.black.withValues(alpha: colors.isDark ? 0.3 : 0.06),
                             blurRadius: 8,
                             offset: const Offset(0, 2),
                           ),
@@ -91,7 +94,7 @@ class TransaksiHariIniList extends StatelessWidget {
                     ),
                   ),
 
-                  // Tab Items Tetap Proporsional (Tidak Mengecil / Memaksa Scroll)
+                  // Tab Items Tetap Proporsional
                   Row(
                     children: _tabs.map((tab) {
                       final isSelected = selectedFilter == tab;
@@ -106,7 +109,7 @@ class TransaksiHariIniList extends StatelessWidget {
                               style: TextStyle(
                                 fontSize: 13,
                                 fontWeight: isSelected ? FontWeight.w700 : FontWeight.w600,
-                                color: isSelected ? AppColors.textPrimary : AppColors.textSecondary,
+                                color: isSelected ? colors.primaryGreen : colors.textSecondary,
                                 letterSpacing: -0.1,
                               ),
                               child: Text(tab),
@@ -123,7 +126,7 @@ class TransaksiHariIniList extends StatelessWidget {
         ),
         const SizedBox(height: 16),
 
-        // Kontainer Transaksi dengan Animasi Transisi Halus (Tidak Menjepret Layar)
+        // Kontainer Transaksi dengan Animasi Transisi Halus
         AnimatedSize(
           duration: const Duration(milliseconds: 300),
           curve: Curves.easeOutCubic,
@@ -151,9 +154,9 @@ class TransaksiHariIniList extends StatelessWidget {
                     constraints: const BoxConstraints(minHeight: 140),
                     padding: const EdgeInsets.all(28),
                     decoration: BoxDecoration(
-                      color: Colors.white,
+                      color: colors.cardSurface,
                       borderRadius: BorderRadius.circular(16),
-                      border: Border.all(color: AppColors.cardBorder),
+                      border: Border.all(color: colors.cardBorder),
                     ),
                     alignment: Alignment.center,
                     child: Column(
@@ -162,13 +165,13 @@ class TransaksiHariIniList extends StatelessWidget {
                         Icon(
                           Icons.receipt_long_outlined,
                           size: 36,
-                          color: AppColors.textSecondary.withValues(alpha: 0.4),
+                          color: colors.textSecondary.withValues(alpha: 0.4),
                         ),
                         const SizedBox(height: 8),
                         Text(
                           'Belum ada catatan $selectedFilter hari ini',
-                          style: const TextStyle(
-                            color: AppColors.textSecondary,
+                          style: TextStyle(
+                            color: colors.textSecondary,
                             fontSize: 13,
                             fontWeight: FontWeight.w500,
                           ),
@@ -196,7 +199,7 @@ class TransaksiHariIniList extends StatelessWidget {
                           alignment: Alignment.centerRight,
                           padding: const EdgeInsets.only(right: 20),
                           decoration: BoxDecoration(
-                            color: AppColors.expenseIcon,
+                            color: colors.expenseIcon,
                             borderRadius: BorderRadius.circular(16),
                           ),
                           child: const Icon(Icons.delete_outline, color: Colors.white),
@@ -204,12 +207,12 @@ class TransaksiHariIniList extends StatelessWidget {
                         child: Container(
                           padding: const EdgeInsets.all(14),
                           decoration: BoxDecoration(
-                            color: Colors.white,
+                            color: colors.cardSurface,
                             borderRadius: BorderRadius.circular(16),
-                            border: Border.all(color: AppColors.cardBorder),
+                            border: Border.all(color: colors.cardBorder),
                             boxShadow: [
                               BoxShadow(
-                                color: Colors.black.withValues(alpha: 0.02),
+                                color: Colors.black.withValues(alpha: colors.isDark ? 0.2 : 0.02),
                                 blurRadius: 4,
                                 offset: const Offset(0, 2),
                               ),
@@ -221,12 +224,12 @@ class TransaksiHariIniList extends StatelessWidget {
                                 width: 42,
                                 height: 42,
                                 decoration: BoxDecoration(
-                                  color: isExpense ? AppColors.expenseBg : AppColors.incomeBg,
+                                  color: isExpense ? colors.expenseBg : colors.incomeBg,
                                   borderRadius: BorderRadius.circular(12),
                                 ),
                                 child: Icon(
                                   isExpense ? Icons.remove : Icons.arrow_upward,
-                                  color: isExpense ? AppColors.expenseIcon : AppColors.incomeIcon,
+                                  color: isExpense ? colors.expenseIcon : colors.incomeIcon,
                                   size: 20,
                                 ),
                               ),
@@ -237,18 +240,18 @@ class TransaksiHariIniList extends StatelessWidget {
                                   children: [
                                     Text(
                                       tx.title,
-                                      style: const TextStyle(
+                                      style: TextStyle(
                                         fontSize: 14,
                                         fontWeight: FontWeight.w600,
-                                        color: AppColors.textPrimary,
+                                        color: colors.textPrimary,
                                       ),
                                     ),
                                     const SizedBox(height: 3),
                                     Text(
                                       tx.category,
-                                      style: const TextStyle(
+                                      style: TextStyle(
                                         fontSize: 12,
-                                        color: AppColors.textSecondary,
+                                        color: colors.textSecondary,
                                       ),
                                     ),
                                   ],
@@ -259,7 +262,7 @@ class TransaksiHariIniList extends StatelessWidget {
                                 style: TextStyle(
                                   fontSize: 14,
                                   fontWeight: FontWeight.w700,
-                                  color: isExpense ? AppColors.expenseIcon : AppColors.incomeIcon,
+                                  color: isExpense ? colors.expenseIcon : colors.incomeIcon,
                                 ),
                               ),
                             ],

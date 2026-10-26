@@ -13,6 +13,7 @@ class NumpadInput extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final colors = context.colors;
     final keys = ['1', '2', '3', '4', '5', '6', '7', '8', '9', '000', '0', 'DEL'];
 
     return GridView.builder(
@@ -39,17 +40,18 @@ class NumpadInput extends StatelessWidget {
           child: Container(
             alignment: Alignment.center,
             decoration: BoxDecoration(
-              color: AppColors.background,
+              color: colors.inputBg,
               borderRadius: BorderRadius.circular(12),
+              border: Border.all(color: colors.cardBorder),
             ),
             child: key == 'DEL'
-                ? const Icon(Icons.backspace_outlined, size: 20)
+                ? Icon(Icons.backspace_outlined, size: 20, color: colors.textPrimary)
                 : Text(
                     key,
-                    style: const TextStyle(
+                    style: TextStyle(
                       fontSize: 18,
                       fontWeight: FontWeight.w700,
-                      color: AppColors.textPrimary,
+                      color: colors.textPrimary,
                     ),
                   ),
           ),

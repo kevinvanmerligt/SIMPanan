@@ -19,6 +19,8 @@ class _RiwayatScreenState extends State<RiwayatScreen> {
 
   @override
   Widget build(BuildContext context) {
+    final colors = context.colors;
+
     return Consumer<FinanceProvider>(
       builder: (context, provider, _) {
         final filtered = provider.allTransactions.where((tx) {
@@ -37,11 +39,15 @@ class _RiwayatScreenState extends State<RiwayatScreen> {
                 child: SimpananAppHeader(),
               ),
               const SizedBox(height: 18),
-              const FadeSlideEntrance(
+              FadeSlideEntrance(
                 delayMs: 40,
                 child: Text(
                   'Riwayat Transaksi',
-                  style: TextStyle(fontSize: 20, fontWeight: FontWeight.w800),
+                  style: TextStyle(
+                    fontSize: 20,
+                    fontWeight: FontWeight.w800,
+                    color: colors.textPrimary,
+                  ),
                 ),
               ),
               const SizedBox(height: 12),
@@ -49,78 +55,107 @@ class _RiwayatScreenState extends State<RiwayatScreen> {
                 delayMs: 80,
                 child: TextField(
                   onChanged: (val) => setState(() => _searchQuery = val),
+                  style: TextStyle(color: colors.textPrimary),
                   decoration: InputDecoration(
                     hintText: 'Cari catatan transaksi...',
-                    prefixIcon: const Icon(Icons.search),
+                    hintStyle: TextStyle(color: colors.textMuted),
+                    prefixIcon: Icon(Icons.search, color: colors.textSecondary),
                     filled: true,
-                    fillColor: Colors.white,
+                    fillColor: colors.cardSurface,
                     border: OutlineInputBorder(
                       borderRadius: BorderRadius.circular(14),
-                      borderSide: const BorderSide(color: AppColors.cardBorder),
+                      borderSide: BorderSide(color: colors.cardBorder),
+                    ),
+                    enabledBorder: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(14),
+                      borderSide: BorderSide(color: colors.cardBorder),
+                    ),
+                    focusedBorder: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(14),
+                      borderSide: BorderSide(color: colors.primaryGreen, width: 1.5),
                     ),
                   ),
                 ),
               ),
               const SizedBox(height: 16),
               Expanded(
-                child: ListView.separated(
-                  itemCount: filtered.length,
-                  separatorBuilder: (_, _) => const SizedBox(height: 8),
-                  itemBuilder: (context, index) {
-                    final tx = filtered[index];
-                    final isExpense = tx.type == 'EXPENSE';
-                    return Container(
-                      padding: const EdgeInsets.all(14),
-                      decoration: BoxDecoration(
-                        color: Colors.white,
-                        borderRadius: BorderRadius.circular(16),
-                        border: Border.all(color: AppColors.cardBorder),
-                      ),
-                      child: Row(
-                        children: [
-                          Container(
-                            width: 40,
-                            height: 40,
+                child: filtered.isEmpty
+                    ? Center(
+                        child: Text(
+                          _searchQuery.isEmpty
+                              ? 'Belum ada transaksi tercatat'
+                              : 'Tidak ada transaksi yang cocok',
+                          style: TextStyle(color: colors.textSecondary),
+                        ),
+                      )
+                    : ListView.separated(
+                        itemCount: filtered.length,
+                        separatorBuilder: (_, _) => const SizedBox(height: 8),
+                        itemBuilder: (context, index) {
+                          final tx = filtered[index];
+                          final isExpense = tx.type == 'EXPENSE';
+                          return Container(
+                            padding: const EdgeInsets.all(14),
                             decoration: BoxDecoration(
-                              color: isExpense ? AppColors.expenseBg : AppColors.incomeBg,
-                              borderRadius: BorderRadius.circular(10),
+                              color: colors.cardSurface,
+                              borderRadius: BorderRadius.circular(16),
+                              border: Border.all(color: colors.cardBorder),
+                              boxShadow: [
+                                BoxShadow(
+                                  color: Colors.black.withValues(alpha: colors.isDark ? 0.2 : 0.02),
+                                  blurRadius: 4,
+                                  offset: const Offset(0, 2),
+                                ),
+                              ],
                             ),
-                            child: Icon(
-                              isExpense ? Icons.remove : Icons.arrow_upward,
-                              color: isExpense ? AppColors.expenseIcon : AppColors.incomeIcon,
-                            ),
-                          ),
-                          const SizedBox(width: 12),
-                          Expanded(
-                            child: Column(
-                              crossAxisAlignment: CrossAxisAlignment.start,
+                            child: Row(
                               children: [
-                                Text(
-                                  tx.title,
-                                  style: const TextStyle(fontWeight: FontWeight.w700),
+                                Container(
+                                  width: 40,
+                                  height: 40,
+                                  decoration: BoxDecoration(
+                                    color: isExpense ? colors.expenseBg : colors.incomeBg,
+                                    borderRadius: BorderRadius.circular(10),
+                                  ),
+                                  child: Icon(
+                                    isExpense ? Icons.remove : Icons.arrow_upward,
+                                    color: isExpense ? colors.expenseIcon : colors.incomeIcon,
+                                  ),
+                                ),
+                                const SizedBox(width: 12),
+                                Expanded(
+                                  child: Column(
+                                    crossAxisAlignment: CrossAxisAlignment.start,
+                                    children: [
+                                      Text(
+                                        tx.title,
+                                        style: TextStyle(
+                                          fontWeight: FontWeight.w700,
+                                          color: colors.textPrimary,
+                                        ),
+                                      ),
+                                      Text(
+                                        '${tx.category} · ${DateFormatId.formatHariTanggal(tx.date)}',
+                                        style: TextStyle(
+                                          fontSize: 12,
+                                          color: colors.textSecondary,
+                                        ),
+                                      ),
+                                    ],
+                                  ),
                                 ),
                                 Text(
-                                  '${tx.category} · ${DateFormatId.formatHariTanggal(tx.date)}',
-                                  style: const TextStyle(
-                                    fontSize: 12,
-                                    color: AppColors.textSecondary,
+                                  '${isExpense ? '-' : '+'}${CurrencyFormat.toRupiah(tx.amount)}',
+                                  style: TextStyle(
+                                    fontWeight: FontWeight.w700,
+                                    color: isExpense ? colors.expenseIcon : colors.incomeIcon,
                                   ),
                                 ),
                               ],
                             ),
-                          ),
-                          Text(
-                            '${isExpense ? '-' : '+'}${CurrencyFormat.toRupiah(tx.amount)}',
-                            style: TextStyle(
-                              fontWeight: FontWeight.w700,
-                              color: isExpense ? AppColors.expenseIcon : AppColors.incomeIcon,
-                            ),
-                          ),
-                        ],
+                          );
+                        },
                       ),
-                    );
-                  },
-                ),
               ),
             ],
           ),

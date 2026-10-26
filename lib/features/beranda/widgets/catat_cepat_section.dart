@@ -14,24 +14,26 @@ class CatatCepatSection extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final colors = context.colors;
+
     return Column(
       children: [
         Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          children: const [
+          children: [
             Text(
               AppStrings.catatTransaksi,
               style: TextStyle(
                 fontSize: 16,
                 fontWeight: FontWeight.w700,
-                color: AppColors.textPrimary,
+                color: colors.textPrimary,
               ),
             ),
             Text(
               AppStrings.tersimpanOtomatis,
               style: TextStyle(
                 fontSize: 12,
-                color: AppColors.textSecondary,
+                color: colors.textSecondary,
               ),
             ),
           ],
@@ -42,22 +44,24 @@ class CatatCepatSection extends StatelessWidget {
             Expanded(
               child: _buildActionCard(
                 onTap: onTapPengeluaran,
-                iconBg: AppColors.expenseBg,
-                iconColor: AppColors.expenseIcon,
+                iconBg: colors.expenseBg,
+                iconColor: colors.expenseIcon,
                 icon: Icons.add,
                 title: 'Pengeluaran',
                 subtitle: 'Belanja, makan, t...',
+                colors: colors,
               ),
             ),
             const SizedBox(width: 12),
             Expanded(
               child: _buildActionCard(
                 onTap: onTapPemasukan,
-                iconBg: AppColors.incomeBg,
-                iconColor: AppColors.incomeIcon,
+                iconBg: colors.incomeBg,
+                iconColor: colors.incomeIcon,
                 icon: Icons.arrow_upward,
                 title: 'Pemasukan',
                 subtitle: 'Gaji, jualan, trans...',
+                colors: colors,
               ),
             ),
           ],
@@ -73,6 +77,7 @@ class CatatCepatSection extends StatelessWidget {
     required IconData icon,
     required String title,
     required String subtitle,
+    required AppColorScheme colors,
   }) {
     return InkWell(
       onTap: onTap,
@@ -80,9 +85,9 @@ class CatatCepatSection extends StatelessWidget {
       child: Container(
         padding: const EdgeInsets.all(14),
         decoration: BoxDecoration(
-          color: AppColors.cardSurface,
+          color: colors.cardSurface,
           borderRadius: BorderRadius.circular(16),
-          border: Border.all(color: AppColors.cardBorder),
+          border: Border.all(color: colors.cardBorder),
         ),
         child: Row(
           children: [
@@ -102,10 +107,10 @@ class CatatCepatSection extends StatelessWidget {
                 children: [
                   Text(
                     title,
-                    style: const TextStyle(
+                    style: TextStyle(
                       fontSize: 14,
                       fontWeight: FontWeight.w700,
-                      color: AppColors.textPrimary,
+                      color: colors.textPrimary,
                     ),
                   ),
                   const SizedBox(height: 2),
@@ -113,9 +118,9 @@ class CatatCepatSection extends StatelessWidget {
                     subtitle,
                     maxLines: 1,
                     overflow: TextOverflow.ellipsis,
-                    style: const TextStyle(
+                    style: TextStyle(
                       fontSize: 12,
-                      color: AppColors.textSecondary,
+                      color: colors.textSecondary,
                     ),
                   ),
                 ],

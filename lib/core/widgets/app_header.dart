@@ -6,11 +6,13 @@ class SimpananAppHeader extends StatelessWidget {
 
   const SimpananAppHeader({
     super.key,
-    this.patchVersion = 'v1.1.11',
+    this.patchVersion = 'v1.2.2',
   });
 
   @override
   Widget build(BuildContext context) {
+    final colors = context.colors;
+
     return Row(
       children: [
         Container(
@@ -20,7 +22,7 @@ class SimpananAppHeader extends StatelessWidget {
             borderRadius: BorderRadius.circular(12),
             boxShadow: [
               BoxShadow(
-                color: AppColors.primaryGreen.withValues(alpha: 0.15),
+                color: colors.primaryGreen.withValues(alpha: 0.15),
                 blurRadius: 8,
                 offset: const Offset(0, 2),
               ),
@@ -32,7 +34,7 @@ class SimpananAppHeader extends StatelessWidget {
               'assets/images/logo.png',
               fit: BoxFit.cover,
               errorBuilder: (context, error, stackTrace) => Container(
-                color: AppColors.primaryGreen,
+                color: colors.primaryGreen,
                 child: const Icon(
                   Icons.savings_rounded,
                   color: Colors.white,
@@ -43,7 +45,7 @@ class SimpananAppHeader extends StatelessWidget {
           ),
         ),
         const SizedBox(width: 12),
-        const Expanded(
+        Expanded(
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
@@ -52,7 +54,7 @@ class SimpananAppHeader extends StatelessWidget {
                 style: TextStyle(
                   fontSize: 22,
                   fontWeight: FontWeight.w800,
-                  color: AppColors.textPrimary,
+                  color: colors.textPrimary,
                   letterSpacing: -0.3,
                 ),
               ),
@@ -61,7 +63,7 @@ class SimpananAppHeader extends StatelessWidget {
                 style: TextStyle(
                   fontSize: 12,
                   fontWeight: FontWeight.w500,
-                  color: AppColors.textSecondary,
+                  color: colors.textSecondary,
                 ),
               ),
             ],
@@ -74,15 +76,15 @@ class SimpananAppHeader extends StatelessWidget {
             Container(
               padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 3),
               decoration: BoxDecoration(
-                color: AppColors.primaryPillBg,
+                color: colors.primaryPillBg,
                 borderRadius: BorderRadius.circular(12),
               ),
               child: Text(
                 patchVersion,
-                style: const TextStyle(
+                style: TextStyle(
                   fontSize: 11,
                   fontWeight: FontWeight.w700,
-                  color: AppColors.primaryGreen,
+                  color: colors.primaryGreen,
                 ),
               ),
             ),
@@ -90,21 +92,21 @@ class SimpananAppHeader extends StatelessWidget {
             Container(
               padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 3),
               decoration: BoxDecoration(
-                color: Colors.white,
+                color: colors.cardSurface,
                 borderRadius: BorderRadius.circular(12),
-                border: Border.all(color: AppColors.cardBorder),
+                border: Border.all(color: colors.cardBorder),
               ),
-              child: const Row(
+              child: Row(
                 mainAxisSize: MainAxisSize.min,
                 children: [
-                  Icon(Icons.shield_outlined, size: 12, color: AppColors.primaryGreen),
-                  SizedBox(width: 3),
+                  Icon(Icons.shield_outlined, size: 12, color: colors.primaryGreen),
+                  const SizedBox(width: 3),
                   Text(
                     'Offline Safe',
                     style: TextStyle(
                       fontSize: 10,
                       fontWeight: FontWeight.w700,
-                      color: AppColors.primaryGreen,
+                      color: colors.primaryGreen,
                     ),
                   ),
                 ],

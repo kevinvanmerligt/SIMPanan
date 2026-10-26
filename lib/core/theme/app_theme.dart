@@ -4,25 +4,85 @@ import '../constants/app_colors.dart';
 
 class AppTheme {
   static ThemeData get lightTheme {
+    final colors = AppColors.light;
+
     return ThemeData(
       useMaterial3: true,
-      scaffoldBackgroundColor: AppColors.background,
+      brightness: Brightness.light,
+      scaffoldBackgroundColor: colors.background,
       colorScheme: ColorScheme.fromSeed(
-        seedColor: AppColors.primaryGreen,
-        primary: AppColors.primaryGreen,
-        surface: AppColors.cardSurface,
+        seedColor: colors.primaryGreen,
+        brightness: Brightness.light,
+        primary: colors.primaryGreen,
+        surface: colors.cardSurface,
+        onSurface: colors.textPrimary,
+        outline: colors.cardBorder,
       ),
       textTheme: GoogleFonts.plusJakartaSansTextTheme().apply(
-        bodyColor: AppColors.textPrimary,
-        displayColor: AppColors.textPrimary,
+        bodyColor: colors.textPrimary,
+        displayColor: colors.textPrimary,
       ),
       cardTheme: CardThemeData(
-        color: AppColors.cardSurface,
+        color: colors.cardSurface,
         elevation: 0,
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(16),
-          side: const BorderSide(color: AppColors.cardBorder, width: 1),
+          side: BorderSide(color: colors.cardBorder, width: 1),
         ),
+      ),
+      dividerTheme: DividerThemeData(
+        color: colors.divider,
+        thickness: 1,
+      ),
+      bottomSheetTheme: BottomSheetThemeData(
+        backgroundColor: colors.cardSurface,
+        surfaceTintColor: Colors.transparent,
+      ),
+      dialogTheme: DialogThemeData(
+        backgroundColor: colors.cardSurface,
+        surfaceTintColor: Colors.transparent,
+      ),
+    );
+  }
+
+  static ThemeData get darkTheme {
+    final colors = AppColors.dark;
+
+    return ThemeData(
+      useMaterial3: true,
+      brightness: Brightness.dark,
+      scaffoldBackgroundColor: colors.background,
+      colorScheme: ColorScheme.fromSeed(
+        seedColor: colors.primaryGreen,
+        brightness: Brightness.dark,
+        primary: colors.primaryGreen,
+        surface: colors.cardSurface,
+        onSurface: colors.textPrimary,
+        outline: colors.cardBorder,
+      ),
+      textTheme: GoogleFonts.plusJakartaSansTextTheme(ThemeData.dark().textTheme).apply(
+        bodyColor: colors.textPrimary,
+        displayColor: colors.textPrimary,
+      ),
+      cardTheme: CardThemeData(
+        color: colors.cardSurface,
+        elevation: 0,
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(16),
+          side: BorderSide(color: colors.cardBorder, width: 1),
+        ),
+      ),
+      dividerTheme: DividerThemeData(
+        color: colors.divider,
+        thickness: 1,
+      ),
+      bottomSheetTheme: BottomSheetThemeData(
+        backgroundColor: colors.cardSurface,
+        surfaceTintColor: Colors.transparent,
+      ),
+      dialogTheme: DialogThemeData(
+        backgroundColor: colors.cardSurface,
+        surfaceTintColor: Colors.transparent,
       ),
     );
   }

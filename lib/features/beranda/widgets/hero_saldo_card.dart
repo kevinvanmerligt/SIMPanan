@@ -12,14 +12,28 @@ class HeroSaldoCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final colors = context.colors;
     final tanggalHariIni = DateFormatId.formatHariTanggal(DateTime.now());
 
     return Container(
       width: double.infinity,
       padding: const EdgeInsets.all(20),
       decoration: BoxDecoration(
-        color: AppColors.primaryGreen,
+        color: colors.heroCardBg,
         borderRadius: BorderRadius.circular(20),
+        border: Border.all(
+          color: colors.heroCardBorder,
+          width: colors.isDark ? 1.5 : 0,
+        ),
+        boxShadow: [
+          BoxShadow(
+            color: colors.isDark
+                ? colors.primaryGreen.withValues(alpha: 0.12)
+                : colors.primaryGreen.withValues(alpha: 0.2),
+            blurRadius: 16,
+            offset: const Offset(0, 6),
+          ),
+        ],
       ),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
@@ -30,9 +44,9 @@ class HeroSaldoCard extends StatelessWidget {
             children: [
               Row(
                 children: [
-                  const Icon(
+                  Icon(
                     Icons.calendar_today_outlined,
-                    color: Colors.white70,
+                    color: colors.isDark ? colors.textSecondary : Colors.white70,
                     size: 16,
                   ),
                   const SizedBox(width: 8),
@@ -49,17 +63,21 @@ class HeroSaldoCard extends StatelessWidget {
               Container(
                 padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
                 decoration: BoxDecoration(
-                  color: AppColors.primaryPillBg,
+                  color: colors.heroCardPillBg,
                   borderRadius: BorderRadius.circular(20),
                 ),
-                child: const Row(
+                child: Row(
                   children: [
-                    Icon(Icons.cached, color: Colors.white, size: 14),
-                    SizedBox(width: 4),
+                    Icon(
+                      Icons.cached,
+                      color: colors.isDark ? colors.primaryGreen : Colors.white,
+                      size: 14,
+                    ),
+                    const SizedBox(width: 4),
                     Text(
                       'Hari ini',
                       style: TextStyle(
-                        color: Colors.white,
+                        color: colors.isDark ? colors.primaryGreen : Colors.white,
                         fontSize: 12,
                         fontWeight: FontWeight.w600,
                       ),
@@ -72,10 +90,10 @@ class HeroSaldoCard extends StatelessWidget {
           const SizedBox(height: 20),
 
           // Sisa Saldo Hari Ini
-          const Text(
+          Text(
             AppStrings.sisaSaldoHariIni,
             style: TextStyle(
-              color: Colors.white70,
+              color: colors.isDark ? colors.textSecondary : Colors.white70,
               fontSize: 13,
             ),
           ),
@@ -92,15 +110,20 @@ class HeroSaldoCard extends StatelessWidget {
           const SizedBox(height: 6),
           Text(
             'Total ${summary.transactionCount} transaksi tercatat hari ini',
-            style: const TextStyle(
-              color: Colors.white70,
+            style: TextStyle(
+              color: colors.isDark ? colors.textSecondary : Colors.white70,
               fontSize: 12,
             ),
           ),
           const SizedBox(height: 18),
 
           // Garis Pemisah
-           Divider(color: Colors.white.withValues(alpha: 0.15), height: 1),
+          Divider(
+            color: colors.isDark
+                ? colors.primaryGreen.withValues(alpha: 0.2)
+                : Colors.white.withValues(alpha: 0.15),
+            height: 1,
+          ),
           const SizedBox(height: 16),
 
           // 2 Kolom Pemasukan & Pengeluaran
@@ -110,12 +133,12 @@ class HeroSaldoCard extends StatelessWidget {
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    const Text(
+                    Text(
                       AppStrings.pemasukan,
                       style: TextStyle(
-                        color: Colors.white70,
+                        color: colors.isDark ? colors.primaryGreen : Colors.white70,
                         fontSize: 11,
-                        fontWeight: FontWeight.w600,
+                        fontWeight: FontWeight.w700,
                         letterSpacing: 0.5,
                       ),
                     ),
@@ -135,12 +158,12 @@ class HeroSaldoCard extends StatelessWidget {
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    const Text(
+                    Text(
                       AppStrings.pengeluaran,
                       style: TextStyle(
-                        color: Colors.white70,
+                        color: colors.isDark ? const Color(0xFFFF9478) : Colors.white70,
                         fontSize: 11,
-                        fontWeight: FontWeight.w600,
+                        fontWeight: FontWeight.w700,
                         letterSpacing: 0.5,
                       ),
                     ),
