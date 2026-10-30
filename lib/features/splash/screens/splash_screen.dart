@@ -572,7 +572,7 @@ class _SplashScreenState extends State<SplashScreen>
                       borderRadius: BorderRadius.circular(14),
                     ),
                     child: Text(
-                      'SIMPanan v1.2.7 • 100% Offline & Aman',
+                      'SIMPanan v1.2.10 • 100% Offline & Aman',
                       style: TextStyle(
                         fontSize: 11,
                         fontWeight: FontWeight.w700,

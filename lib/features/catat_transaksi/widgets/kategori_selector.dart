@@ -30,6 +30,7 @@ class KategoriSelector extends StatelessWidget {
           selected: isSelected,
           selectedColor: colors.primaryGreen,
           backgroundColor: colors.inputBg,
+          checkmarkColor: colors.isDark ? const Color(0xFF0F1411) : Colors.white,
           side: BorderSide(
             color: isSelected ? colors.primaryGreen : colors.cardBorder,
           ),

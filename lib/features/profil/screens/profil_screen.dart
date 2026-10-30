@@ -9,7 +9,6 @@ import '../../../core/widgets/fade_slide_entrance.dart';
 import '../../../core/widgets/floating_notification.dart';
 import '../../../data/repositories/profile_repo.dart';
 import '../../../providers/theme_provider.dart';
-import '../../splash/screens/splash_screen.dart';
 import 'photo_crop_screen.dart';
 
 class ProfilScreen extends StatefulWidget {
@@ -88,7 +87,6 @@ class _ProfilScreenState extends State<ProfilScreen> {
         imageQuality: 90,
       );
       if (picked != null && mounted) {
-        // Buka layar crop interaktif yang sangat halus tanpa lag
         final File? croppedFile = await Navigator.push<File>(
           context,
           MaterialPageRoute(
@@ -101,7 +99,6 @@ class _ProfilScreenState extends State<ProfilScreen> {
           final fileName = 'avatar_${DateTime.now().millisecondsSinceEpoch}.png';
           final savedFile = await croppedFile.copy('${appDir.path}/$fileName');
 
-          // Hapus file avatar lama jika ada
           if (_avatarPath != null && _avatarPath!.isNotEmpty) {
             final old = File(_avatarPath!);
             if (old.existsSync()) {
@@ -316,7 +313,6 @@ class _ProfilScreenState extends State<ProfilScreen> {
           child: SimpananAppHeader(),
         ),
         const SizedBox(height: 18),
-        // Judul Halaman
         FadeSlideEntrance(
           delayMs: 40,
           child: Text(
@@ -330,7 +326,6 @@ class _ProfilScreenState extends State<ProfilScreen> {
         ),
         const SizedBox(height: 16),
 
-        // 1. Hero Card Profil Pengguna dengan Foto Avatar Interaktif
         FadeSlideEntrance(
           delayMs: 80,
           child: Container(
@@ -349,7 +344,6 @@ class _ProfilScreenState extends State<ProfilScreen> {
             ),
             child: Row(
               children: [
-                // Avatar Interaktif (Bisa upload/ganti foto profil)
                 GestureDetector(
                   onTap: _showImagePickerSheet,
                   child: Stack(
@@ -411,7 +405,6 @@ class _ProfilScreenState extends State<ProfilScreen> {
                   ),
                 ),
                 const SizedBox(width: 16),
-                // Nama & Badge Info
                 Expanded(
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
@@ -492,7 +485,6 @@ class _ProfilScreenState extends State<ProfilScreen> {
         ),
         const SizedBox(height: 16),
 
-        // 2. KARTU PENGATURAN TEMA (SISTEM / TERANG / GELAP)
         FadeSlideEntrance(
           delayMs: 110,
           child: Consumer<ThemeProvider>(
@@ -553,7 +545,6 @@ class _ProfilScreenState extends State<ProfilScreen> {
                     ),
                     const SizedBox(height: 16),
 
-                    // 3 Pilihan Tema: Sistem, Terang, Gelap
                     Row(
                       children: AppThemeModePreference.values.map((pref) {
                         final isSelected = activePref == pref;
@@ -602,8 +593,6 @@ class _ProfilScreenState extends State<ProfilScreen> {
                       }).toList(),
                     ),
                     const SizedBox(height: 12),
-
-                    // Penjelasan Palet Warna Hijau Adaptif
                     Container(
                       width: double.infinity,
                       padding: const EdgeInsets.all(12),
@@ -643,8 +632,6 @@ class _ProfilScreenState extends State<ProfilScreen> {
           ),
         ),
         const SizedBox(height: 16),
-
-        // 3. Form Edit Profil (Nama, Umur, Pekerjaan)
         FadeSlideEntrance(
           delayMs: 140,
           child: Container(
@@ -672,8 +659,6 @@ class _ProfilScreenState extends State<ProfilScreen> {
                   ],
                 ),
                 const SizedBox(height: 16),
-
-                // Input Nama
                 Text(
                   'Nama Lengkap',
                   style: TextStyle(fontSize: 12, fontWeight: FontWeight.w600, color: colors.textSecondary),
@@ -703,8 +688,6 @@ class _ProfilScreenState extends State<ProfilScreen> {
                   ),
                 ),
                 const SizedBox(height: 14),
-
-                // Input Umur
                 Text(
                   'Umur',
                   style: TextStyle(fontSize: 12, fontWeight: FontWeight.w600, color: colors.textSecondary),
@@ -737,8 +720,6 @@ class _ProfilScreenState extends State<ProfilScreen> {
                   ),
                 ),
                 const SizedBox(height: 14),
-
-                // Pilihan Pekerjaan
                 Text(
                   'Pekerjaan',
                   style: TextStyle(fontSize: 12, fontWeight: FontWeight.w600, color: colors.textSecondary),
@@ -781,7 +762,6 @@ class _ProfilScreenState extends State<ProfilScreen> {
                   ),
                 ),
 
-                // Jika memilih 'Lainnya', tampilkan input khusus
                 if (_selectedJob == 'Lainnya') ...[
                   const SizedBox(height: 12),
                   TextField(
@@ -843,95 +823,13 @@ class _ProfilScreenState extends State<ProfilScreen> {
         ),
         const SizedBox(height: 24),
 
-        // 4. Fitur Animasi Pembuka Lucu
         FadeSlideEntrance(
-          delayMs: 170,
-          child: Container(
-            padding: const EdgeInsets.all(16),
-            decoration: BoxDecoration(
-              color: colors.cardSurface,
-              borderRadius: BorderRadius.circular(16),
-              border: Border.all(color: colors.cardBorder),
-            ),
-            child: Row(
-              children: [
-                Container(
-                  width: 42,
-                  height: 42,
-                  decoration: BoxDecoration(
-                    color: colors.primaryPillBg,
-                    borderRadius: BorderRadius.circular(12),
-                  ),
-                  child: Center(
-                    child: Text(
-                      '✨',
-                      style: const TextStyle(fontSize: 20),
-                    ),
-                  ),
-                ),
-                const SizedBox(width: 12),
-                Expanded(
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Text(
-                        'Animasi Pembuka Lucu',
-                        style: TextStyle(
-                          fontSize: 14,
-                          fontWeight: FontWeight.w700,
-                          color: colors.textPrimary,
-                        ),
-                      ),
-                      const SizedBox(height: 2),
-                      Text(
-                        'Putar ulang animasi maskot celengan & koin kawaii',
-                        style: TextStyle(
-                          fontSize: 11,
-                          color: colors.textSecondary,
-                        ),
-                      ),
-                    ],
-                  ),
-                ),
-                ElevatedButton(
-                  onPressed: () {
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                        builder: (_) => const SplashScreen(isPreviewOnly: true),
-                      ),
-                    );
-                  },
-                  style: ElevatedButton.styleFrom(
-                    backgroundColor: colors.primaryGreen,
-                    foregroundColor: colors.isDark ? const Color(0xFF0F1411) : Colors.white,
-                    padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 8),
-                    minimumSize: Size.zero,
-                    tapTargetSize: MaterialTapTargetSize.shrinkWrap,
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(10),
-                    ),
-                    elevation: 0,
-                  ),
-                  child: const Text(
-                    'Putar ✨',
-                    style: TextStyle(fontSize: 12, fontWeight: FontWeight.w700),
-                  ),
-                ),
-              ],
-            ),
-          ),
-        ),
-        const SizedBox(height: 24),
-
-        // 5. Informasi Patch & Versi
-        FadeSlideEntrance(
-          delayMs: 200,
+          delayMs: 180,
           child: Center(
             child: Column(
               children: [
                 Text(
-                  'SIMPanan v1.2.7 (Patch 1.2.7)',
+                  'SIMPanan v1.2.10 (Patch 1.2.10)',
                   style: TextStyle(
                     fontSize: 12,
                     color: colors.textSecondary.withValues(alpha: 0.8),

@@ -7,7 +7,7 @@ import '../widgets/kategori_selector.dart';
 import '../widgets/numpad_input.dart';
 
 class CatatModalSheet extends StatefulWidget {
-  final String initialType; // 'EXPENSE' atau 'INCOME'
+  final String initialType;
 
   const CatatModalSheet({super.key, this.initialType = 'EXPENSE'});
 
@@ -109,7 +109,6 @@ class _CatatModalSheetState extends State<CatatModalSheet> {
             ),
             const SizedBox(height: 16),
 
-            // Switch Pengeluaran / Pemasukan
             Container(
               padding: const EdgeInsets.all(4),
               decoration: BoxDecoration(
@@ -166,7 +165,6 @@ class _CatatModalSheetState extends State<CatatModalSheet> {
             ),
             const SizedBox(height: 20),
 
-            // Nominal Uang
             Center(
               child: Text(
                 CurrencyFormat.toRupiah(parsedAmount),
@@ -179,7 +177,6 @@ class _CatatModalSheetState extends State<CatatModalSheet> {
             ),
             const SizedBox(height: 16),
 
-            // Kategori
             KategoriSelector(
               type: _type,
               selectedCategory: _selectedCategory,
@@ -187,7 +184,6 @@ class _CatatModalSheetState extends State<CatatModalSheet> {
             ),
             const SizedBox(height: 12),
 
-            // Input Catatan
             TextField(
               controller: _noteController,
               style: TextStyle(color: colors.textPrimary),
@@ -213,14 +209,12 @@ class _CatatModalSheetState extends State<CatatModalSheet> {
             ),
             const SizedBox(height: 12),
 
-            // Numpad
             NumpadInput(
               onNumberTap: _onNumberTap,
               onBackspace: _onBackspace,
             ),
             const SizedBox(height: 16),
 
-            // Tombol Simpan
             SizedBox(
               width: double.infinity,
               height: 50,
@@ -235,7 +229,7 @@ class _CatatModalSheetState extends State<CatatModalSheet> {
                   ),
                 ),
                 child: Text(
-                  'Simpan Otomatis',
+                  'Simpan',
                   style: TextStyle(
                     fontSize: 15,
                     fontWeight: FontWeight.w700,

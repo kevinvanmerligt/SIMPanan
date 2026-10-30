@@ -1,7 +1,7 @@
 name: dompet_harian
 description: Aplikasi Pengelola Keuangan Pribadi Offline & Aman.
 publish_to: 'none'
-version: 1.2.7
+version: 1.2.10
 
 environment:
   sdk: ^3.13.5
@@ -20,11 +20,9 @@ dependencies:
   local_auth: ^2.2.0
   shared_preferences: ^2.2.3
 
-  # Foto Profil & Mode Refresh Rate Layar (60/90/120/144Hz)
   image_picker: ^1.1.2
   flutter_displaymode: ^0.7.0
 
-  # Format Rupiah, Tanggal Indonesia, & Grafik 7 Hari Terakhir
   intl: ^0.19.0
   fl_chart: ^0.68.0
   google_fonts: ^6.2.1

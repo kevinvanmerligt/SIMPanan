@@ -6,7 +6,7 @@ class SimpananAppHeader extends StatelessWidget {
 
   const SimpananAppHeader({
     super.key,
-    this.patchVersion = 'v1.2.7',
+    this.patchVersion = 'v1.2.10',
   });
 
   @override
