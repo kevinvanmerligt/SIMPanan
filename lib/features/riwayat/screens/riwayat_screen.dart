@@ -16,6 +16,7 @@ class RiwayatScreen extends StatefulWidget {
 
 class _RiwayatScreenState extends State<RiwayatScreen> {
   String _searchQuery = '';
+  int? _filterTabunganId;
 
   @override
   Widget build(BuildContext context) {
@@ -23,10 +24,16 @@ class _RiwayatScreenState extends State<RiwayatScreen> {
 
     return Consumer<FinanceProvider>(
       builder: (context, provider, _) {
+        final allTabungan = provider.allTabungan;
+
         final filtered = provider.allTransactions.where((tx) {
+          if (_filterTabunganId != null && tx.tabunganId != _filterTabunganId) {
+            return false;
+          }
           final q = _searchQuery.toLowerCase();
           return tx.title.toLowerCase().contains(q) ||
-              tx.category.toLowerCase().contains(q);
+              tx.category.toLowerCase().contains(q) ||
+              tx.tabunganName.toLowerCase().contains(q);
         }).toList();
 
         return Padding(
@@ -52,12 +59,12 @@ class _RiwayatScreenState extends State<RiwayatScreen> {
               ),
               const SizedBox(height: 12),
               FadeSlideEntrance(
-                delayMs: 80,
+                delayMs: 60,
                 child: TextField(
                   onChanged: (val) => setState(() => _searchQuery = val),
                   style: TextStyle(color: colors.textPrimary),
                   decoration: InputDecoration(
-                    hintText: 'Cari catatan transaksi...',
+                    hintText: 'Cari judul, kategori, atau tabungan...',
                     hintStyle: TextStyle(color: colors.textMuted),
                     prefixIcon: Icon(Icons.search, color: colors.textSecondary),
                     filled: true,
@@ -71,24 +78,88 @@ class _RiwayatScreenState extends State<RiwayatScreen> {
                       borderSide: BorderSide(color: colors.cardBorder),
                     ),
                     focusedBorder: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(14),
+                      borderRadius: BorderRadius.circular(12),
                       borderSide: BorderSide(color: colors.primaryGreen, width: 1.5),
                     ),
                   ),
                 ),
               ),
-              const SizedBox(height: 16),
+              const SizedBox(height: 10),
+              FadeSlideEntrance(
+                delayMs: 80,
+                child: SizedBox(
+                  height: 38,
+                  child: ListView.separated(
+                    scrollDirection: Axis.horizontal,
+                    physics: const BouncingScrollPhysics(),
+                    itemCount: allTabungan.length + 1,
+                    separatorBuilder: (_, _) => const SizedBox(width: 8),
+                    itemBuilder: (context, index) {
+                      if (index == 0) {
+                        final isSelected = _filterTabunganId == null;
+                        return ChoiceChip(
+                          label: const Text('Semua'),
+                          selected: isSelected,
+                          selectedColor: colors.primaryGreen,
+                          backgroundColor: colors.inputBg,
+                          checkmarkColor: colors.isDark ? const Color(0xFF0F1411) : Colors.white,
+                          side: BorderSide(
+                            color: isSelected ? colors.primaryGreen : colors.cardBorder,
+                          ),
+                          labelStyle: TextStyle(
+                            color: isSelected
+                                ? (colors.isDark ? const Color(0xFF0F1411) : Colors.white)
+                                : colors.textPrimary,
+                            fontWeight: isSelected ? FontWeight.w700 : FontWeight.w500,
+                            fontSize: 12,
+                          ),
+                          onSelected: (_) => setState(() => _filterTabunganId = null),
+                        );
+                      }
+                      final t = allTabungan[index - 1];
+                      final isSelected = _filterTabunganId == t.id;
+                      return ChoiceChip(
+                        avatar: Icon(
+                          t.iconData,
+                          size: 14,
+                          color: isSelected
+                              ? (colors.isDark ? const Color(0xFF0F1411) : Colors.white)
+                              : t.color,
+                        ),
+                        label: Text(t.name),
+                        selected: isSelected,
+                        selectedColor: colors.primaryGreen,
+                        backgroundColor: colors.inputBg,
+                        checkmarkColor: colors.isDark ? const Color(0xFF0F1411) : Colors.white,
+                        side: BorderSide(
+                          color: isSelected ? colors.primaryGreen : colors.cardBorder,
+                        ),
+                        labelStyle: TextStyle(
+                          color: isSelected
+                              ? (colors.isDark ? const Color(0xFF0F1411) : Colors.white)
+                              : colors.textPrimary,
+                          fontWeight: isSelected ? FontWeight.w700 : FontWeight.w500,
+                          fontSize: 12,
+                        ),
+                        onSelected: (_) => setState(() => _filterTabunganId = t.id),
+                      );
+                    },
+                  ),
+                ),
+              ),
+              const SizedBox(height: 14),
               Expanded(
                 child: filtered.isEmpty
                     ? Center(
                         child: Text(
-                          _searchQuery.isEmpty
+                          _searchQuery.isEmpty && _filterTabunganId == null
                               ? 'Belum ada transaksi tercatat'
                               : 'Tidak ada transaksi yang cocok',
                           style: TextStyle(color: colors.textSecondary),
                         ),
                       )
                     : ListView.separated(
+                        physics: const BouncingScrollPhysics(),
                         itemCount: filtered.length,
                         separatorBuilder: (_, _) => const SizedBox(height: 8),
                         itemBuilder: (context, index) {
@@ -134,12 +205,36 @@ class _RiwayatScreenState extends State<RiwayatScreen> {
                                           color: colors.textPrimary,
                                         ),
                                       ),
-                                      Text(
-                                        '${tx.category} · ${DateFormatId.formatHariTanggal(tx.date)}',
-                                        style: TextStyle(
-                                          fontSize: 12,
-                                          color: colors.textSecondary,
-                                        ),
+                                      const SizedBox(height: 3),
+                                      Row(
+                                        children: [
+                                          Container(
+                                            padding: const EdgeInsets.symmetric(horizontal: 6, vertical: 1.5),
+                                            decoration: BoxDecoration(
+                                              color: colors.inputBg,
+                                              borderRadius: BorderRadius.circular(4),
+                                            ),
+                                            child: Text(
+                                              tx.tabunganName,
+                                              style: TextStyle(
+                                                fontSize: 10,
+                                                fontWeight: FontWeight.w600,
+                                                color: colors.primaryGreen,
+                                              ),
+                                            ),
+                                          ),
+                                          const SizedBox(width: 6),
+                                          Expanded(
+                                            child: Text(
+                                              '${tx.category} · ${DateFormatId.formatHariTanggal(tx.date)}',
+                                              style: TextStyle(
+                                                fontSize: 11,
+                                                color: colors.textSecondary,
+                                              ),
+                                              overflow: TextOverflow.ellipsis,
+                                            ),
+                                          ),
+                                        ],
                                       ),
                                     ],
                                   ),

@@ -829,7 +829,7 @@ class _ProfilScreenState extends State<ProfilScreen> {
             child: Column(
               children: [
                 Text(
-                  'SIMPanan v1.2.10 (Patch 1.2.10)',
+                  'SIMPanan v1.3.1 (Patch 1.3.1)',
                   style: TextStyle(
                     fontSize: 12,
                     color: colors.textSecondary.withValues(alpha: 0.8),

@@ -3,13 +3,19 @@ import 'package:provider/provider.dart';
 import '../../../core/constants/app_colors.dart';
 import '../../../core/utils/currency_format.dart';
 import '../../../providers/finance_provider.dart';
+import '../../beranda/widgets/tambah_tabungan_modal.dart';
 import '../widgets/kategori_selector.dart';
 import '../widgets/numpad_input.dart';
 
 class CatatModalSheet extends StatefulWidget {
   final String initialType;
+  final int? preselectedTabunganId;
 
-  const CatatModalSheet({super.key, this.initialType = 'EXPENSE'});
+  const CatatModalSheet({
+    super.key,
+    this.initialType = 'EXPENSE',
+    this.preselectedTabunganId,
+  });
 
   @override
   State<CatatModalSheet> createState() => _CatatModalSheetState();
@@ -18,6 +24,7 @@ class CatatModalSheet extends StatefulWidget {
 class _CatatModalSheetState extends State<CatatModalSheet> {
   late String _type;
   late String _selectedCategory;
+  int? _selectedTabunganId;
   String _rawAmount = '';
   final TextEditingController _noteController = TextEditingController();
 
@@ -26,6 +33,7 @@ class _CatatModalSheetState extends State<CatatModalSheet> {
     super.initState();
     _type = widget.initialType;
     _selectedCategory = _type == 'EXPENSE' ? 'Belanja' : 'Gaji & Saldo Awal';
+    _selectedTabunganId = widget.preselectedTabunganId;
   }
 
   @override
@@ -61,16 +69,24 @@ class _CatatModalSheetState extends State<CatatModalSheet> {
     final amount = int.tryParse(_rawAmount) ?? 0;
     if (amount <= 0) return;
 
+    final provider = context.read<FinanceProvider>();
+    final targetTabungan = provider.allTabungan.firstWhere(
+      (t) => t.id == (_selectedTabunganId ?? provider.primaryTabungan.id),
+      orElse: () => provider.primaryTabungan,
+    );
+
     final title = _noteController.text.trim().isEmpty
         ? _selectedCategory
         : _noteController.text.trim();
 
-    await context.read<FinanceProvider>().addTransaction(
-          title: title,
-          category: _selectedCategory,
-          type: _type,
-          amount: amount,
-        );
+    await provider.addTransaction(
+      title: title,
+      category: _selectedCategory,
+      type: _type,
+      amount: amount,
+      tabunganId: targetTabungan.id,
+      tabunganName: targetTabungan.name,
+    );
 
     if (mounted) Navigator.pop(context);
   }
@@ -78,6 +94,9 @@ class _CatatModalSheetState extends State<CatatModalSheet> {
   @override
   Widget build(BuildContext context) {
     final colors = context.colors;
+    final provider = context.watch<FinanceProvider>();
+    final tabunganList = provider.allTabungan;
+    final activeTabunganId = _selectedTabunganId ?? provider.primaryTabungan.id ?? 1;
     final parsedAmount = int.tryParse(_rawAmount) ?? 0;
 
     return Container(
@@ -175,8 +194,99 @@ class _CatatModalSheetState extends State<CatatModalSheet> {
                 ),
               ),
             ),
-            const SizedBox(height: 16),
+            const SizedBox(height: 14),
 
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                Text(
+                  _type == 'EXPENSE' ? 'Kurangi dari Tabungan:' : 'Tambahkan ke Tabungan:',
+                  style: TextStyle(
+                    fontSize: 12,
+                    fontWeight: FontWeight.w600,
+                    color: colors.textSecondary,
+                  ),
+                ),
+                InkWell(
+                  onTap: () {
+                    showModalBottomSheet(
+                      context: context,
+                      isScrollControlled: true,
+                      backgroundColor: Colors.transparent,
+                      builder: (_) => const TambahTabunganModal(),
+                    );
+                  },
+                  borderRadius: BorderRadius.circular(8),
+                  child: Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: 4, vertical: 2),
+                    child: Row(
+                      children: [
+                        Icon(Icons.add, size: 14, color: colors.primaryGreen),
+                        const SizedBox(width: 2),
+                        Text(
+                          'Buat Baru',
+                          style: TextStyle(
+                            fontSize: 11,
+                            fontWeight: FontWeight.w700,
+                            color: colors.primaryGreen,
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                ),
+              ],
+            ),
+            const SizedBox(height: 6),
+            SizedBox(
+              height: 42,
+              child: ListView.separated(
+                scrollDirection: Axis.horizontal,
+                physics: const BouncingScrollPhysics(),
+                itemCount: tabunganList.length,
+                separatorBuilder: (_, _) => const SizedBox(width: 8),
+                itemBuilder: (context, index) {
+                  final t = tabunganList[index];
+                  final isSelected = t.id == activeTabunganId;
+                  return ChoiceChip(
+                    avatar: Icon(
+                      t.iconData,
+                      size: 16,
+                      color: isSelected
+                          ? (colors.isDark ? const Color(0xFF0F1411) : Colors.white)
+                          : t.color,
+                    ),
+                    label: Text(t.name),
+                    selected: isSelected,
+                    selectedColor: colors.primaryGreen,
+                    backgroundColor: colors.inputBg,
+                    checkmarkColor: colors.isDark ? const Color(0xFF0F1411) : Colors.white,
+                    side: BorderSide(
+                      color: isSelected ? colors.primaryGreen : colors.cardBorder,
+                    ),
+                    labelStyle: TextStyle(
+                      color: isSelected
+                          ? (colors.isDark ? const Color(0xFF0F1411) : Colors.white)
+                          : colors.textPrimary,
+                      fontWeight: isSelected ? FontWeight.w700 : FontWeight.w500,
+                      fontSize: 12,
+                    ),
+                    onSelected: (_) => setState(() => _selectedTabunganId = t.id),
+                  );
+                },
+              ),
+            ),
+            const SizedBox(height: 14),
+
+            Text(
+              'Kategori Transaksi',
+              style: TextStyle(
+                fontSize: 12,
+                fontWeight: FontWeight.w600,
+                color: colors.textSecondary,
+              ),
+            ),
+            const SizedBox(height: 6),
             KategoriSelector(
               type: _type,
               selectedCategory: _selectedCategory,

@@ -2,9 +2,11 @@ class TransactionModel {
   final int? id;
   final String title;
   final String category;
-  final String type; // 'EXPENSE' atau 'INCOME'
+  final String type;
   final int amount;
   final DateTime date;
+  final int tabunganId;
+  final String tabunganName;
 
   TransactionModel({
     this.id,
@@ -13,16 +15,20 @@ class TransactionModel {
     required this.type,
     required this.amount,
     required this.date,
+    this.tabunganId = 1,
+    this.tabunganName = 'Tabungan Utama',
   });
 
   Map<String, dynamic> toMap() {
     return {
-      'id': id,
+      if (id != null) 'id': id,
       'title': title,
       'category': category,
       'type': type,
       'amount': amount,
       'date': date.toIso8601String(),
+      'tabungan_id': tabunganId,
+      'tabungan_name': tabunganName,
     };
   }
 
@@ -34,6 +40,30 @@ class TransactionModel {
       type: map['type'] as String,
       amount: map['amount'] as int,
       date: DateTime.parse(map['date'] as String),
+      tabunganId: (map['tabungan_id'] as int?) ?? 1,
+      tabunganName: (map['tabungan_name'] as String?) ?? 'Tabungan Utama',
+    );
+  }
+
+  TransactionModel copyWith({
+    int? id,
+    String? title,
+    String? category,
+    String? type,
+    int? amount,
+    DateTime? date,
+    int? tabunganId,
+    String? tabunganName,
+  }) {
+    return TransactionModel(
+      id: id ?? this.id,
+      title: title ?? this.title,
+      category: category ?? this.category,
+      type: type ?? this.type,
+      amount: amount ?? this.amount,
+      date: date ?? this.date,
+      tabunganId: tabunganId ?? this.tabunganId,
+      tabunganName: tabunganName ?? this.tabunganName,
     );
   }
 }

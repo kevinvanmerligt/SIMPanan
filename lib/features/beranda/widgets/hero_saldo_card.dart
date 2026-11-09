@@ -7,8 +7,13 @@ import '../../../data/models/daily_summary_model.dart';
 
 class HeroSaldoCard extends StatelessWidget {
   final DailySummaryModel summary;
+  final int totalSavings;
 
-  const HeroSaldoCard({super.key, required this.summary});
+  const HeroSaldoCard({
+    super.key,
+    required this.summary,
+    this.totalSavings = 0,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -38,7 +43,6 @@ class HeroSaldoCard extends StatelessWidget {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          // Baris Atas: Tanggal & Kapsul "Hari ini"
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
@@ -61,7 +65,7 @@ class HeroSaldoCard extends StatelessWidget {
                 ],
               ),
               Container(
-                padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
+                padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 5),
                 decoration: BoxDecoration(
                   color: colors.heroCardPillBg,
                   borderRadius: BorderRadius.circular(20),
@@ -69,17 +73,17 @@ class HeroSaldoCard extends StatelessWidget {
                 child: Row(
                   children: [
                     Icon(
-                      Icons.cached,
+                      Icons.savings_rounded,
                       color: colors.isDark ? colors.primaryGreen : Colors.white,
-                      size: 14,
+                      size: 13,
                     ),
                     const SizedBox(width: 4),
                     Text(
-                      'Hari ini',
+                      'Total: ${CurrencyFormat.toRupiah(totalSavings)}',
                       style: TextStyle(
                         color: colors.isDark ? colors.primaryGreen : Colors.white,
-                        fontSize: 12,
-                        fontWeight: FontWeight.w600,
+                        fontSize: 11,
+                        fontWeight: FontWeight.w700,
                       ),
                     ),
                   ],
@@ -87,9 +91,8 @@ class HeroSaldoCard extends StatelessWidget {
               ),
             ],
           ),
-          const SizedBox(height: 20),
+          const SizedBox(height: 18),
 
-          // Sisa Saldo Hari Ini
           Text(
             AppStrings.sisaSaldoHariIni,
             style: TextStyle(
@@ -117,7 +120,6 @@ class HeroSaldoCard extends StatelessWidget {
           ),
           const SizedBox(height: 18),
 
-          // Garis Pemisah
           Divider(
             color: colors.isDark
                 ? colors.primaryGreen.withValues(alpha: 0.2)
@@ -126,7 +128,6 @@ class HeroSaldoCard extends StatelessWidget {
           ),
           const SizedBox(height: 16),
 
-          // 2 Kolom Pemasukan & Pengeluaran
           Row(
             children: [
               Expanded(

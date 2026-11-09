@@ -7,6 +7,7 @@ import '../../catat_transaksi/screens/catat_modal_sheet.dart';
 import '../widgets/catat_cepat_section.dart';
 import '../widgets/grafik_enam_hari_card.dart';
 import '../widgets/hero_saldo_card.dart';
+import '../widgets/kantong_tabungan_section.dart';
 import '../widgets/transaksi_hari_ini_list.dart';
 
 class BerandaScreen extends StatelessWidget {
@@ -36,23 +37,29 @@ class BerandaScreen extends StatelessWidget {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              // Header Aplikasi: Logo & "SIMPanan"
               const FadeSlideEntrance(
                 delayMs: 0,
                 child: SimpananAppHeader(),
               ),
               const SizedBox(height: 18),
 
-              // 1. Hero Card Hijau Tua
               FadeSlideEntrance(
                 delayMs: 60,
-                child: HeroSaldoCard(summary: provider.todaySummary),
+                child: HeroSaldoCard(
+                  summary: provider.todaySummary,
+                  totalSavings: provider.totalSavingsBalance,
+                ),
               ),
               const SizedBox(height: 22),
 
-              // 2. Catat Transaksi (Pengeluaran & Pemasukan)
+              const FadeSlideEntrance(
+                delayMs: 100,
+                child: KantongTabunganSection(),
+              ),
+              const SizedBox(height: 22),
+
               FadeSlideEntrance(
-                delayMs: 120,
+                delayMs: 140,
                 child: CatatCepatSection(
                   onTapPengeluaran: () => _openCatatModal(context, 'EXPENSE'),
                   onTapPemasukan: () => _openCatatModal(context, 'INCOME'),
@@ -60,7 +67,6 @@ class BerandaScreen extends StatelessWidget {
               ),
               const SizedBox(height: 22),
 
-              // 3. Pengeluaran 7 Hari Terakhir (Seminggu Penuh)
               FadeSlideEntrance(
                 delayMs: 180,
                 child: GrafikTujuhHariCard(
@@ -73,9 +79,8 @@ class BerandaScreen extends StatelessWidget {
               ),
               const SizedBox(height: 22),
 
-              // 4. Transaksi Hari Ini + Segmented Control
               FadeSlideEntrance(
-                delayMs: 240,
+                delayMs: 220,
                 child: TransaksiHariIniList(
                   totalCount: provider.todayTransactions.length,
                   selectedFilter: provider.selectedFilter,
@@ -91,4 +96,4 @@ class BerandaScreen extends StatelessWidget {
       },
     );
   }
-}
+}

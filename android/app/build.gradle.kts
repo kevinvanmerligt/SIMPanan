@@ -18,7 +18,7 @@ android {
         minSdk = flutter.minSdkVersion
         targetSdk = flutter.targetSdkVersion
 
-        versionCode = if (flutter.versionCode < 18) 18 else flutter.versionCode
+        versionCode = if (flutter.versionCode < 20) 20 else flutter.versionCode
         versionName = flutter.versionName
 
         ndk {
