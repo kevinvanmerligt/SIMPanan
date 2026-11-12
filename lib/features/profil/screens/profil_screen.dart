@@ -829,7 +829,7 @@ class _ProfilScreenState extends State<ProfilScreen> {
             child: Column(
               children: [
                 Text(
-                  'SIMPanan v1.3.1 (Patch 1.3.1)',
+                  'SIMPanan v1.3.8 (Patch 1.3.8)',
                   style: TextStyle(
                     fontSize: 12,
                     color: colors.textSecondary.withValues(alpha: 0.8),
@@ -838,7 +838,7 @@ class _ProfilScreenState extends State<ProfilScreen> {
                 ),
                 const SizedBox(height: 4),
                 Text(
-                  'Aplikasi Pengelola Keuangan Pribadi Offline & Aman',
+                  'Aplikasi Pengelola Keuangan Pribadi',
                   style: TextStyle(
                     fontSize: 11,
                     color: colors.textSecondary.withValues(alpha: 0.6),

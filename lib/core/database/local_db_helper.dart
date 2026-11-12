@@ -20,7 +20,7 @@ class LocalDbHelper {
 
     return await openDatabase(
       path,
-      version: 2,
+      version: 3,
       onCreate: _createDB,
       onUpgrade: _onUpgradeDB,
     );
@@ -58,6 +58,19 @@ class LocalDbHelper {
         date TEXT NOT NULL,
         tabungan_id INTEGER NOT NULL DEFAULT 1,
         tabungan_name TEXT NOT NULL DEFAULT 'Tabungan Utama'
+      )
+    ''');
+
+    await db.execute('''
+      CREATE TABLE debts (
+        id INTEGER PRIMARY KEY AUTOINCREMENT,
+        title TEXT NOT NULL,
+        amount INTEGER NOT NULL,
+        paid_amount INTEGER NOT NULL DEFAULT 0,
+        due_date TEXT,
+        created_at TEXT NOT NULL,
+        note TEXT,
+        is_paid INTEGER NOT NULL DEFAULT 0
       )
     ''');
 
@@ -110,6 +123,21 @@ class LocalDbHelper {
           'created_at': DateTime.now().toIso8601String(),
         });
       }
+    }
+
+    if (oldVersion < 3) {
+      await db.execute('''
+        CREATE TABLE IF NOT EXISTS debts (
+          id INTEGER PRIMARY KEY AUTOINCREMENT,
+          title TEXT NOT NULL,
+          amount INTEGER NOT NULL,
+          paid_amount INTEGER NOT NULL DEFAULT 0,
+          due_date TEXT,
+          created_at TEXT NOT NULL,
+          note TEXT,
+          is_paid INTEGER NOT NULL DEFAULT 0
+        )
+      ''');
     }
   }
 

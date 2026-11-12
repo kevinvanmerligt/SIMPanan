@@ -7,6 +7,7 @@ import '../../catat_transaksi/screens/catat_modal_sheet.dart';
 import '../widgets/catat_cepat_section.dart';
 import '../widgets/grafik_enam_hari_card.dart';
 import '../widgets/hero_saldo_card.dart';
+import '../widgets/hutang_section.dart';
 import '../widgets/kantong_tabungan_section.dart';
 import '../widgets/transaksi_hari_ini_list.dart';
 
@@ -55,6 +56,12 @@ class BerandaScreen extends StatelessWidget {
               const FadeSlideEntrance(
                 delayMs: 100,
                 child: KantongTabunganSection(),
+              ),
+              const SizedBox(height: 22),
+
+              const FadeSlideEntrance(
+                delayMs: 120,
+                child: HutangSection(),
               ),
               const SizedBox(height: 22),
 

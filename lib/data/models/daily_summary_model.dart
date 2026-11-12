@@ -1,16 +1,18 @@
 class DailySummaryModel {
-  final int initialBalance; // Contoh: mulai Rp250.000
+  final int initialBalance;
   final int totalIncome;
   final int totalExpense;
+  final int totalDebt;
   final int transactionCount;
 
   DailySummaryModel({
     required this.initialBalance,
     required this.totalIncome,
     required this.totalExpense,
+    this.totalDebt = 0,
     required this.transactionCount,
   });
 
-  // Rumus Sisa Saldo Hari Ini (Contoh: 350.000 - 288.000 = 62.000)
-  int get remainingBalance => totalIncome - totalExpense;
+  int get remainingBalance => totalIncome - totalExpense - totalDebt;
+  int get netCashFlow => totalIncome - totalExpense;
 }

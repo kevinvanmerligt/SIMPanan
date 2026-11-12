@@ -43,10 +43,17 @@ class _TransferTabunganModalState extends State<TransferTabunganModal> {
       );
       _toId = other.id ?? 1;
     }
+
+    _amountController.addListener(_onAmountChanged);
+  }
+
+  void _onAmountChanged() {
+    setState(() {});
   }
 
   @override
   void dispose() {
+    _amountController.removeListener(_onAmountChanged);
     _amountController.dispose();
     _noteController.dispose();
     super.dispose();
@@ -57,6 +64,19 @@ class _TransferTabunganModalState extends State<TransferTabunganModal> {
     if (amount <= 0 || _fromId == _toId) return;
 
     final provider = context.read<FinanceProvider>();
+    final all = provider.allTabungan;
+    final fromTab = all.firstWhere((t) => t.id == _fromId, orElse: () => all.first);
+
+    if (fromTab.currentBalance < amount) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(
+          content: Text('Saldo tabungan asal tidak mencukupi.'),
+          backgroundColor: Color(0xFFEF4444),
+        ),
+      );
+      return;
+    }
+
     await provider.transferBetweenTabungan(
       fromTabunganId: _fromId,
       toTabunganId: _toId,
@@ -84,6 +104,11 @@ class _TransferTabunganModalState extends State<TransferTabunganModal> {
 
     final fromTab = getTabungan(_fromId);
     final toTab = getTabungan(_toId);
+
+    final enteredAmount = int.tryParse(_amountController.text.trim()) ?? 0;
+    final isInsufficient = enteredAmount > fromTab.currentBalance;
+    final isZeroBalance = fromTab.currentBalance <= 0;
+    final canTransfer = _fromId != _toId && enteredAmount > 0 && !isInsufficient;
 
     return Container(
       padding: EdgeInsets.only(
@@ -194,7 +219,9 @@ class _TransferTabunganModalState extends State<TransferTabunganModal> {
                           style: TextStyle(
                             fontSize: 11,
                             fontWeight: FontWeight.w600,
-                            color: colors.primaryGreen,
+                            color: fromTab.currentBalance <= 0
+                                ? const Color(0xFFEF4444)
+                                : colors.primaryGreen,
                           ),
                         ),
                       ],
@@ -280,13 +307,36 @@ class _TransferTabunganModalState extends State<TransferTabunganModal> {
               ],
             ),
             const SizedBox(height: 18),
-            Text(
-              'Nominal Transfer',
-              style: TextStyle(
-                fontSize: 12,
-                fontWeight: FontWeight.w600,
-                color: colors.textSecondary,
-              ),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                Text(
+                  'Nominal Transfer',
+                  style: TextStyle(
+                    fontSize: 12,
+                    fontWeight: FontWeight.w600,
+                    color: colors.textSecondary,
+                  ),
+                ),
+                if (fromTab.currentBalance > 0)
+                  InkWell(
+                    onTap: () {
+                      _amountController.text = fromTab.currentBalance.toString();
+                    },
+                    borderRadius: BorderRadius.circular(6),
+                    child: Padding(
+                      padding: const EdgeInsets.symmetric(horizontal: 4, vertical: 2),
+                      child: Text(
+                        'Pindahkan Semua',
+                        style: TextStyle(
+                          fontSize: 11,
+                          fontWeight: FontWeight.w700,
+                          color: colors.primaryGreen,
+                        ),
+                      ),
+                    ),
+                  ),
+              ],
             ),
             const SizedBox(height: 6),
             TextField(
@@ -305,19 +355,63 @@ class _TransferTabunganModalState extends State<TransferTabunganModal> {
                 fillColor: colors.inputBg,
                 border: OutlineInputBorder(
                   borderRadius: BorderRadius.circular(12),
-                  borderSide: BorderSide(color: colors.cardBorder),
+                  borderSide: BorderSide(
+                    color: isInsufficient ? const Color(0xFFEF4444) : colors.cardBorder,
+                  ),
                 ),
                 enabledBorder: OutlineInputBorder(
                   borderRadius: BorderRadius.circular(12),
-                  borderSide: BorderSide(color: colors.cardBorder),
+                  borderSide: BorderSide(
+                    color: isInsufficient ? const Color(0xFFEF4444) : colors.cardBorder,
+                  ),
                 ),
                 focusedBorder: OutlineInputBorder(
                   borderRadius: BorderRadius.circular(12),
-                  borderSide: BorderSide(color: colors.primaryGreen, width: 1.5),
+                  borderSide: BorderSide(
+                    color: isInsufficient ? const Color(0xFFEF4444) : colors.primaryGreen,
+                    width: 1.5,
+                  ),
                 ),
                 contentPadding: const EdgeInsets.symmetric(horizontal: 14, vertical: 12),
               ),
             ),
+            if (isInsufficient) ...[
+              const SizedBox(height: 6),
+              Row(
+                children: [
+                  const Icon(Icons.error_outline_rounded, size: 14, color: Color(0xFFEF4444)),
+                  const SizedBox(width: 4),
+                  Expanded(
+                    child: Text(
+                      'Saldo tidak mencukupi! Maksimal transfer: ${CurrencyFormat.toRupiah(fromTab.currentBalance)}',
+                      style: const TextStyle(
+                        color: Color(0xFFEF4444),
+                        fontSize: 11,
+                        fontWeight: FontWeight.w600,
+                      ),
+                    ),
+                  ),
+                ],
+              ),
+            ] else if (isZeroBalance) ...[
+              const SizedBox(height: 6),
+              Row(
+                children: [
+                  const Icon(Icons.warning_amber_rounded, size: 14, color: Color(0xFFF59E0B)),
+                  const SizedBox(width: 4),
+                  const Expanded(
+                    child: Text(
+                      'Tabungan ini tidak memiliki saldo untuk ditransfer.',
+                      style: TextStyle(
+                        color: Color(0xFFF59E0B),
+                        fontSize: 11,
+                        fontWeight: FontWeight.w600,
+                      ),
+                    ),
+                  ),
+                ],
+              ),
+            ],
             const SizedBox(height: 14),
             Text(
               'Catatan Transfer (Opsional)',
@@ -356,9 +450,10 @@ class _TransferTabunganModalState extends State<TransferTabunganModal> {
               width: double.infinity,
               height: 50,
               child: ElevatedButton(
-                onPressed: _fromId == _toId ? null : _transfer,
+                onPressed: canTransfer ? _transfer : null,
                 style: ElevatedButton.styleFrom(
                   backgroundColor: colors.primaryGreen,
+                  disabledBackgroundColor: colors.cardBorder,
                   foregroundColor: colors.isDark ? const Color(0xFF0F1411) : Colors.white,
                   elevation: 0,
                   shape: RoundedRectangleBorder(
@@ -380,4 +475,3 @@ class _TransferTabunganModalState extends State<TransferTabunganModal> {
     );
   }
 }
-

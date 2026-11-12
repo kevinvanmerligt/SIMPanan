@@ -6,7 +6,7 @@ class SimpananAppHeader extends StatelessWidget {
 
   const SimpananAppHeader({
     super.key,
-    this.patchVersion = 'v1.3.1',
+    this.patchVersion = 'v1.3.8',
   });
 
   @override
@@ -69,50 +69,20 @@ class SimpananAppHeader extends StatelessWidget {
             ],
           ),
         ),
-        Column(
-          crossAxisAlignment: CrossAxisAlignment.end,
-          mainAxisSize: MainAxisSize.min,
-          children: [
-            Container(
-              padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 3),
-              decoration: BoxDecoration(
-                color: colors.primaryPillBg,
-                borderRadius: BorderRadius.circular(12),
-              ),
-              child: Text(
-                patchVersion,
-                style: TextStyle(
-                  fontSize: 11,
-                  fontWeight: FontWeight.w700,
-                  color: colors.primaryGreen,
-                ),
-              ),
+        Container(
+          padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 4),
+          decoration: BoxDecoration(
+            color: colors.primaryPillBg,
+            borderRadius: BorderRadius.circular(12),
+          ),
+          child: Text(
+            patchVersion,
+            style: TextStyle(
+              fontSize: 11,
+              fontWeight: FontWeight.w700,
+              color: colors.primaryGreen,
             ),
-            const SizedBox(height: 4),
-            Container(
-              padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 3),
-              decoration: BoxDecoration(
-                color: colors.cardSurface,
-                borderRadius: BorderRadius.circular(12),
-                border: Border.all(color: colors.cardBorder),
-              ),
-              child: Row(
-                mainAxisSize: MainAxisSize.min,
-                children: [
-                  Icon(Icons.shield_outlined, size: 12, color: colors.primaryGreen),
-                  const SizedBox(width: 3),
-                  Text(
-                    'Offline Safe',
-                    style: TextStyle(
-                      fontSize: 10,
-                      fontWeight: FontWeight.w700,
-                      color: colors.primaryGreen,
-                    ),
-                  ),
-                ],
-              ),
-            ),
-          ],
+          ),
         ),
       ],
     );

@@ -1,14 +1,18 @@
 import 'package:flutter/material.dart';
 import '../data/models/daily_summary_model.dart';
+import '../data/models/debt_model.dart';
 import '../data/models/tabungan_model.dart';
 import '../data/models/transaction_model.dart';
+import '../data/repositories/debt_repo.dart';
 import '../data/repositories/transaction_repo.dart';
 
 class FinanceProvider extends ChangeNotifier {
   final TransactionRepository _repo = TransactionRepository();
+  final DebtRepository _debtRepo = DebtRepository();
 
   List<TransactionModel> _allTransactions = [];
   List<TabunganModel> _allTabungan = [];
+  List<DebtModel> _allDebts = [];
   int _startingBudget = 0;
   String _selectedFilter = 'Semua';
   int? _selectedTabunganId;
@@ -16,10 +20,14 @@ class FinanceProvider extends ChangeNotifier {
 
   List<TransactionModel> get allTransactions => _allTransactions;
   List<TabunganModel> get allTabungan => _allTabungan;
+  List<DebtModel> get allDebts => _allDebts;
+  List<DebtModel> get activeDebts => _allDebts.where((d) => !d.isPaid).toList();
   int get startingBudget => _startingBudget;
   String get selectedFilter => _selectedFilter;
   int? get selectedTabunganId => _selectedTabunganId;
   bool get isLoading => _isLoading;
+
+  int get totalActiveDebt => activeDebts.fold(0, (sum, d) => sum + d.remainingAmount);
 
   TabunganModel get primaryTabungan {
     return _allTabungan.firstWhere(
@@ -54,6 +62,7 @@ class FinanceProvider extends ChangeNotifier {
     _startingBudget = await _repo.getStartingBudget();
     _allTransactions = await _repo.getAllTransactions();
     _allTabungan = await _repo.getAllTabungan();
+    _allDebts = await _debtRepo.getAllDebts();
 
     _isLoading = false;
     notifyListeners();
@@ -108,6 +117,7 @@ class FinanceProvider extends ChangeNotifier {
       initialBalance: 0,
       totalIncome: income,
       totalExpense: expense,
+      totalDebt: totalActiveDebt,
       transactionCount: todayTransactions.length,
     );
   }
@@ -209,18 +219,20 @@ class FinanceProvider extends ChangeNotifier {
     if (fromTabunganId == toTabunganId || amount <= 0) return;
 
     final fromTabungan = _allTabungan.firstWhere((t) => t.id == fromTabunganId);
+    if (fromTabungan.currentBalance < amount) return;
+
     final toTabungan = _allTabungan.firstWhere((t) => t.id == toTabunganId);
     final now = DateTime.now();
 
-    final titleOut = (note != null && note.trim().isNotEmpty)
+    final transferTitleOut = (note != null && note.trim().isNotEmpty)
         ? note.trim()
         : 'Transfer ke ${toTabungan.name}';
-    final titleIn = (note != null && note.trim().isNotEmpty)
+    final transferTitleIn = (note != null && note.trim().isNotEmpty)
         ? note.trim()
         : 'Transfer dari ${fromTabungan.name}';
 
     final transferOut = TransactionModel(
-      title: titleOut,
+      title: transferTitleOut,
       category: 'Transfer',
       type: 'EXPENSE',
       amount: amount,
@@ -230,7 +242,7 @@ class FinanceProvider extends ChangeNotifier {
     );
 
     final transferIn = TransactionModel(
-      title: titleIn,
+      title: transferTitleIn,
       category: 'Transfer Masuk',
       type: 'INCOME',
       amount: amount,
@@ -241,6 +253,62 @@ class FinanceProvider extends ChangeNotifier {
 
     await _repo.insertTransaction(transferOut);
     await _repo.insertTransaction(transferIn);
+    await loadInitialData();
+  }
+
+  Future<void> addDebt({
+    required String title,
+    required int amount,
+    DateTime? dueDate,
+    String? note,
+  }) async {
+    if (amount <= 0 || title.trim().isEmpty) return;
+
+    final newDebt = DebtModel(
+      title: title.trim(),
+      amount: amount,
+      paidAmount: 0,
+      dueDate: dueDate,
+      createdAt: DateTime.now(),
+      note: note?.trim().isNotEmpty == true ? note!.trim() : null,
+      isPaid: false,
+    );
+
+    await _debtRepo.insertDebt(newDebt);
+    await loadInitialData();
+  }
+
+  Future<void> payDebt({
+    required int debtId,
+    required int payAmount,
+    int? tabunganId,
+  }) async {
+    if (payAmount <= 0) return;
+
+    final debt = _allDebts.firstWhere((d) => d.id == debtId);
+    final targetTabungan = _allTabungan.firstWhere(
+      (t) => t.id == (tabunganId ?? primaryTabungan.id),
+      orElse: () => primaryTabungan,
+    );
+
+    await _debtRepo.payDebt(debtId, payAmount);
+
+    final paymentTx = TransactionModel(
+      title: 'Bayar Hutang: ${debt.title}',
+      category: 'Bayar Hutang',
+      type: 'EXPENSE',
+      amount: payAmount,
+      date: DateTime.now(),
+      tabunganId: targetTabungan.id ?? 1,
+      tabunganName: targetTabungan.name,
+    );
+    await _repo.insertTransaction(paymentTx);
+
+    await loadInitialData();
+  }
+
+  Future<void> deleteDebt(int id) async {
+    await _debtRepo.deleteDebt(id);
     await loadInitialData();
   }
 
