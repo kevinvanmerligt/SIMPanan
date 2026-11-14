@@ -29,8 +29,8 @@ Pembaruan **Patch v1.3.8** menghadirkan pembaruan fungsional mendalam yang berfo
    - **Dampak Finansial Nyata:** Hutang aktif langsung diperhitungkan ke dalam ringkasan harian. Beban hutang mengurangi pendapatan/saldo bersih harian dan dapat menampilkan saldo bernilai minus bila total hutang melebihi kas masuk.
    - Fitur **Bayar Hutang** fleksibel: pengguna dapat mencicil atau melunasi hutang dengan memilih kantong tabungan asal, yang secara otomatis membukukan transaksi pengeluaran dan memperbarui status lunas.
 
-5. **🧹 Pembersihan AI-Slop & Tampilan Bersih:**
-   - Menghapus badge dan kalimat *"Offline Safe"* / *"100% Offline & Aman"* dari seluruh header aplikasi, splash screen, dan halaman profil untuk menyajikan antarmuka yang bersih, modern, dan tidak berlebihan.
+5. **🧹 Penyegaran & Tampilan Antarmuka Bersih:**
+   - Menyederhanakan header aplikasi, splash screen, dan halaman profil untuk menyajikan antarmuka yang bersih, rapi, dan modern.
 
 6. **📦 Binary APK Ringan & Terkompresi (~20-22 MB):**
    - Dioptimasi menggunakan compiler arm64-v8a native serta code shrinking ProGuard/R8 untuk menghasilkan berkas instalasi yang ramping, cepat diunduh, dan hemat memori pada smartphone Android.

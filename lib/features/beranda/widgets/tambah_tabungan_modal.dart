@@ -19,6 +19,11 @@ class _TambahTabunganModalState extends State<TambahTabunganModal> {
   late String _selectedIcon;
   late String _selectedColor;
 
+  bool _showCustomColorPicker = false;
+  double _hue = 160.0;
+  double _saturation = 0.85;
+  double _lightness = 0.40;
+
   @override
   void initState() {
     super.initState();
@@ -32,6 +37,16 @@ class _TambahTabunganModalState extends State<TambahTabunganModal> {
     } else {
       _selectedIcon = 'savings';
       _selectedColor = TabunganModel.availableColors.first;
+    }
+
+    final isPreset = TabunganModel.availableColors.contains(_selectedColor);
+    if (!isPreset) {
+      _showCustomColorPicker = true;
+      final color = _parseColor(_selectedColor);
+      final hsl = HSLColor.fromColor(color);
+      _hue = hsl.hue;
+      _saturation = hsl.saturation.clamp(0.0, 1.0);
+      _lightness = hsl.lightness.clamp(0.0, 1.0);
     }
   }
 
@@ -78,10 +93,22 @@ class _TambahTabunganModalState extends State<TambahTabunganModal> {
     }
   }
 
+  String _colorToHex(Color color) {
+    return '0x${color.toARGB32().toRadixString(16).padLeft(8, '0').toUpperCase()}';
+  }
+
+  void _updateHslColor() {
+    final color = HSLColor.fromAHSL(1.0, _hue, _saturation, _lightness).toColor();
+    setState(() {
+      _selectedColor = _colorToHex(color);
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     final colors = context.colors;
     final isEditing = widget.existingTabungan != null;
+    final isCustomColorSelected = !TabunganModel.availableColors.contains(_selectedColor);
 
     return Container(
       padding: EdgeInsets.only(
@@ -255,49 +282,290 @@ class _TambahTabunganModalState extends State<TambahTabunganModal> {
               ),
             ),
             const SizedBox(height: 16),
-            Text(
-              'Warna Aksen',
-              style: TextStyle(
-                fontSize: 12,
-                fontWeight: FontWeight.w600,
-                color: colors.textSecondary,
-              ),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                Text(
+                  'Warna Aksen',
+                  style: TextStyle(
+                    fontSize: 12,
+                    fontWeight: FontWeight.w600,
+                    color: colors.textSecondary,
+                  ),
+                ),
+                InkWell(
+                  onTap: () {
+                    setState(() {
+                      _showCustomColorPicker = !_showCustomColorPicker;
+                      if (_showCustomColorPicker && !isCustomColorSelected) {
+                        _updateHslColor();
+                      }
+                    });
+                  },
+                  borderRadius: BorderRadius.circular(8),
+                  child: Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: 6, vertical: 2),
+                    child: Row(
+                      mainAxisSize: MainAxisSize.min,
+                      children: [
+                        Icon(
+                          Icons.palette_outlined,
+                          size: 14,
+                          color: _showCustomColorPicker ? colors.primaryGreen : colors.textSecondary,
+                        ),
+                        const SizedBox(width: 4),
+                        Text(
+                          _showCustomColorPicker ? 'Tutup Kustom' : 'Kustom HSL',
+                          style: TextStyle(
+                            fontSize: 11,
+                            fontWeight: FontWeight.w700,
+                            color: _showCustomColorPicker ? colors.primaryGreen : colors.textSecondary,
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                ),
+              ],
             ),
             const SizedBox(height: 8),
-            Row(
-              children: TabunganModel.availableColors.map((hex) {
-                final color = _parseColor(hex);
-                final isSelected = hex == _selectedColor;
-                return GestureDetector(
-                  onTap: () => setState(() => _selectedColor = hex),
-                  child: Container(
-                    margin: const EdgeInsets.only(right: 10),
-                    width: 32,
-                    height: 32,
-                    decoration: BoxDecoration(
-                      color: color,
-                      shape: BoxShape.circle,
-                      border: Border.all(
-                        color: isSelected ? Colors.white : Colors.transparent,
-                        width: 2.5,
+            SingleChildScrollView(
+              scrollDirection: Axis.horizontal,
+              child: Row(
+                children: [
+                  ...TabunganModel.availableColors.map((hex) {
+                    final color = _parseColor(hex);
+                    final isSelected = hex == _selectedColor;
+                    return GestureDetector(
+                      onTap: () {
+                        setState(() {
+                          _selectedColor = hex;
+                        });
+                      },
+                      child: Container(
+                        margin: const EdgeInsets.only(right: 10),
+                        width: 32,
+                        height: 32,
+                        decoration: BoxDecoration(
+                          color: color,
+                          shape: BoxShape.circle,
+                          border: Border.all(
+                            color: isSelected ? Colors.white : Colors.transparent,
+                            width: 2.5,
+                          ),
+                          boxShadow: isSelected
+                              ? [
+                                  BoxShadow(
+                                    color: color.withValues(alpha: 0.5),
+                                    blurRadius: 8,
+                                    offset: const Offset(0, 2),
+                                  ),
+                                ]
+                              : null,
+                        ),
+                        child: isSelected
+                            ? const Icon(Icons.check, size: 16, color: Colors.white)
+                            : null,
                       ),
-                      boxShadow: isSelected
-                          ? [
-                              BoxShadow(
-                                color: color.withValues(alpha: 0.5),
-                                blurRadius: 8,
-                                offset: const Offset(0, 2),
-                              ),
-                            ]
-                          : null,
+                    );
+                  }),
+                  GestureDetector(
+                    onTap: () {
+                      setState(() {
+                        _showCustomColorPicker = true;
+                        _updateHslColor();
+                      });
+                    },
+                    child: Container(
+                      width: 32,
+                      height: 32,
+                      decoration: BoxDecoration(
+                        gradient: const SweepGradient(
+                          colors: [
+                            Colors.red,
+                            Colors.yellow,
+                            Colors.green,
+                            Colors.cyan,
+                            Colors.blue,
+                            Colors.purple,
+                            Colors.red,
+                          ],
+                        ),
+                        shape: BoxShape.circle,
+                        border: Border.all(
+                          color: isCustomColorSelected ? Colors.white : colors.cardBorder,
+                          width: isCustomColorSelected ? 2.5 : 1.5,
+                        ),
+                        boxShadow: isCustomColorSelected
+                            ? [
+                                BoxShadow(
+                                  color: _parseColor(_selectedColor).withValues(alpha: 0.5),
+                                  blurRadius: 8,
+                                  offset: const Offset(0, 2),
+                                ),
+                              ]
+                            : null,
+                      ),
+                      child: isCustomColorSelected
+                          ? const Icon(Icons.check, size: 16, color: Colors.white)
+                          : const Icon(Icons.colorize_rounded, size: 14, color: Colors.white),
                     ),
-                    child: isSelected
-                        ? const Icon(Icons.check, size: 16, color: Colors.white)
-                        : null,
                   ),
-                );
-              }).toList(),
+                ],
+              ),
             ),
+            if (_showCustomColorPicker) ...[
+              const SizedBox(height: 14),
+              Container(
+                padding: const EdgeInsets.all(14),
+                decoration: BoxDecoration(
+                  color: colors.inputBg,
+                  borderRadius: BorderRadius.circular(14),
+                  border: Border.all(
+                    color: isCustomColorSelected
+                        ? _parseColor(_selectedColor).withValues(alpha: 0.5)
+                        : colors.cardBorder,
+                  ),
+                ),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Row(
+                      children: [
+                        Container(
+                          width: 28,
+                          height: 28,
+                          decoration: BoxDecoration(
+                            color: _parseColor(_selectedColor),
+                            shape: BoxShape.circle,
+                            border: Border.all(color: Colors.white, width: 2),
+                            boxShadow: [
+                              BoxShadow(
+                                color: _parseColor(_selectedColor).withValues(alpha: 0.4),
+                                blurRadius: 6,
+                              ),
+                            ],
+                          ),
+                        ),
+                        const SizedBox(width: 10),
+                        Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Text(
+                              'Pilihan Warna Kustom (HSL)',
+                              style: TextStyle(
+                                fontSize: 12,
+                                fontWeight: FontWeight.w700,
+                                color: colors.textPrimary,
+                              ),
+                            ),
+                            Text(
+                              'Kode: #${_selectedColor.replaceAll('0xFF', '').replaceAll('0xff', '')}',
+                              style: TextStyle(
+                                fontSize: 11,
+                                fontWeight: FontWeight.w600,
+                                color: colors.textSecondary,
+                              ),
+                            ),
+                          ],
+                        ),
+                      ],
+                    ),
+                    const SizedBox(height: 12),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        Text(
+                          'Hue (Warna)',
+                          style: TextStyle(fontSize: 11, color: colors.textSecondary),
+                        ),
+                        Text(
+                          '${_hue.round()}°',
+                          style: TextStyle(fontSize: 11, fontWeight: FontWeight.w700, color: colors.textPrimary),
+                        ),
+                      ],
+                    ),
+                    SliderTheme(
+                      data: SliderTheme.of(context).copyWith(
+                        trackHeight: 6,
+                        thumbShape: const RoundSliderThumbShape(enabledThumbRadius: 7),
+                      ),
+                      child: Slider(
+                        value: _hue,
+                        min: 0.0,
+                        max: 360.0,
+                        activeColor: _parseColor(_selectedColor),
+                        inactiveColor: colors.cardBorder,
+                        onChanged: (val) {
+                          _hue = val;
+                          _updateHslColor();
+                        },
+                      ),
+                    ),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        Text(
+                          'Saturasi',
+                          style: TextStyle(fontSize: 11, color: colors.textSecondary),
+                        ),
+                        Text(
+                          '${(_saturation * 100).round()}%',
+                          style: TextStyle(fontSize: 11, fontWeight: FontWeight.w700, color: colors.textPrimary),
+                        ),
+                      ],
+                    ),
+                    SliderTheme(
+                      data: SliderTheme.of(context).copyWith(
+                        trackHeight: 6,
+                        thumbShape: const RoundSliderThumbShape(enabledThumbRadius: 7),
+                      ),
+                      child: Slider(
+                        value: _saturation,
+                        min: 0.0,
+                        max: 1.0,
+                        activeColor: _parseColor(_selectedColor),
+                        inactiveColor: colors.cardBorder,
+                        onChanged: (val) {
+                          _saturation = val;
+                          _updateHslColor();
+                        },
+                      ),
+                    ),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        Text(
+                          'Kecerahan',
+                          style: TextStyle(fontSize: 11, color: colors.textSecondary),
+                        ),
+                        Text(
+                          '${(_lightness * 100).round()}%',
+                          style: TextStyle(fontSize: 11, fontWeight: FontWeight.w700, color: colors.textPrimary),
+                        ),
+                      ],
+                    ),
+                    SliderTheme(
+                      data: SliderTheme.of(context).copyWith(
+                        trackHeight: 6,
+                        thumbShape: const RoundSliderThumbShape(enabledThumbRadius: 7),
+                      ),
+                      child: Slider(
+                        value: _lightness,
+                        min: 0.15,
+                        max: 0.85,
+                        activeColor: _parseColor(_selectedColor),
+                        inactiveColor: colors.cardBorder,
+                        onChanged: (val) {
+                          _lightness = val;
+                          _updateHslColor();
+                        },
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+            ],
             const SizedBox(height: 24),
             SizedBox(
               width: double.infinity,
@@ -327,4 +595,3 @@ class _TambahTabunganModalState extends State<TambahTabunganModal> {
     );
   }
 }
-

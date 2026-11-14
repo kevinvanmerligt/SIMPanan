@@ -1,6 +1,7 @@
 import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:intl/intl.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:provider/provider.dart';
 import '../../../core/constants/app_colors.dart';
@@ -21,11 +22,12 @@ class ProfilScreen extends StatefulWidget {
 class _ProfilScreenState extends State<ProfilScreen> {
   final ProfileRepository _profileRepo = ProfileRepository();
   final TextEditingController _nameController = TextEditingController();
-  final TextEditingController _ageController = TextEditingController();
   final TextEditingController _customJobController = TextEditingController();
 
   String _selectedJob = 'Pelajar';
   String? _avatarPath;
+  DateTime? _birthDate;
+  int _calculatedAge = 17;
   bool _isLoading = true;
 
   @override
@@ -38,8 +40,9 @@ class _ProfilScreenState extends State<ProfilScreen> {
     final profile = await _profileRepo.getProfile();
     setState(() {
       _nameController.text = profile.name;
-      _ageController.text = profile.age.toString();
       _avatarPath = profile.avatarPath;
+      _birthDate = profile.birthDate;
+      _calculatedAge = profile.age;
 
       if (ProfileRepository.availableOccupations.contains(profile.occupation)) {
         _selectedJob = profile.occupation;
@@ -47,22 +50,52 @@ class _ProfilScreenState extends State<ProfilScreen> {
         _selectedJob = 'Lainnya';
         _customJobController.text = profile.occupation;
       }
+
+      if (_calculatedAge < 18) {
+        _selectedJob = 'Pelajar';
+      }
+
       _isLoading = false;
     });
   }
 
+  Future<void> _pickBirthDate() async {
+    final now = DateTime.now();
+    final picked = await showDatePicker(
+      context: context,
+      initialDate: _birthDate ?? DateTime(now.year - 17, now.month, now.day),
+      firstDate: DateTime(1930),
+      lastDate: now,
+      helpText: 'Pilih Tanggal Lahir',
+      cancelText: 'Batal',
+      confirmText: 'Pilih',
+    );
+
+    if (picked != null) {
+      final age = UserProfile.calculateAge(picked);
+      setState(() {
+        _birthDate = picked;
+        _calculatedAge = age;
+        if (age < 18) {
+          _selectedJob = 'Pelajar';
+          _customJobController.clear();
+        }
+      });
+    }
+  }
+
   Future<void> _saveProfile({bool showToast = true}) async {
     final name = _nameController.text.trim();
-    final age = int.tryParse(_ageController.text.trim()) ?? 17;
     final occupation = _selectedJob == 'Lainnya' && _customJobController.text.trim().isNotEmpty
         ? _customJobController.text.trim()
         : _selectedJob;
 
     final updated = UserProfile(
-      name: name.isNotEmpty ? name : 'Pengguna',
-      age: age,
-      occupation: occupation,
+      name: name,
+      age: _calculatedAge,
+      occupation: _calculatedAge < 18 ? 'Pelajar' : occupation,
       avatarPath: _avatarPath,
+      birthDate: _birthDate,
     );
 
     await _profileRepo.saveProfile(updated);
@@ -284,7 +317,6 @@ class _ProfilScreenState extends State<ProfilScreen> {
   @override
   void dispose() {
     _nameController.dispose();
-    _ageController.dispose();
     _customJobController.dispose();
     super.dispose();
   }
@@ -304,6 +336,8 @@ class _ProfilScreenState extends State<ProfilScreen> {
         : _selectedJob;
 
     final hasValidAvatar = _avatarPath != null && File(_avatarPath!).existsSync();
+    final displayName = _nameController.text.trim();
+    final isUnder18 = _calculatedAge < 18;
 
     return ListView(
       padding: const EdgeInsets.all(16),
@@ -362,8 +396,8 @@ class _ProfilScreenState extends State<ProfilScreen> {
                           backgroundImage: hasValidAvatar ? FileImage(File(_avatarPath!)) : null,
                           child: !hasValidAvatar
                               ? Text(
-                                  _nameController.text.trim().isNotEmpty
-                                      ? _nameController.text.trim()[0].toUpperCase()
+                                  displayName.isNotEmpty
+                                      ? displayName[0].toUpperCase()
                                       : 'S',
                                   style: TextStyle(
                                     fontSize: 28,
@@ -410,13 +444,13 @@ class _ProfilScreenState extends State<ProfilScreen> {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Text(
-                        _nameController.text.trim().isNotEmpty
-                            ? _nameController.text.trim()
-                            : 'Pengguna',
+                        displayName.isNotEmpty ? displayName : 'Pengguna',
                         style: TextStyle(
                           fontSize: 18,
                           fontWeight: FontWeight.w800,
-                          color: colors.textPrimary,
+                          color: displayName.isNotEmpty
+                              ? colors.textPrimary
+                              : colors.textMuted,
                         ),
                       ),
                       const SizedBox(height: 4),
@@ -448,7 +482,7 @@ class _ProfilScreenState extends State<ProfilScreen> {
                                 Icon(_getJobIcon(currentJob), size: 12, color: colors.primaryGreen),
                                 const SizedBox(width: 4),
                                 Text(
-                                  currentJob,
+                                  isUnder18 ? 'Pelajar' : currentJob,
                                   style: TextStyle(
                                     fontSize: 11,
                                     fontWeight: FontWeight.w700,
@@ -466,7 +500,7 @@ class _ProfilScreenState extends State<ProfilScreen> {
                               border: Border.all(color: colors.cardBorder),
                             ),
                             child: Text(
-                              '${_ageController.text.trim().isNotEmpty ? _ageController.text.trim() : "17"} Tahun',
+                              '$_calculatedAge Tahun',
                               style: TextStyle(
                                 fontSize: 11,
                                 fontWeight: FontWeight.w600,
@@ -667,8 +701,9 @@ class _ProfilScreenState extends State<ProfilScreen> {
                 TextField(
                   controller: _nameController,
                   style: TextStyle(color: colors.textPrimary),
+                  onChanged: (_) => setState(() {}),
                   decoration: InputDecoration(
-                    hintText: 'Contoh: Budi Santoso',
+                    hintText: 'Pengguna',
                     hintStyle: TextStyle(color: colors.textMuted),
                     prefixIcon: Icon(Icons.person_outline, size: 20, color: colors.textSecondary),
                     filled: true,
@@ -689,46 +724,99 @@ class _ProfilScreenState extends State<ProfilScreen> {
                 ),
                 const SizedBox(height: 14),
                 Text(
-                  'Umur',
+                  'Tanggal Lahir',
                   style: TextStyle(fontSize: 12, fontWeight: FontWeight.w600, color: colors.textSecondary),
                 ),
                 const SizedBox(height: 6),
-                TextField(
-                  controller: _ageController,
-                  keyboardType: TextInputType.number,
-                  style: TextStyle(color: colors.textPrimary),
-                  decoration: InputDecoration(
-                    hintText: 'Contoh: 17',
-                    hintStyle: TextStyle(color: colors.textMuted),
-                    prefixIcon: Icon(Icons.cake_outlined, size: 20, color: colors.textSecondary),
-                    suffixText: 'Tahun',
-                    suffixStyle: TextStyle(color: colors.textSecondary, fontWeight: FontWeight.w600),
-                    filled: true,
-                    fillColor: colors.inputBg,
-                    border: OutlineInputBorder(
+                InkWell(
+                  onTap: _pickBirthDate,
+                  borderRadius: BorderRadius.circular(12),
+                  child: Container(
+                    padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 14),
+                    decoration: BoxDecoration(
+                      color: colors.inputBg,
                       borderRadius: BorderRadius.circular(12),
-                      borderSide: BorderSide(color: colors.cardBorder),
+                      border: Border.all(color: colors.cardBorder),
                     ),
-                    enabledBorder: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(12),
-                      borderSide: BorderSide(color: colors.cardBorder),
-                    ),
-                    focusedBorder: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(12),
-                      borderSide: BorderSide(color: colors.primaryGreen, width: 1.5),
+                    child: Row(
+                      children: [
+                        Icon(Icons.cake_outlined, size: 20, color: colors.textSecondary),
+                        const SizedBox(width: 12),
+                        Expanded(
+                          child: Text(
+                            _birthDate != null
+                                ? DateFormat('d MMMM yyyy', 'id_ID').format(_birthDate!)
+                                : 'Pilih tanggal lahir...',
+                            style: TextStyle(
+                              fontSize: 14,
+                              color: _birthDate != null ? colors.textPrimary : colors.textMuted,
+                              fontWeight: _birthDate != null ? FontWeight.w600 : FontWeight.normal,
+                            ),
+                          ),
+                        ),
+                        if (_birthDate != null) ...[
+                          Container(
+                            padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 3),
+                            decoration: BoxDecoration(
+                              color: colors.primaryPillBg,
+                              borderRadius: BorderRadius.circular(8),
+                            ),
+                            child: Text(
+                              '$_calculatedAge Tahun',
+                              style: TextStyle(
+                                fontSize: 12,
+                                fontWeight: FontWeight.w700,
+                                color: colors.primaryGreen,
+                              ),
+                            ),
+                          ),
+                        ],
+                        const SizedBox(width: 8),
+                        Icon(Icons.calendar_today_rounded, size: 16, color: colors.primaryGreen),
+                      ],
                     ),
                   ),
                 ),
                 const SizedBox(height: 14),
-                Text(
-                  'Pekerjaan',
-                  style: TextStyle(fontSize: 12, fontWeight: FontWeight.w600, color: colors.textSecondary),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    Text(
+                      'Pekerjaan',
+                      style: TextStyle(fontSize: 12, fontWeight: FontWeight.w600, color: colors.textSecondary),
+                    ),
+                    if (isUnder18)
+                      Container(
+                        padding: const EdgeInsets.symmetric(horizontal: 6, vertical: 2),
+                        decoration: BoxDecoration(
+                          color: const Color(0xFFF59E0B).withValues(alpha: 0.15),
+                          borderRadius: BorderRadius.circular(6),
+                        ),
+                        child: Row(
+                          mainAxisSize: MainAxisSize.min,
+                          children: [
+                            Icon(Icons.lock_outline_rounded, size: 10, color: const Color(0xFFF59E0B)),
+                            const SizedBox(width: 3),
+                            const Text(
+                              'Terkunci (< 18 Tahun)',
+                              style: TextStyle(
+                                fontSize: 10,
+                                fontWeight: FontWeight.w700,
+                                color: Color(0xFFF59E0B),
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
+                  ],
                 ),
                 const SizedBox(height: 6),
                 Container(
                   padding: const EdgeInsets.symmetric(horizontal: 14),
                   decoration: BoxDecoration(
-                    color: colors.inputBg,
+                    color: isUnder18
+                        ? colors.inputBg.withValues(alpha: 0.5)
+                        : colors.inputBg,
                     borderRadius: BorderRadius.circular(12),
                     border: Border.all(color: colors.cardBorder),
                   ),
@@ -736,9 +824,15 @@ class _ProfilScreenState extends State<ProfilScreen> {
                     child: DropdownButton<String>(
                       isExpanded: true,
                       dropdownColor: colors.cardSurface,
-                      value: _selectedJob,
-                      icon: Icon(Icons.keyboard_arrow_down, color: colors.textSecondary),
-                      items: ProfileRepository.availableOccupations.map((job) {
+                      value: isUnder18 ? 'Pelajar' : _selectedJob,
+                      icon: Icon(
+                        isUnder18 ? Icons.lock_outline : Icons.keyboard_arrow_down,
+                        color: colors.textSecondary,
+                      ),
+                      items: (isUnder18
+                              ? ['Pelajar']
+                              : ProfileRepository.availableOccupations)
+                          .map((job) {
                         return DropdownMenuItem<String>(
                           value: job,
                           child: Row(
@@ -753,16 +847,18 @@ class _ProfilScreenState extends State<ProfilScreen> {
                           ),
                         );
                       }).toList(),
-                      onChanged: (val) {
-                        if (val != null) {
-                          setState(() => _selectedJob = val);
-                        }
-                      },
+                      onChanged: isUnder18
+                          ? null
+                          : (val) {
+                              if (val != null) {
+                                setState(() => _selectedJob = val);
+                              }
+                            },
                     ),
                   ),
                 ),
 
-                if (_selectedJob == 'Lainnya') ...[
+                if (!isUnder18 && _selectedJob == 'Lainnya') ...[
                   const SizedBox(height: 12),
                   TextField(
                     controller: _customJobController,

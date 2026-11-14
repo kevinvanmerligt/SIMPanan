@@ -6,8 +6,8 @@
 
 <p align="center">
   <a href="https://flutter.dev"><img src="https://img.shields.io/badge/Flutter-3.47.7-blue.svg?logo=flutter" alt="Flutter" /></a>
-  <a href="https://raw.githubusercontent.com/kevinvanmerligt/SIMPanan/main/patch/SIMPanan-v1.3.8.apk" download="SIMPanan-v1.3.8.apk"><img src="https://img.shields.io/badge/Platform-Android-green.svg?logo=android" alt="Platform" /></a>
-  <a href="./patch/patch-1.3.8.md"><img src="https://img.shields.io/badge/Patch-v1.3.8-emerald.svg" alt="Patch Version" /></a>
+  <a href="https://raw.githubusercontent.com/kevinvanmerligt/SIMPanan/main/patch/SIMPanan-v1.3.11.apk" download="SIMPanan-v1.3.11.apk"><img src="https://img.shields.io/badge/Platform-Android-green.svg?logo=android" alt="Platform" /></a>
+  <a href="./patch/patch-1.3.11.md"><img src="https://img.shields.io/badge/Patch-v1.3.11-emerald.svg" alt="Patch Version" /></a>
 </p>
 
 **SIMPanan** is a modern personal finance and expense tracker engineered with **ultra-smooth physics animations (60–144Hz)**, an **adaptive theme engine (System / Light / Dark modes)**, **custom multi-savings pockets & goal tracking**, **real-time balance transfer guard**, and a comprehensive **debt and liability tracking system**. All financial records are stored securely and locally on your device using SQLite.
@@ -16,54 +16,51 @@
 
 ## 📥 Download APK (Direct Download)
 
-Download and install the official **SIMPanan v1.3.8** APK directly onto your Android smartphone. The link below is optimized for direct stream downloading: **clicking the link begins downloading the APK immediately without page redirects**.
+Download and install the official **SIMPanan v1.3.11** APK directly onto your Android smartphone. The link below is optimized for direct stream downloading: **clicking the link begins downloading the APK immediately without page redirects**.
 
 <p align="center">
-  <a href="https://raw.githubusercontent.com/kevinvanmerligt/SIMPanan/main/patch/SIMPanan-v1.3.8.apk" download="SIMPanan-v1.3.8.apk">
-    <img src="https://img.shields.io/badge/⬇️%20DOWNLOAD%20APK%20v1.3.8-DIRECT%20DOWNLOAD-059669?style=for-the-badge&logo=android&logoColor=white" alt="Download SIMPanan APK Directly" />
+  <a href="https://raw.githubusercontent.com/kevinvanmerligt/SIMPanan/main/patch/SIMPanan-v1.3.11.apk" download="SIMPanan-v1.3.11.apk">
+    <img src="https://img.shields.io/badge/⬇️%20DOWNLOAD%20APK%20v1.3.11-DIRECT%20DOWNLOAD-059669?style=for-the-badge&logo=android&logoColor=white" alt="Download SIMPanan APK Directly" />
   </a>
 </p>
 
 ### 🔗 Direct Download Links:
-- 🚀 **[⬇️ Download SIMPanan v1.3.8 APK (Automatic Direct Download)](https://raw.githubusercontent.com/kevinvanmerligt/SIMPanan/main/patch/SIMPanan-v1.3.8.apk)**
-- 🔗 **[GitHub Raw Mirror Download Link](https://github.com/kevinvanmerligt/SIMPanan/raw/main/patch/SIMPanan-v1.3.8.apk)**
+- 🚀 **[⬇️ Download SIMPanan v1.3.11 APK (Automatic Direct Download)](https://raw.githubusercontent.com/kevinvanmerligt/SIMPanan/main/patch/SIMPanan-v1.3.11.apk)**
+- 🔗 **[GitHub Raw Mirror Download Link](https://github.com/kevinvanmerligt/SIMPanan/raw/main/patch/SIMPanan-v1.3.11.apk)**
 
 > **Release File Metadata:**
-> - **Filename:** `SIMPanan-v1.3.8.apk`
-> - **Patch Version:** `1.3.8`
+> - **Filename:** `SIMPanan-v1.3.11.apk`
+> - **Patch Version:** `1.3.11`
 > - **Compressed Size:** ~20–22 MB
 > - **Category:** Personal Finance Management / Multi-Savings & Debt Tracker
 > - **Target OS:** Android 6.0+ (Marshmallow and above)
-> - **Repository Path:** [`patch/SIMPanan-v1.3.8.apk`](https://raw.githubusercontent.com/kevinvanmerligt/SIMPanan/main/patch/SIMPanan-v1.3.8.apk)
+> - **Repository Path:** [`patch/SIMPanan-v1.3.11.apk`](https://raw.githubusercontent.com/kevinvanmerligt/SIMPanan/main/patch/SIMPanan-v1.3.11.apk)
 
 ### 📲 How to Install the APK on Android:
-1. Tap the green **[Download APK v1.3.8]** button above. The APK file will download directly to your device.
+1. Tap the green **[Download APK v1.3.11]** button above. The APK file will download directly to your device.
 2. Once the download completes, open the APK file via the notification drawer or your device's **Files / File Manager** app.
 3. If an *"Install unknown apps"* prompt appears, enable permission for your browser or file manager.
 4. Tap **Install**, then open and enjoy **SIMPanan**!
 
 ---
 
-## 📦 Current Release Highlights: `Patch 1.3.8`
+## 📦 Current Release Highlights: `Patch 1.3.11`
 
-> 📄 Comprehensive release notes and changelog are documented in: **[`patch/patch-1.3.8.md`](./patch/patch-1.3.8.md)**
+> 📄 Comprehensive release notes and changelog are documented in: **[`patch/patch-1.3.11.md`](./patch/patch-1.3.11.md)**
 
-### ✨ What's New in Patch 1.3.8:
-- 📊 **Top-Level Expense Analytics in Reports:**
-  - Placed Total Expenses directly at the very top of the Financial Reports screen, paired with smooth animated category progress bars.
-- 🏦 **Row-by-Row Savings Pocket Management:**
-  - Savings pockets are individually split into clean rows (Row 1, Row 2, Row 3...) with direct "Kelola" quick actions, target progress tracking, and proportional distribution percentages.
-- 🛡️ **Real-World Transfer Balance Guard:**
-  - Transfers are strictly validated against available balance. Users cannot transfer funds exceeding their pocket balance, preventing negative balances.
-  - Added an interactive warning alert and a one-tap "Pindahkan Semua" shortcut.
-- 💳 **Debt & Liability Tracking System:**
-  - Track borrowed funds, paylaters, and loans with due dates and custom notes.
-  - Unpaid debts directly deduct from net daily earnings and can reflect real deficit (negative balance) indicators when liabilities exceed income.
-  - Interactive "Bayar Hutang" modal to pay off debts from any designated savings pocket.
-- 🧹 **Clean Interface Polish:**
-  - Removed intrusive "Offline Safe" AI-slop badges across all screens for a sleek, distraction-free aesthetic.
-- 📦 **Compressed APK Architecture (~20–22 MB):**
-  - Compiled with arm64 native optimizations and ProGuard code shrinking for maximum download and storage efficiency.
+### ✨ What's New in Patch 1.3.11:
+- 🎂 **Interactive Birth Date Picker & Automatic Age Calculation:**
+  - Replaced manual numeric age entry with an interactive calendar date picker dialog.
+  - Dynamically calculates user age in real-time and presents a neat age badge (e.g., "17 Tahun").
+- 🔒 **Under-18 Occupation Lock ("Pelajar"):**
+  - Users under 18 years of age have their occupation automatically locked to "Pelajar" with an amber lock indicator to ensure age-appropriate profiles.
+- 👤 **Refined Name Field Placeholder UX:**
+  - Displays "Pengguna" as a clean hint/placeholder rather than a hardcoded default string, making profile customization frictionless.
+- 🎨 **Manual Custom HSL Color Palette for Savings Pockets:**
+  - Create unique accent colors for savings pockets using custom HSL (Hue, Saturation, Lightness) slider controls, accompanied by live color preview and Hex codes.
+  - Recommended color presets remain readily accessible for one-tap convenience.
+- 📦 **Optimized Arm64 APK Binary (~20–22 MB):**
+  - Built specifically for arm64-v8a architecture, ensuring fast load speeds, minimal download footprint, and smooth execution.
 
 ---
 
@@ -71,15 +68,16 @@ Download and install the official **SIMPanan v1.3.8** APK directly onto your And
 
 | Patch Version | Release Date | APK File | Key Highlights | Release Notes |
 | :---: | :---: | :---: | :--- | :---: |
-| **`v1.3.8`** *(Latest)* | November 12, 2026 | [⬇️ `SIMPanan-v1.3.8.apk`](https://raw.githubusercontent.com/kevinvanmerligt/SIMPanan/main/patch/SIMPanan-v1.3.8.apk) | Top-level expense report, row-by-row savings management, transfer balance guard, debt tracking & deficit calculation | [Read Patch 1.3.8 Notes](./patch/patch-1.3.8.md) |
-| **`v1.3.1`** *(Previous)* | November 9, 2026 | *Superseded by v1.3.8* | Multi-savings pockets, transaction allocation per pocket, inter-pocket transfers, ultra-smooth animations | [Read Patch 1.3.1 Notes](./patch/patch-1.3.1.md) |
-| **`v1.2.10`** *(Previous)* | October 30, 2026 | *Superseded by v1.3.8* | New 3D glossy brand icon, unified high-contrast category chip checkmark, simplified "Simpan" action, UI polish | [Read Patch 1.2.10 Notes](./patch/patch-1.2.10.md) |
-| **`v1.2.7`** *(Archived)* | October 26, 2026 | *Superseded by v1.3.8* | Kawaii animated splash entrance (mascot, dropping coin, sparkles), floating notification overlay | [Read Patch 1.2.7 Notes](./patch/patch-1.2.7.md) |
-| **`v1.2.2`** *(Archived)* | October 26, 2026 | *Superseded by v1.3.8* | Dynamic theme engine (System/Light/Dark), dual adaptive green palette | [Read Patch 1.2.2 Notes](./patch/patch-1.2.2.md) |
-| **`v1.1.11`** *(Archived)* | October 25, 2026 | *Superseded by v1.3.8* | Segmented transaction tabs with sliding pill animation, zero-lag native profile photo cropper (60-144Hz) | [Read Patch 1.1.11 Notes](./patch/patch-1.1.11.md) |
-| **`v1.0.8`** *(Archived)* | October 25, 2026 | *Superseded by v1.3.8* | 60/90/120/144Hz high refresh rate, smooth page transitions, profile photo upload, 7-day expense chart | [Read Patch 1.0.8 Notes](./patch/patch-1.0.8.md) |
-| **`v1.0.3`** *(Archived)* | October 25, 2026 | *Superseded by v1.3.8* | Cosmic vector logo, direct APK download, unified navigation headers across all tabs | [Read Patch 1.0.3 Notes](./patch/patch-1.0.3.md) |
-| **`v1.0.0`** *(Initial Release)* | October 25, 2026 | *Superseded by v1.3.8* | Initial release: Realtime daily balance hero card, user profile, centered action dock, tab navigation | [Read Patch 1.0.0 Notes](./patch/patch-1.0.0.md) |
+| **`v1.3.11`** *(Latest)* | November 14, 2026 | [⬇️ `SIMPanan-v1.3.11.apk`](https://raw.githubusercontent.com/kevinvanmerligt/SIMPanan/main/patch/SIMPanan-v1.3.11.apk) | Birth date picker & auto age calculation, under-18 occupation lock, name placeholder UX, custom HSL color palette for savings | [Read Patch 1.3.11 Notes](./patch/patch-1.3.11.md) |
+| **`v1.3.8`** *(Previous)* | November 12, 2026 | *Superseded by v1.3.11* | Top-level expense report, row-by-row savings management, transfer balance guard, debt tracking & deficit calculation | [Read Patch 1.3.8 Notes](./patch/patch-1.3.8.md) |
+| **`v1.3.1`** *(Previous)* | November 9, 2026 | *Superseded by v1.3.11* | Multi-savings pockets, transaction allocation per pocket, inter-pocket transfers, ultra-smooth animations | [Read Patch 1.3.11 Notes](./patch/patch-1.3.1.md) |
+| **`v1.2.10`** *(Previous)* | October 30, 2026 | *Superseded by v1.3.11* | New 3D glossy brand icon, unified high-contrast category chip checkmark, simplified "Simpan" action, UI polish | [Read Patch 1.2.10 Notes](./patch/patch-1.2.10.md) |
+| **`v1.2.7`** *(Archived)* | October 26, 2026 | *Superseded by v1.3.11* | Kawaii animated splash entrance (mascot, dropping coin, sparkles), floating notification overlay | [Read Patch 1.2.7 Notes](./patch/patch-1.2.7.md) |
+| **`v1.2.2`** *(Archived)* | October 26, 2026 | *Superseded by v1.3.11* | Dynamic theme engine (System/Light/Dark), dual adaptive green palette | [Read Patch 1.2.2 Notes](./patch/patch-1.2.2.md) |
+| **`v1.1.11`** *(Archived)* | October 25, 2026 | *Superseded by v1.3.11* | Segmented transaction tabs with sliding pill animation, zero-lag native profile photo cropper (60-144Hz) | [Read Patch 1.1.11 Notes](./patch/patch-1.1.11.md) |
+| **`v1.0.8`** *(Archived)* | October 25, 2026 | *Superseded by v1.3.11* | 60/90/120/144Hz high refresh rate, smooth page transitions, profile photo upload, 7-day expense chart | [Read Patch 1.0.8 Notes](./patch/patch-1.0.8.md) |
+| **`v1.0.3`** *(Archived)* | October 25, 2026 | *Superseded by v1.3.11* | Cosmic vector logo, direct APK download, unified navigation headers across all tabs | [Read Patch 1.0.3 Notes](./patch/patch-1.0.3.md) |
+| **`v1.0.0`** *(Initial Release)* | October 25, 2026 | *Superseded by v1.3.11* | Initial release: Realtime daily balance hero card, user profile, centered action dock, tab navigation | [Read Patch 1.0.0 Notes](./patch/patch-1.0.0.md) |
 
 ---
 
@@ -91,7 +89,7 @@ Download and install the official **SIMPanan v1.3.8** APK directly onto your And
 
 2. **🎯 Multi-Savings Pockets & Financial Goals**
    - Manage multiple independent savings pockets alongside your Main Savings.
-   - Set targets, track milestone percentages, and see how much is needed to complete each dream.
+   - Set targets, track milestone percentages, and customize pocket colors with HSL precision.
    - Quick deposit, quick withdraw, and guarded inter-pocket transfers.
 
 3. **💳 Debt & Liability Management**
@@ -113,7 +111,7 @@ Download and install the official **SIMPanan v1.3.8** APK directly onto your And
 7. **📸 Profile & Interactive Photo Cropping (Zero Lag)**
    - Capture or select avatar photos from Camera or Gallery.
    - Built-in interactive cropper with rotation and smooth gestures running fluidly up to 144Hz.
-   - Customizable name, age, and occupation tags.
+   - Interactive calendar birth date picker with auto-computed age and youth protection guard.
 
 8. **🔍 Flexible History & Search by Pocket**
    - Filter transactions (*All*, *Income*, *Expense*, or by specific *Savings Pocket*).
