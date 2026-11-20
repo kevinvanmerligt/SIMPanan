@@ -19,7 +19,8 @@ class HeroSaldoCard extends StatelessWidget {
   Widget build(BuildContext context) {
     final colors = context.colors;
     final tanggalHariIni = DateFormatId.formatHariTanggal(DateTime.now());
-    final isNegative = summary.remainingBalance < 0;
+    final netTotalSavings = totalSavings - summary.totalDebt;
+    final isNegative = netTotalSavings < 0;
 
     return Container(
       width: double.infinity,
@@ -80,15 +81,21 @@ class HeroSaldoCard extends StatelessWidget {
                 child: Row(
                   children: [
                     Icon(
-                      Icons.savings_rounded,
-                      color: colors.isDark ? colors.primaryGreen : Colors.white,
-                      size: 13,
+                      summary.remainingBalance >= 0
+                          ? Icons.trending_up_rounded
+                          : Icons.trending_down_rounded,
+                      color: colors.isDark
+                          ? (summary.remainingBalance >= 0 ? colors.primaryGreen : const Color(0xFFFF8A80))
+                          : Colors.white,
+                      size: 14,
                     ),
                     const SizedBox(width: 4),
                     Text(
-                      'Total: ${CurrencyFormat.toRupiah(totalSavings)}',
+                      'Hari ini: ${summary.remainingBalance >= 0 ? '+' : ''}${CurrencyFormat.toRupiah(summary.remainingBalance)}',
                       style: TextStyle(
-                        color: colors.isDark ? colors.primaryGreen : Colors.white,
+                        color: colors.isDark
+                            ? (summary.remainingBalance >= 0 ? colors.primaryGreen : const Color(0xFFFF8A80))
+                            : Colors.white,
                         fontSize: 11,
                         fontWeight: FontWeight.w700,
                       ),
@@ -103,13 +110,13 @@ class HeroSaldoCard extends StatelessWidget {
           Row(
             children: [
               Text(
-                isNegative ? 'Defisit Saldo (Tanggungan Hutang)' : AppStrings.sisaSaldoHariIni,
+                isNegative ? 'Defisit Tabungan (Tanggungan Hutang)' : 'Total Saldo Tabungan',
                 style: TextStyle(
                   color: isNegative
                       ? const Color(0xFFFF9478)
                       : (colors.isDark ? colors.textSecondary : Colors.white70),
                   fontSize: 13,
-                  fontWeight: isNegative ? FontWeight.w700 : FontWeight.normal,
+                  fontWeight: isNegative ? FontWeight.w700 : FontWeight.w600,
                 ),
               ),
               if (isNegative) ...[
@@ -134,7 +141,7 @@ class HeroSaldoCard extends StatelessWidget {
           ),
           const SizedBox(height: 4),
           Text(
-            CurrencyFormat.toRupiah(summary.remainingBalance),
+            CurrencyFormat.toRupiah(netTotalSavings),
             style: TextStyle(
               color: isNegative ? const Color(0xFFFF8A80) : Colors.white,
               fontSize: 34,
@@ -145,8 +152,8 @@ class HeroSaldoCard extends StatelessWidget {
           const SizedBox(height: 6),
           Text(
             summary.totalDebt > 0
-                ? 'Termasuk pemotongan kewajiban hutang aktif (${CurrencyFormat.toRupiah(summary.totalDebt)})'
-                : 'Total ${summary.transactionCount} transaksi tercatat hari ini',
+                ? 'Dipotong total kewajiban hutang aktif (${CurrencyFormat.toRupiah(summary.totalDebt)})'
+                : 'Akumulasi seluruh tabungan yang tersimpan selama ini',
             style: TextStyle(
               color: colors.isDark ? colors.textSecondary : Colors.white70,
               fontSize: 12,

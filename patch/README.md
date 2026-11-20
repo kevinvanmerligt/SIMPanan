@@ -8,16 +8,17 @@ Folder ini berisi riwayat pembaruan (*patch notes*), changelog resmi, dan berkas
 
 | Versi Patch | Tanggal Rilis | File APK | Ringkasan Utama | Dokumen Lengkap |
 | :---: | :---: | :---: | :--- | :---: |
-| **`v1.3.11`** *(Terbaru)* | 14 November 2026 | [⬇️ `SIMPanan-v1.3.11.apk`](https://raw.githubusercontent.com/kevinvanmerligt/SIMPanan/main/patch/SIMPanan-v1.3.11.apk) | Pemilih tanggal lahir & hitung umur otomatis, penguncian pekerjaan < 18 tahun (Pelajar), placeholder nama pengguna, pemilih warna kustom HSL tabungan | [Baca Patch Notes](./patch-1.3.11.md) |
-| **`v1.3.8`** *(Sebelumnya)* | 12 November 2026 | *Telah digantikan ke v1.3.11* | Laporan total pengeluaran teratas, kelola tabungan per baris, proteksi transfer anti-minus, pelacakan hutang & saldo minus | [Baca Patch Notes](./patch-1.3.8.md) |
-| **`v1.3.1`** *(Sebelumnya)* | 9 November 2026 | *Telah digantikan ke v1.3.11* | Fitur Multi-Tabungan & Kantong Rencana, alokasi transaksi per tabungan, transfer saldo antar tabungan, animasi super smooth | [Baca Patch Notes](./patch-1.3.1.md) |
-| **`v1.2.10`** *(Sebelumnya)* | 30 Oktober 2026 | *Telah digantikan ke v1.3.11* | Pembaruan ikon 3D 'S' emas glossy, perbaikan kontras checklist kategori, simplifikasi tombol "Simpan", pembersihan kode | [Baca Patch Notes](./patch-1.2.10.md) |
-| **`v1.2.7`** *(Sebelumnya)* | 26 Oktober 2026 | *Telah digantikan ke v1.3.11* | Animasi pembuka/splash lucu & meriah (maskot kawaii, koin elastis, partikel bintang), notifikasi mengambang | [Baca Patch Notes](./patch-1.2.7.md) |
-| **`v1.2.2`** *(Sebelumnya)* | 26 Oktober 2026 | *Telah digantikan ke v1.3.11* | Pengaturan tema dinamis (Sistem/Terang/Gelap), palet hijau adaptif (lebih terang di dark mode, lebih gelap di light mode) | [Baca Patch Notes](./patch-1.2.2.md) |
-| **`v1.1.11`** *(Arsip)* | 25 Oktober 2026 | *Telah digantikan ke v1.3.11* | Segmented control tab transaksi animasi sliding pill tanpa jerking scroll, crop foto profil native tanpa lag 60-144Hz | [Baca Patch Notes](./patch-1.1.11.md) |
-| **`v1.0.8`** *(Arsip)* | 25 Oktober 2026 | *Telah digantikan ke v1.3.11* | Dukungan 60/90/120/144Hz high refresh rate, transisi halaman halus, animasi navigasi, upload foto profil, grafik 7 hari | [Baca Patch Notes](./patch-1.0.8.md) |
-| **`v1.0.3`** *(Arsip)* | 25 Oktober 2026 | *Telah digantikan ke v1.3.11* | Logo baru, direct APK download tanpa pindah halaman, header di semua tabs | [Baca Patch Notes](./patch-1.0.3.md) |
-| **`v1.0.0`** *(Rilis Perdana)* | 25 Oktober 2026 | *Telah digantikan ke v1.3.11* | Rilis perdana: Saldo harian, profil pengguna, tombol center docking, navigasi tabs | [Baca Patch Notes](./patch-1.0.0.md) |
+| **`v1.4.0`** *(Terbaru)* | 20 November 2026 | [⬇️ `SIMPanan-v1.4.0.apk`](https://raw.githubusercontent.com/kevinvanmerligt/SIMPanan/main/patch/SIMPanan-v1.4.0.apk) | Akumulasi total saldo tabungan di Beranda, banner menonjol transfer antar tabungan, logo tabungan besar di laporan, penyelarasan warna aksen, pembersihan saldo hapus tabungan, opsi ikon titik tiga | [Baca Patch Notes](./patch-1.4.0.md) |
+| **`v1.3.11`** *(Sebelumnya)* | 14 November 2026 | *Telah digantikan ke v1.4.0* | Pemilih tanggal lahir & hitung umur otomatis, penguncian pekerjaan < 18 tahun (Pelajar), placeholder nama pengguna, pemilih warna kustom HSL tabungan | [Baca Patch Notes](./patch-1.3.11.md) |
+| **`v1.3.8`** *(Sebelumnya)* | 12 November 2026 | *Telah digantikan ke v1.4.0* | Laporan total pengeluaran teratas, kelola tabungan per baris, proteksi transfer anti-minus, pelacakan hutang & saldo minus | [Baca Patch Notes](./patch-1.3.8.md) |
+| **`v1.3.1`** *(Sebelumnya)* | 9 November 2026 | *Telah digantikan ke v1.4.0* | Fitur Multi-Tabungan & Kantong Rencana, alokasi transaksi per tabungan, transfer saldo antar tabungan, animasi super smooth | [Baca Patch Notes](./patch-1.3.1.md) |
+| **`v1.2.10`** *(Sebelumnya)* | 30 Oktober 2026 | *Telah digantikan ke v1.4.0* | Pembaruan ikon 3D 'S' emas glossy, perbaikan kontras checklist kategori, simplifikasi tombol "Simpan", pembersihan kode | [Baca Patch Notes](./patch-1.2.10.md) |
+| **`v1.2.7`** *(Sebelumnya)* | 26 Oktober 2026 | *Telah digantikan ke v1.4.0* | Animasi pembuka/splash lucu & meriah (maskot kawaii, koin elastis, partikel bintang), notifikasi mengambang | [Baca Patch Notes](./patch-1.2.7.md) |
+| **`v1.2.2`** *(Sebelumnya)* | 26 Oktober 2026 | *Telah digantikan ke v1.4.0* | Pengaturan tema dinamis (Sistem/Terang/Gelap), palet hijau adaptif (lebih terang di dark mode, lebih gelap di light mode) | [Baca Patch Notes](./patch-1.2.2.md) |
+| **`v1.1.11`** *(Arsip)* | 25 Oktober 2026 | *Telah digantikan ke v1.4.0* | Segmented control tab transaksi animasi sliding pill tanpa jerking scroll, crop foto profil native tanpa lag 60-144Hz | [Baca Patch Notes](./patch-1.1.11.md) |
+| **`v1.0.8`** *(Arsip)* | 25 Oktober 2026 | *Telah digantikan ke v1.4.0* | Dukungan 60/90/120/144Hz high refresh rate, transisi halaman halus, animasi navigasi, upload foto profil, grafik 7 hari | [Baca Patch Notes](./patch-1.0.8.md) |
+| **`v1.0.3`** *(Arsip)* | 25 Oktober 2026 | *Telah digantikan ke v1.4.0* | Logo baru, direct APK download tanpa pindah halaman, header di semua tabs | [Baca Patch Notes](./patch-1.0.3.md) |
+| **`v1.0.0`** *(Rilis Perdana)* | 25 Oktober 2026 | *Telah digantikan ke v1.4.0* | Rilis perdana: Saldo harian, profil pengguna, tombol center docking, navigasi tabs | [Baca Patch Notes](./patch-1.0.0.md) |
 
 ---
 

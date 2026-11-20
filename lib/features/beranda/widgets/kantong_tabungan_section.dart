@@ -41,79 +41,143 @@ class KantongTabunganSection extends StatelessWidget {
                 ),
               ],
             ),
-            Row(
-              children: [
-                if (tabunganList.length > 1)
-                  InkWell(
-                    onTap: () {
-                      showModalBottomSheet(
-                        context: context,
-                        isScrollControlled: true,
-                        backgroundColor: Colors.transparent,
-                        builder: (_) => const TransferTabunganModal(),
-                      );
-                    },
-                    borderRadius: BorderRadius.circular(10),
-                    child: Container(
-                      padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 5),
-                      margin: const EdgeInsets.only(right: 6),
-                      decoration: BoxDecoration(
-                        color: colors.inputBg,
-                        borderRadius: BorderRadius.circular(10),
-                        border: Border.all(color: colors.cardBorder),
+            InkWell(
+              onTap: () {
+                showModalBottomSheet(
+                  context: context,
+                  isScrollControlled: true,
+                  backgroundColor: Colors.transparent,
+                  builder: (_) => const TambahTabunganModal(),
+                );
+              },
+              borderRadius: BorderRadius.circular(10),
+              child: Container(
+                padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
+                decoration: BoxDecoration(
+                  color: colors.primaryPillBg,
+                  borderRadius: BorderRadius.circular(10),
+                ),
+                child: Row(
+                  children: [
+                    Icon(Icons.add, size: 15, color: colors.primaryGreen),
+                    const SizedBox(width: 4),
+                    Text(
+                      'Tambah',
+                      style: TextStyle(
+                        fontSize: 12,
+                        fontWeight: FontWeight.w700,
+                        color: colors.primaryGreen,
                       ),
-                      child: Row(
+                    ),
+                  ],
+                ),
+              ),
+            ),
+          ],
+        ),
+        if (tabunganList.length > 1) ...[
+          const SizedBox(height: 12),
+          Material(
+            color: Colors.transparent,
+            child: InkWell(
+              onTap: () {
+                showModalBottomSheet(
+                  context: context,
+                  isScrollControlled: true,
+                  backgroundColor: Colors.transparent,
+                  builder: (_) => const TransferTabunganModal(),
+                );
+              },
+              borderRadius: BorderRadius.circular(16),
+              child: Container(
+                width: double.infinity,
+                padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
+                decoration: BoxDecoration(
+                  color: colors.cardSurface,
+                  borderRadius: BorderRadius.circular(16),
+                  border: Border.all(
+                    color: colors.primaryGreen.withValues(alpha: colors.isDark ? 0.35 : 0.25),
+                    width: 1.2,
+                  ),
+                  boxShadow: [
+                    BoxShadow(
+                      color: colors.primaryGreen.withValues(alpha: colors.isDark ? 0.08 : 0.04),
+                      blurRadius: 10,
+                      offset: const Offset(0, 3),
+                    ),
+                  ],
+                ),
+                child: Row(
+                  children: [
+                    Container(
+                      width: 42,
+                      height: 42,
+                      decoration: BoxDecoration(
+                        color: colors.primaryGreen.withValues(alpha: 0.15),
+                        borderRadius: BorderRadius.circular(12),
+                      ),
+                      child: Icon(
+                        Icons.swap_horiz_rounded,
+                        color: colors.primaryGreen,
+                        size: 24,
+                      ),
+                    ),
+                    const SizedBox(width: 12),
+                    Expanded(
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
-                          Icon(Icons.swap_horiz_rounded, size: 14, color: colors.primaryGreen),
-                          const SizedBox(width: 4),
                           Text(
-                            'Transfer',
+                            'Transfer Saldo Antar Tabungan',
+                            style: TextStyle(
+                              fontSize: 14,
+                              fontWeight: FontWeight.w700,
+                              color: colors.textPrimary,
+                            ),
+                          ),
+                          const SizedBox(height: 2),
+                          Text(
+                            'Pindahkan saldo antar kantong dengan aman & instan',
                             style: TextStyle(
                               fontSize: 11,
-                              fontWeight: FontWeight.w600,
-                              color: colors.textPrimary,
+                              color: colors.textSecondary,
                             ),
                           ),
                         ],
                       ),
                     ),
-                  ),
-                InkWell(
-                  onTap: () {
-                    showModalBottomSheet(
-                      context: context,
-                      isScrollControlled: true,
-                      backgroundColor: Colors.transparent,
-                      builder: (_) => const TambahTabunganModal(),
-                    );
-                  },
-                  borderRadius: BorderRadius.circular(10),
-                  child: Container(
-                    padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 5),
-                    decoration: BoxDecoration(
-                      color: colors.primaryPillBg,
-                      borderRadius: BorderRadius.circular(10),
-                    ),
-                    child: Row(
-                      children: [
-                        Icon(Icons.add, size: 14, color: colors.primaryGreen),
-                        const SizedBox(width: 4),
-                        Text(
-                          'Tambah',
-                          style: TextStyle(
-                            fontSize: 11,
-                            fontWeight: FontWeight.w700,
-                            color: colors.primaryGreen,
+                    Container(
+                      padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 7),
+                      decoration: BoxDecoration(
+                        color: colors.primaryGreen,
+                        borderRadius: BorderRadius.circular(10),
+                      ),
+                      child: const Row(
+                        mainAxisSize: MainAxisSize.min,
+                        children: [
+                          Text(
+                            'Transfer',
+                            style: TextStyle(
+                              fontSize: 12,
+                              fontWeight: FontWeight.w700,
+                              color: Colors.white,
+                            ),
                           ),
-                        ),
-                      ],
+                          SizedBox(width: 3),
+                          Icon(
+                            Icons.arrow_forward_rounded,
+                            size: 14,
+                            color: Colors.white,
+                          ),
+                        ],
+                      ),
                     ),
-                  ),
+                  ],
                 ),
-              ],
+              ),
             ),
-          ],
-        ),
+          ),
+        ],
         const SizedBox(height: 12),
         SizedBox(
           height: 156,
@@ -212,7 +276,7 @@ class KantongTabunganSection extends StatelessWidget {
                   Container(
                     padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 3),
                     decoration: BoxDecoration(
-                      color: colors.primaryPillBg,
+                      color: tabungan.color.withValues(alpha: 0.15),
                       borderRadius: BorderRadius.circular(6),
                     ),
                     child: Text(
@@ -220,7 +284,7 @@ class KantongTabunganSection extends StatelessWidget {
                       style: TextStyle(
                         fontSize: 10,
                         fontWeight: FontWeight.w700,
-                        color: colors.primaryGreen,
+                        color: tabungan.color,
                       ),
                     ),
                   ),
@@ -247,7 +311,7 @@ class KantongTabunganSection extends StatelessWidget {
                     fontWeight: FontWeight.w800,
                     color: tabungan.currentBalance < 0
                         ? colors.expenseIcon
-                        : (tabungan.isPrimary ? colors.primaryGreen : tabungan.color),
+                        : tabungan.color,
                   ),
                 ),
               ],
@@ -268,7 +332,7 @@ class KantongTabunganSection extends StatelessWidget {
                           minHeight: 5,
                           backgroundColor: colors.inputBg,
                           valueColor: AlwaysStoppedAnimation<Color>(
-                            tabungan.isTargetAchieved ? colors.primaryGreen : tabungan.color,
+                            tabungan.color,
                           ),
                         );
                       },

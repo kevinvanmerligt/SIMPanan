@@ -112,6 +112,8 @@ class TabunganModel {
         return Icons.shopping_bag_rounded;
       case 'star':
         return Icons.star_rounded;
+      case 'more':
+        return Icons.more_horiz_rounded;
       case 'savings':
       default:
         return Icons.savings_rounded;
@@ -129,17 +131,18 @@ class TabunganModel {
     {'name': 'school', 'label': 'Pendidikan', 'icon': Icons.school_rounded},
     {'name': 'shopping', 'label': 'Wishlist', 'icon': Icons.shopping_bag_rounded},
     {'name': 'star', 'label': 'Impian', 'icon': Icons.star_rounded},
+    {'name': 'more', 'label': 'Lainnya', 'icon': Icons.more_horiz_rounded},
   ];
 
   static const List<String> availableColors = [
-    '0xFF059669', // Emerald Green
-    '0xFF2563EB', // Blue
-    '0xFFD97706', // Amber
-    '0xFFDC2626', // Red
-    '0xFF7C3AED', // Purple
-    '0xFFDB2777', // Pink
-    '0xFF0D9488', // Teal
-    '0xFF4F46E5', // Indigo
+    '0xFF059669',
+    '0xFF2563EB',
+    '0xFFD97706',
+    '0xFFDC2626',
+    '0xFF7C3AED',
+    '0xFFDB2777',
+    '0xFF0D9488',
+    '0xFF4F46E5',
   ];
 }
 

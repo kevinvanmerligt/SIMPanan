@@ -146,7 +146,7 @@ class TabunganDetailModal extends StatelessWidget {
                         backgroundColor: colors.cardSurface,
                         title: Text('Hapus Tabungan?', style: TextStyle(color: colors.textPrimary)),
                         content: Text(
-                          'Tabungan "${tabungan.name}" akan dihapus. Semua transaksinya akan dialihkan otomatis ke Tabungan Utama.',
+                          'Tabungan "${tabungan.name}" dan seluruh saldo serta catatan transaksinya akan dihapus bersih secara permanen.',
                           style: TextStyle(color: colors.textSecondary, fontSize: 13),
                         ),
                         actions: [
@@ -197,7 +197,7 @@ class TabunganDetailModal extends StatelessWidget {
                         style: TextStyle(
                           fontSize: 12,
                           fontWeight: FontWeight.w700,
-                          color: tabungan.isTargetAchieved ? colors.primaryGreen : tabungan.color,
+                          color: tabungan.color,
                         ),
                       ),
                     ],
@@ -215,7 +215,7 @@ class TabunganDetailModal extends StatelessWidget {
                           minHeight: 8,
                           backgroundColor: colors.cardBorder,
                           valueColor: AlwaysStoppedAnimation<Color>(
-                            tabungan.isTargetAchieved ? colors.primaryGreen : tabungan.color,
+                            tabungan.color,
                           ),
                         );
                       },
@@ -236,7 +236,7 @@ class TabunganDetailModal extends StatelessWidget {
                         style: TextStyle(
                           fontSize: 11,
                           fontWeight: FontWeight.w600,
-                          color: tabungan.isTargetAchieved ? colors.primaryGreen : colors.textMuted,
+                          color: tabungan.isTargetAchieved ? tabungan.color : colors.textMuted,
                         ),
                       ),
                     ],

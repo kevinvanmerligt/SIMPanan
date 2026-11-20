@@ -106,9 +106,8 @@ class TransactionRepository {
       return;
     }
 
-    await db.update(
+    await db.delete(
       'transactions',
-      {'tabungan_id': 1, 'tabungan_name': 'Tabungan Utama'},
       where: 'tabungan_id = ?',
       whereArgs: [id],
     );

@@ -56,7 +56,6 @@ class LaporanScreen extends StatelessWidget {
             ),
             const SizedBox(height: 16),
 
-            // 1. TOTAL SELURUH PENGELUARAN (Paling Atas)
             FadeSlideEntrance(
               delayMs: 60,
               child: Container(
@@ -176,7 +175,6 @@ class LaporanScreen extends StatelessWidget {
             ),
             const SizedBox(height: 20),
 
-            // 2. KELOLA KANTONG TABUNGAN (DIBAGI PER ROW)
             FadeSlideEntrance(
               delayMs: 100,
               child: Row(
@@ -241,7 +239,6 @@ class LaporanScreen extends StatelessWidget {
             ),
             const SizedBox(height: 12),
 
-            // Row cards for each Tabungan
             ...tabunganList.asMap().entries.map((entry) {
               final index = entry.key + 1;
               final tab = entry.value;
@@ -259,158 +256,215 @@ class LaporanScreen extends StatelessWidget {
                     borderRadius: BorderRadius.circular(16),
                     border: Border.all(color: colors.cardBorder),
                   ),
-                  child: Column(
+                  child: Row(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: [
-                          Row(
-                            children: [
-                              Container(
-                                padding: const EdgeInsets.symmetric(horizontal: 6, vertical: 2),
-                                decoration: BoxDecoration(
-                                  color: colors.inputBg,
-                                  borderRadius: BorderRadius.circular(6),
-                                  border: Border.all(color: colors.cardBorder),
-                                ),
-                                child: Text(
-                                  'Baris $index',
-                                  style: TextStyle(
-                                    fontSize: 10,
-                                    fontWeight: FontWeight.w700,
-                                    color: colors.textSecondary,
-                                  ),
-                                ),
-                              ),
-                              const SizedBox(width: 8),
-                              Icon(tab.iconData, size: 18, color: tab.color),
-                              const SizedBox(width: 6),
-                              Text(
-                                tab.name,
-                                style: TextStyle(
-                                  fontWeight: FontWeight.w700,
-                                  fontSize: 14,
-                                  color: colors.textPrimary,
-                                ),
-                              ),
-                              if (tab.isPrimary) ...[
-                                const SizedBox(width: 6),
-                                Container(
-                                  padding: const EdgeInsets.symmetric(horizontal: 6, vertical: 2),
-                                  decoration: BoxDecoration(
-                                    color: colors.primaryPillBg,
-                                    borderRadius: BorderRadius.circular(4),
-                                  ),
-                                  child: Text(
-                                    'Utama',
-                                    style: TextStyle(
-                                      fontSize: 9,
-                                      fontWeight: FontWeight.w700,
-                                      color: colors.primaryGreen,
-                                    ),
-                                  ),
-                                ),
-                              ],
-                            ],
-                          ),
-                          InkWell(
-                            onTap: () {
-                              showModalBottomSheet(
-                                context: context,
-                                isScrollControlled: true,
-                                backgroundColor: Colors.transparent,
-                                builder: (_) => TabunganDetailModal(tabunganId: tab.id ?? 1),
-                              );
-                            },
-                            borderRadius: BorderRadius.circular(8),
-                            child: Container(
-                              padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
-                              decoration: BoxDecoration(
-                                color: colors.inputBg,
-                                borderRadius: BorderRadius.circular(8),
-                                border: Border.all(color: colors.cardBorder),
-                              ),
-                              child: Row(
-                                mainAxisSize: MainAxisSize.min,
-                                children: [
-                                  Icon(Icons.tune_rounded, size: 12, color: colors.primaryGreen),
-                                  const SizedBox(width: 4),
-                                  Text(
-                                    'Kelola',
-                                    style: TextStyle(
-                                      fontSize: 11,
-                                      fontWeight: FontWeight.w700,
-                                      color: colors.primaryGreen,
-                                    ),
-                                  ),
-                                ],
-                              ),
-                            ),
-                          ),
-                        ],
-                      ),
-                      const SizedBox(height: 10),
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        crossAxisAlignment: CrossAxisAlignment.baseline,
-                        textBaseline: TextBaseline.alphabetic,
-                        children: [
-                          Text(
-                            CurrencyFormat.toRupiah(tab.currentBalance),
-                            style: TextStyle(
-                              fontSize: 20,
-                              fontWeight: FontWeight.w800,
-                              color: tab.color,
-                            ),
-                          ),
-                          Text(
-                            '${(ratio * 100).toStringAsFixed(1)}% dari total',
-                            style: TextStyle(
-                              fontSize: 11,
-                              color: colors.textSecondary,
-                              fontWeight: FontWeight.w500,
-                            ),
-                          ),
-                        ],
-                      ),
-                      const SizedBox(height: 8),
-                      ClipRRect(
-                        borderRadius: BorderRadius.circular(6),
-                        child: TweenAnimationBuilder<double>(
-                          tween: Tween<double>(begin: 0.0, end: hasTarget ? targetRatio : ratio),
-                          duration: const Duration(milliseconds: 600),
-                          curve: Curves.easeOutCubic,
-                          builder: (context, val, _) {
-                            return LinearProgressIndicator(
-                              value: val,
-                              minHeight: 6,
-                              backgroundColor: colors.inputBg,
-                              color: tab.color,
-                            );
-                          },
-                        ),
-                      ),
-                      if (hasTarget) ...[
-                        const SizedBox(height: 6),
-                        Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      SizedBox(
+                        width: 82,
+                        child: Column(
                           children: [
-                            Text(
-                              'Target: ${CurrencyFormat.toRupiah(tab.targetAmount)}',
-                              style: TextStyle(fontSize: 11, color: colors.textSecondary),
-                            ),
-                            Text(
-                              '${(targetRatio * 100).toInt()}% Tercapai',
-                              style: TextStyle(
-                                fontSize: 11,
-                                fontWeight: FontWeight.w700,
+                            Container(
+                              width: 52,
+                              height: 52,
+                              decoration: BoxDecoration(
+                                color: tab.color.withValues(alpha: 0.16),
+                                borderRadius: BorderRadius.circular(16),
+                                border: Border.all(
+                                  color: tab.color.withValues(alpha: 0.35),
+                                  width: 1.5,
+                                ),
+                              ),
+                              child: Icon(
+                                tab.iconData,
+                                size: 28,
                                 color: tab.color,
+                              ),
+                            ),
+                            const SizedBox(height: 8),
+                            Text(
+                              tab.name,
+                              style: TextStyle(
+                                fontWeight: FontWeight.w700,
+                                fontSize: 12,
+                                color: colors.textPrimary,
+                              ),
+                              textAlign: TextAlign.center,
+                              maxLines: 2,
+                              overflow: TextOverflow.ellipsis,
+                            ),
+                            const SizedBox(height: 4),
+                            Container(
+                              padding: const EdgeInsets.symmetric(horizontal: 6, vertical: 2),
+                              decoration: BoxDecoration(
+                                color: tab.isPrimary
+                                    ? tab.color.withValues(alpha: 0.15)
+                                    : colors.inputBg,
+                                borderRadius: BorderRadius.circular(6),
+                                border: Border.all(
+                                  color: tab.isPrimary
+                                      ? tab.color.withValues(alpha: 0.3)
+                                      : colors.cardBorder,
+                                ),
+                              ),
+                              child: Text(
+                                tab.isPrimary ? 'Utama' : 'Baris $index',
+                                style: TextStyle(
+                                  fontSize: 10,
+                                  fontWeight: FontWeight.w700,
+                                  color: tab.isPrimary ? tab.color : colors.textSecondary,
+                                ),
                               ),
                             ),
                           ],
                         ),
-                      ],
+                      ),
+                      const SizedBox(width: 14),
+                      Expanded(
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Expanded(
+                                  child: Column(
+                                    crossAxisAlignment: CrossAxisAlignment.start,
+                                    children: [
+                                      Text(
+                                        'Saldo Terkumpul',
+                                        style: TextStyle(
+                                          fontSize: 11,
+                                          color: colors.textSecondary,
+                                        ),
+                                      ),
+                                      const SizedBox(height: 2),
+                                      Text(
+                                        CurrencyFormat.toRupiah(tab.currentBalance),
+                                        style: TextStyle(
+                                          fontSize: 17,
+                                          fontWeight: FontWeight.w800,
+                                          color: tab.color,
+                                        ),
+                                      ),
+                                    ],
+                                  ),
+                                ),
+                                InkWell(
+                                  onTap: () {
+                                    showModalBottomSheet(
+                                      context: context,
+                                      isScrollControlled: true,
+                                      backgroundColor: Colors.transparent,
+                                      builder: (_) => TabunganDetailModal(tabunganId: tab.id ?? 1),
+                                    );
+                                  },
+                                  borderRadius: BorderRadius.circular(8),
+                                  child: Container(
+                                    padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
+                                    decoration: BoxDecoration(
+                                      color: tab.color.withValues(alpha: 0.12),
+                                      borderRadius: BorderRadius.circular(8),
+                                      border: Border.all(color: tab.color.withValues(alpha: 0.25)),
+                                    ),
+                                    child: Row(
+                                      mainAxisSize: MainAxisSize.min,
+                                      children: [
+                                        Icon(Icons.tune_rounded, size: 12, color: tab.color),
+                                        const SizedBox(width: 4),
+                                        Text(
+                                          'Kelola',
+                                          style: TextStyle(
+                                            fontSize: 11,
+                                            fontWeight: FontWeight.w700,
+                                            color: tab.color,
+                                          ),
+                                        ),
+                                      ],
+                                    ),
+                                  ),
+                                ),
+                              ],
+                            ),
+                            const SizedBox(height: 10),
+                            if (hasTarget) ...[
+                              Row(
+                                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                children: [
+                                  Text(
+                                    'Target: ${CurrencyFormat.toRupiah(tab.targetAmount)}',
+                                    style: TextStyle(fontSize: 11, color: colors.textSecondary),
+                                  ),
+                                  Text(
+                                    '${(targetRatio * 100).toInt()}% Tercapai',
+                                    style: TextStyle(
+                                      fontSize: 11,
+                                      fontWeight: FontWeight.w700,
+                                      color: tab.color,
+                                    ),
+                                  ),
+                                ],
+                              ),
+                              const SizedBox(height: 6),
+                              ClipRRect(
+                                borderRadius: BorderRadius.circular(6),
+                                child: TweenAnimationBuilder<double>(
+                                  tween: Tween<double>(begin: 0.0, end: targetRatio),
+                                  duration: const Duration(milliseconds: 600),
+                                  curve: Curves.easeOutCubic,
+                                  builder: (context, val, _) {
+                                    return LinearProgressIndicator(
+                                      value: val,
+                                      minHeight: 6,
+                                      backgroundColor: colors.inputBg,
+                                      color: tab.color,
+                                    );
+                                  },
+                                ),
+                              ),
+                              const SizedBox(height: 6),
+                              Text(
+                                '${(ratio * 100).toStringAsFixed(1)}% dari total simpanan',
+                                style: TextStyle(
+                                  fontSize: 10,
+                                  color: colors.textSecondary,
+                                ),
+                              ),
+                            ] else ...[
+                              Text(
+                                'Porsi Simpanan',
+                                style: TextStyle(fontSize: 11, color: colors.textSecondary),
+                              ),
+                              const SizedBox(height: 6),
+                              ClipRRect(
+                                borderRadius: BorderRadius.circular(6),
+                                child: TweenAnimationBuilder<double>(
+                                  tween: Tween<double>(begin: 0.0, end: ratio),
+                                  duration: const Duration(milliseconds: 600),
+                                  curve: Curves.easeOutCubic,
+                                  builder: (context, val, _) {
+                                    return LinearProgressIndicator(
+                                      value: val,
+                                      minHeight: 6,
+                                      backgroundColor: colors.inputBg,
+                                      color: tab.color,
+                                    );
+                                  },
+                                ),
+                              ),
+                              const SizedBox(height: 6),
+                              Text(
+                                '${(ratio * 100).toStringAsFixed(1)}% dari total simpanan',
+                                style: TextStyle(
+                                  fontSize: 10,
+                                  fontWeight: FontWeight.w600,
+                                  color: tab.color,
+                                ),
+                              ),
+                            ],
+                          ],
+                        ),
+                      ),
                     ],
                   ),
                 ),
@@ -418,7 +472,6 @@ class LaporanScreen extends StatelessWidget {
             }),
             const SizedBox(height: 10),
 
-            // 3. RINGKASAN KEWAJIBAN & HUTANG
             FadeSlideEntrance(
               delayMs: 180,
               child: Container(
