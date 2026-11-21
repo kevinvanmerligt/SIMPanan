@@ -428,10 +428,10 @@ class _ProfilScreenState extends State<ProfilScreen> {
                               ),
                             ],
                           ),
-                          child: Icon(
+                          child: const Icon(
                             Icons.camera_alt,
                             size: 14,
-                            color: colors.isDark ? const Color(0xFF0F1411) : Colors.white,
+                            color: Colors.white,
                           ),
                         ),
                       ),
@@ -890,21 +890,21 @@ class _ProfilScreenState extends State<ProfilScreen> {
                   width: double.infinity,
                   child: ElevatedButton.icon(
                     onPressed: () => _saveProfile(showToast: true),
-                    icon: Icon(
+                    icon: const Icon(
                       Icons.check,
                       size: 18,
-                      color: colors.isDark ? const Color(0xFF0F1411) : Colors.white,
+                      color: Colors.white,
                     ),
-                    label: Text(
+                    label: const Text(
                       'Simpan Perubahan Profil',
                       style: TextStyle(
                         fontWeight: FontWeight.w700,
-                        color: colors.isDark ? const Color(0xFF0F1411) : Colors.white,
+                        color: Colors.white,
                       ),
                     ),
                     style: ElevatedButton.styleFrom(
                       backgroundColor: colors.primaryGreen,
-                      foregroundColor: colors.isDark ? const Color(0xFF0F1411) : Colors.white,
+                      foregroundColor: Colors.white,
                       padding: const EdgeInsets.symmetric(vertical: 14),
                       shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(12),
@@ -925,7 +925,7 @@ class _ProfilScreenState extends State<ProfilScreen> {
             child: Column(
               children: [
                 Text(
-                  'SIMPanan v1.3.8 (Patch 1.3.8)',
+                  'SIMPanan v1.4.1 (Patch 1.4.1)',
                   style: TextStyle(
                     fontSize: 12,
                     color: colors.textSecondary.withValues(alpha: 0.8),

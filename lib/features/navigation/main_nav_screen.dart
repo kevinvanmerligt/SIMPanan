@@ -75,9 +75,9 @@ class _MainNavScreenState extends State<MainNavScreen> {
           backgroundColor: colors.primaryGreen,
           elevation: 3,
           shape: const CircleBorder(),
-          child: Icon(
+          child: const Icon(
             Icons.add,
-            color: colors.isDark ? const Color(0xFF0F1411) : Colors.white,
+            color: Colors.white,
             size: 30,
           ),
         ),

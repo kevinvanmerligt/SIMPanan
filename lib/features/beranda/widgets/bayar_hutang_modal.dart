@@ -49,7 +49,6 @@ class _BayarHutangModalState extends State<BayarHutangModal> {
   @override
   Widget build(BuildContext context) {
     final colors = context.colors;
-    final isDark = colors.isDark;
     final provider = context.watch<FinanceProvider>();
     final tabunganList = provider.allTabungan;
 
@@ -292,7 +291,7 @@ class _BayarHutangModalState extends State<BayarHutangModal> {
                 onPressed: _submitPayment,
                 style: ElevatedButton.styleFrom(
                   backgroundColor: colors.primaryGreen,
-                  foregroundColor: isDark ? const Color(0xFF0F1411) : Colors.white,
+                  foregroundColor: Colors.white,
                   elevation: 0,
                   shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(14),

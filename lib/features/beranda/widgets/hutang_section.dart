@@ -36,12 +36,12 @@ class HutangSection extends StatelessWidget {
                   Container(
                     padding: const EdgeInsets.all(6),
                     decoration: BoxDecoration(
-                      color: const Color(0xFFEF4444).withValues(alpha: 0.12),
+                      color: colors.expenseBg,
                       borderRadius: BorderRadius.circular(8),
                     ),
-                    child: const Icon(
+                    child: Icon(
                       Icons.account_balance_wallet_outlined,
-                      color: Color(0xFFEF4444),
+                      color: colors.expenseIcon,
                       size: 16,
                     ),
                   ),

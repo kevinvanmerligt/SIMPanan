@@ -610,7 +610,7 @@ class LaporanScreen extends StatelessWidget {
                                     style: TextStyle(
                                       fontSize: 10,
                                       fontWeight: FontWeight.w700,
-                                      color: colors.isDark ? const Color(0xFF0F1411) : Colors.white,
+                                      color: Colors.white,
                                     ),
                                   ),
                                 ),

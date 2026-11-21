@@ -252,22 +252,18 @@ class _CatatModalSheetState extends State<CatatModalSheet> {
                     avatar: Icon(
                       t.iconData,
                       size: 16,
-                      color: isSelected
-                          ? (colors.isDark ? const Color(0xFF0F1411) : Colors.white)
-                          : t.color,
+                      color: isSelected ? Colors.white : t.color,
                     ),
                     label: Text(t.name),
                     selected: isSelected,
                     selectedColor: colors.primaryGreen,
                     backgroundColor: colors.inputBg,
-                    checkmarkColor: colors.isDark ? const Color(0xFF0F1411) : Colors.white,
+                    checkmarkColor: Colors.white,
                     side: BorderSide(
                       color: isSelected ? colors.primaryGreen : colors.cardBorder,
                     ),
                     labelStyle: TextStyle(
-                      color: isSelected
-                          ? (colors.isDark ? const Color(0xFF0F1411) : Colors.white)
-                          : colors.textPrimary,
+                      color: isSelected ? Colors.white : colors.textPrimary,
                       fontWeight: isSelected ? FontWeight.w700 : FontWeight.w500,
                       fontSize: 12,
                     ),
@@ -332,18 +328,18 @@ class _CatatModalSheetState extends State<CatatModalSheet> {
                 onPressed: _saveTransaction,
                 style: ElevatedButton.styleFrom(
                   backgroundColor: colors.primaryGreen,
-                  foregroundColor: colors.isDark ? const Color(0xFF0F1411) : Colors.white,
+                  foregroundColor: Colors.white,
                   elevation: 0,
                   shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(14),
                   ),
                 ),
-                child: Text(
+                child: const Text(
                   'Simpan',
                   style: TextStyle(
                     fontSize: 15,
                     fontWeight: FontWeight.w700,
-                    color: colors.isDark ? const Color(0xFF0F1411) : Colors.white,
+                    color: Colors.white,
                   ),
                 ),
               ),

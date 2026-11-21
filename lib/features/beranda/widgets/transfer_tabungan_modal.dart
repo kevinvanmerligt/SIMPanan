@@ -454,7 +454,7 @@ class _TransferTabunganModalState extends State<TransferTabunganModal> {
                 style: ElevatedButton.styleFrom(
                   backgroundColor: colors.primaryGreen,
                   disabledBackgroundColor: colors.cardBorder,
-                  foregroundColor: colors.isDark ? const Color(0xFF0F1411) : Colors.white,
+                  foregroundColor: Colors.white,
                   elevation: 0,
                   shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(14),
