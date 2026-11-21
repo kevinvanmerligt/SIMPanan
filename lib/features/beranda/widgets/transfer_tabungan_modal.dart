@@ -34,14 +34,13 @@ class _TransferTabunganModalState extends State<TransferTabunganModal> {
     _fromId = widget.preselectedFromId ??
         (list.isNotEmpty ? list.first.id ?? 1 : 1);
 
+    final validDestinations = list.where((t) => t.id != _fromId).toList();
     if (widget.preselectedToId != null && widget.preselectedToId != _fromId) {
       _toId = widget.preselectedToId!;
+    } else if (validDestinations.isNotEmpty) {
+      _toId = validDestinations.first.id ?? 1;
     } else {
-      final other = list.firstWhere(
-        (t) => t.id != _fromId,
-        orElse: () => list.isNotEmpty ? list.last : list.first,
-      );
-      _toId = other.id ?? 1;
+      _toId = -1;
     }
 
     _amountController.addListener(_onAmountChanged);
@@ -60,8 +59,18 @@ class _TransferTabunganModalState extends State<TransferTabunganModal> {
   }
 
   void _transfer() async {
+    if (_fromId == _toId) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(
+          content: Text('Tabungan asal dan tujuan tidak boleh sama.'),
+          backgroundColor: Color(0xFFEF4444),
+        ),
+      );
+      return;
+    }
+
     final amount = int.tryParse(_amountController.text.trim()) ?? 0;
-    if (amount <= 0 || _fromId == _toId) return;
+    if (amount <= 0) return;
 
     final provider = context.read<FinanceProvider>();
     final all = provider.allTabungan;
@@ -102,13 +111,23 @@ class _TransferTabunganModalState extends State<TransferTabunganModal> {
       );
     }
 
+    final validDestinations = all.where((t) => t.id != _fromId).toList();
+    if (_fromId == _toId || (!validDestinations.any((t) => t.id == _toId) && validDestinations.isNotEmpty)) {
+      _toId = validDestinations.first.id ?? -1;
+    }
+
+    final hasMultipleTabungan = all.length >= 2;
     final fromTab = getTabungan(_fromId);
     final toTab = getTabungan(_toId);
 
     final enteredAmount = int.tryParse(_amountController.text.trim()) ?? 0;
     final isInsufficient = enteredAmount > fromTab.currentBalance;
     final isZeroBalance = fromTab.currentBalance <= 0;
-    final canTransfer = _fromId != _toId && enteredAmount > 0 && !isInsufficient;
+    final canTransfer = hasMultipleTabungan &&
+        _fromId != _toId &&
+        _toId != -1 &&
+        enteredAmount > 0 &&
+        !isInsufficient;
 
     return Container(
       padding: EdgeInsets.only(
@@ -138,6 +157,34 @@ class _TransferTabunganModalState extends State<TransferTabunganModal> {
               ),
             ),
             const SizedBox(height: 16),
+            if (!hasMultipleTabungan) ...[
+              Container(
+                width: double.infinity,
+                padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 10),
+                decoration: BoxDecoration(
+                  color: const Color(0xFFEF4444).withValues(alpha: 0.1),
+                  borderRadius: BorderRadius.circular(12),
+                  border: Border.all(color: const Color(0xFFEF4444).withValues(alpha: 0.3)),
+                ),
+                child: Row(
+                  children: [
+                    const Icon(Icons.info_outline_rounded, size: 16, color: Color(0xFFEF4444)),
+                    const SizedBox(width: 8),
+                    Expanded(
+                      child: Text(
+                        'Transfer membutuhkan minimal dua tabungan.',
+                        style: TextStyle(
+                          fontSize: 12,
+                          fontWeight: FontWeight.w600,
+                          color: colors.isDark ? const Color(0xFFFCA5A5) : const Color(0xFFDC2626),
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+              const SizedBox(height: 12),
+            ],
             Row(
               children: [
                 Container(
@@ -210,7 +257,15 @@ class _TransferTabunganModalState extends State<TransferTabunganModal> {
                               );
                             }).toList(),
                             onChanged: (val) {
-                              if (val != null) setState(() => _fromId = val);
+                              if (val != null) {
+                                setState(() {
+                                  _fromId = val;
+                                  final newDestinations = all.where((t) => t.id != _fromId).toList();
+                                  if (_fromId == _toId || !newDestinations.any((t) => t.id == _toId)) {
+                                    _toId = newDestinations.isNotEmpty ? (newDestinations.first.id ?? -1) : -1;
+                                  }
+                                });
+                              }
                             },
                           ),
                         ),
@@ -263,9 +318,13 @@ class _TransferTabunganModalState extends State<TransferTabunganModal> {
                         DropdownButtonHideUnderline(
                           child: DropdownButton<int>(
                             isExpanded: true,
-                            value: _toId,
+                            value: validDestinations.any((t) => t.id == _toId) ? _toId : null,
+                            hint: Text(
+                              validDestinations.isEmpty ? 'Tidak ada tujuan' : 'Pilih Tabungan',
+                              style: TextStyle(fontSize: 13, color: colors.textMuted),
+                            ),
                             dropdownColor: colors.cardSurface,
-                            items: all.map((t) {
+                            items: validDestinations.map((t) {
                               return DropdownMenuItem<int>(
                                 value: t.id,
                                 child: Row(
@@ -287,13 +346,17 @@ class _TransferTabunganModalState extends State<TransferTabunganModal> {
                                 ),
                               );
                             }).toList(),
-                            onChanged: (val) {
-                              if (val != null) setState(() => _toId = val);
-                            },
+                            onChanged: validDestinations.isEmpty
+                                ? null
+                                : (val) {
+                                    if (val != null) setState(() => _toId = val);
+                                  },
                           ),
                         ),
                         Text(
-                          'Saldo: ${CurrencyFormat.toRupiah(toTab.currentBalance)}',
+                          validDestinations.any((t) => t.id == _toId)
+                              ? 'Saldo: ${CurrencyFormat.toRupiah(toTab.currentBalance)}'
+                              : '-',
                           style: TextStyle(
                             fontSize: 11,
                             fontWeight: FontWeight.w600,

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
 import '../../../core/constants/app_colors.dart';
 import '../../../core/utils/currency_format.dart';
@@ -10,8 +11,125 @@ import '../../beranda/widgets/tabungan_detail_modal.dart';
 import '../../beranda/widgets/tambah_hutang_modal.dart';
 import '../../beranda/widgets/tambah_tabungan_modal.dart';
 
-class LaporanScreen extends StatelessWidget {
+enum LaporanPeriode {
+  bulanIni,
+  bulanLalu,
+  tujuhHariTerakhir,
+  tigaPuluhHariTerakhir,
+  semua,
+  custom,
+}
+
+class LaporanScreen extends StatefulWidget {
   const LaporanScreen({super.key});
+
+  @override
+  State<LaporanScreen> createState() => _LaporanScreenState();
+}
+
+class _LaporanScreenState extends State<LaporanScreen> {
+  LaporanPeriode _selectedPeriod = LaporanPeriode.bulanIni;
+  DateTimeRange? _customRange;
+
+  Future<void> _pickCustomRange(BuildContext context) async {
+    final now = DateTime.now();
+    final picked = await showDateRangePicker(
+      context: context,
+      firstDate: DateTime(2020),
+      lastDate: DateTime(now.year + 2),
+      initialDateRange: _customRange ??
+          DateTimeRange(
+            start: DateTime(now.year, now.month, 1),
+            end: now,
+          ),
+      builder: (context, child) {
+        final colors = context.colors;
+        return Theme(
+          data: Theme.of(context).copyWith(
+            colorScheme: Theme.of(context).colorScheme.copyWith(
+              primary: colors.primaryGreen,
+              onPrimary: Colors.white,
+            ),
+          ),
+          child: child!,
+        );
+      },
+    );
+
+    if (picked != null) {
+      setState(() {
+        _selectedPeriod = LaporanPeriode.custom;
+        _customRange = picked;
+      });
+    }
+  }
+
+  Widget _buildPeriodChip(LaporanPeriode period, String label, AppColorScheme colors) {
+    final isSelected = _selectedPeriod == period;
+    return InkWell(
+      onTap: () {
+        setState(() => _selectedPeriod = period);
+      },
+      borderRadius: BorderRadius.circular(20),
+      child: AnimatedContainer(
+        duration: const Duration(milliseconds: 200),
+        padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 8),
+        decoration: BoxDecoration(
+          color: isSelected ? colors.primaryGreen : colors.cardSurface,
+          borderRadius: BorderRadius.circular(20),
+          border: Border.all(
+            color: isSelected ? colors.primaryGreen : colors.cardBorder,
+          ),
+        ),
+        child: Text(
+          label,
+          style: TextStyle(
+            fontSize: 12,
+            fontWeight: isSelected ? FontWeight.w700 : FontWeight.w500,
+            color: isSelected ? Colors.white : colors.textSecondary,
+          ),
+        ),
+      ),
+    );
+  }
+
+  Widget _buildCustomChip(AppColorScheme colors) {
+    final isSelected = _selectedPeriod == LaporanPeriode.custom;
+    return InkWell(
+      onTap: () => _pickCustomRange(context),
+      borderRadius: BorderRadius.circular(20),
+      child: AnimatedContainer(
+        duration: const Duration(milliseconds: 200),
+        padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 8),
+        decoration: BoxDecoration(
+          color: isSelected ? colors.primaryGreen : colors.cardSurface,
+          borderRadius: BorderRadius.circular(20),
+          border: Border.all(
+            color: isSelected ? colors.primaryGreen : colors.cardBorder,
+          ),
+        ),
+        child: Row(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            Icon(
+              Icons.date_range_rounded,
+              size: 14,
+              color: isSelected ? Colors.white : colors.textSecondary,
+            ),
+            const SizedBox(width: 5),
+            Text(
+              'Pilih Tanggal',
+              style: TextStyle(
+                fontSize: 12,
+                fontWeight: isSelected ? FontWeight.w700 : FontWeight.w500,
+                color: isSelected ? Colors.white : colors.textSecondary,
+              ),
+            ),
+          ],
+        ),
+      ),
+    );
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -19,14 +137,64 @@ class LaporanScreen extends StatelessWidget {
 
     return Consumer<FinanceProvider>(
       builder: (context, provider, _) {
+        final now = DateTime.now();
+        DateTime? startDate;
+        DateTime? endDate;
+        String activePeriodLabel = 'Bulan Ini';
+
+        switch (_selectedPeriod) {
+          case LaporanPeriode.bulanIni:
+            startDate = DateTime(now.year, now.month, 1);
+            endDate = DateTime(now.year, now.month, now.day, 23, 59, 59, 999);
+            activePeriodLabel = '${DateFormat('d MMM yyyy', 'id_ID').format(startDate)} - ${DateFormat('d MMM yyyy', 'id_ID').format(now)}';
+            break;
+          case LaporanPeriode.bulanLalu:
+            startDate = DateTime(now.year, now.month - 1, 1);
+            final lastDayOfPrevMonth = DateTime(now.year, now.month, 0);
+            endDate = DateTime(now.year, now.month, 0, 23, 59, 59, 999);
+            activePeriodLabel = '${DateFormat('d MMM yyyy', 'id_ID').format(startDate)} - ${DateFormat('d MMM yyyy', 'id_ID').format(lastDayOfPrevMonth)}';
+            break;
+          case LaporanPeriode.tujuhHariTerakhir:
+            startDate = DateTime(now.year, now.month, now.day).subtract(const Duration(days: 6));
+            endDate = DateTime(now.year, now.month, now.day, 23, 59, 59, 999);
+            activePeriodLabel = '${DateFormat('d MMM yyyy', 'id_ID').format(startDate)} - ${DateFormat('d MMM yyyy', 'id_ID').format(now)}';
+            break;
+          case LaporanPeriode.tigaPuluhHariTerakhir:
+            startDate = DateTime(now.year, now.month, now.day).subtract(const Duration(days: 29));
+            endDate = DateTime(now.year, now.month, now.day, 23, 59, 59, 999);
+            activePeriodLabel = '${DateFormat('d MMM yyyy', 'id_ID').format(startDate)} - ${DateFormat('d MMM yyyy', 'id_ID').format(now)}';
+            break;
+          case LaporanPeriode.semua:
+            startDate = null;
+            endDate = null;
+            activePeriodLabel = 'Semua Periode';
+            break;
+          case LaporanPeriode.custom:
+            if (_customRange != null) {
+              startDate = DateTime(_customRange!.start.year, _customRange!.start.month, _customRange!.start.day);
+              endDate = DateTime(_customRange!.end.year, _customRange!.end.month, _customRange!.end.day, 23, 59, 59, 999);
+              activePeriodLabel = '${DateFormat('d MMM yyyy', 'id_ID').format(_customRange!.start)} - ${DateFormat('d MMM yyyy', 'id_ID').format(_customRange!.end)}';
+            } else {
+              startDate = DateTime(now.year, now.month, 1);
+              endDate = DateTime(now.year, now.month, now.day, 23, 59, 59, 999);
+              activePeriodLabel = '${DateFormat('d MMM yyyy', 'id_ID').format(startDate)} - ${DateFormat('d MMM yyyy', 'id_ID').format(now)}';
+            }
+            break;
+        }
+
+        final filteredTransactions = provider.allTransactions.where((tx) {
+          if (tx.type != 'EXPENSE') return false;
+          if (startDate != null && tx.date.isBefore(startDate)) return false;
+          if (endDate != null && tx.date.isAfter(endDate)) return false;
+          return true;
+        }).toList();
+
         final Map<String, int> categoryTotals = {};
         int totalExpense = 0;
 
-        for (final tx in provider.allTransactions) {
-          if (tx.type == 'EXPENSE') {
-            categoryTotals[tx.category] = (categoryTotals[tx.category] ?? 0) + tx.amount;
-            totalExpense += tx.amount;
-          }
+        for (final tx in filteredTransactions) {
+          categoryTotals[tx.category] = (categoryTotals[tx.category] ?? 0) + tx.amount;
+          totalExpense += tx.amount;
         }
 
         final tabunganList = provider.allTabungan;
@@ -54,6 +222,31 @@ class LaporanScreen extends StatelessWidget {
                 ),
               ),
             ),
+            const SizedBox(height: 12),
+
+            FadeSlideEntrance(
+              delayMs: 45,
+              child: SizedBox(
+                height: 38,
+                child: ListView(
+                  scrollDirection: Axis.horizontal,
+                  physics: const BouncingScrollPhysics(),
+                  children: [
+                    _buildPeriodChip(LaporanPeriode.bulanIni, 'Bulan Ini', colors),
+                    const SizedBox(width: 8),
+                    _buildPeriodChip(LaporanPeriode.bulanLalu, 'Bulan Lalu', colors),
+                    const SizedBox(width: 8),
+                    _buildPeriodChip(LaporanPeriode.tujuhHariTerakhir, '7 Hari Terakhir', colors),
+                    const SizedBox(width: 8),
+                    _buildPeriodChip(LaporanPeriode.tigaPuluhHariTerakhir, '30 Hari Terakhir', colors),
+                    const SizedBox(width: 8),
+                    _buildPeriodChip(LaporanPeriode.semua, 'Semua', colors),
+                    const SizedBox(width: 8),
+                    _buildCustomChip(colors),
+                  ],
+                ),
+              ),
+            ),
             const SizedBox(height: 16),
 
             FadeSlideEntrance(
@@ -70,10 +263,40 @@ class LaporanScreen extends StatelessWidget {
                   children: [
                     Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        Text(
-                          'Total Seluruh Pengeluaran',
-                          style: TextStyle(color: colors.textSecondary, fontSize: 13),
+                        Expanded(
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Text(
+                                'Total Seluruh Pengeluaran',
+                                style: TextStyle(color: colors.textSecondary, fontSize: 13),
+                              ),
+                              const SizedBox(height: 3),
+                              Row(
+                                children: [
+                                  Icon(
+                                    Icons.calendar_today_rounded,
+                                    size: 12,
+                                    color: colors.primaryGreen,
+                                  ),
+                                  const SizedBox(width: 5),
+                                  Expanded(
+                                    child: Text(
+                                      activePeriodLabel,
+                                      style: TextStyle(
+                                        fontSize: 11,
+                                        fontWeight: FontWeight.w700,
+                                        color: colors.primaryGreen,
+                                      ),
+                                      overflow: TextOverflow.ellipsis,
+                                    ),
+                                  ),
+                                ],
+                              ),
+                            ],
+                          ),
                         ),
                         Container(
                           padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 3),
@@ -92,7 +315,7 @@ class LaporanScreen extends StatelessWidget {
                         ),
                       ],
                     ),
-                    const SizedBox(height: 6),
+                    const SizedBox(height: 8),
                     Text(
                       CurrencyFormat.toRupiah(totalExpense),
                       style: TextStyle(
@@ -112,11 +335,26 @@ class LaporanScreen extends StatelessWidget {
                     ),
                     const SizedBox(height: 12),
                     if (categoryTotals.isEmpty)
-                      Padding(
-                        padding: const EdgeInsets.symmetric(vertical: 8),
-                        child: Text(
-                          'Belum ada data pengeluaran yang tercatat.',
-                          style: TextStyle(color: colors.textSecondary, fontSize: 12),
+                      Container(
+                        width: double.infinity,
+                        padding: const EdgeInsets.symmetric(vertical: 24),
+                        child: Column(
+                          children: [
+                            Icon(
+                              Icons.receipt_long_outlined,
+                              size: 40,
+                              color: colors.textMuted.withValues(alpha: 0.5),
+                            ),
+                            const SizedBox(height: 8),
+                            Text(
+                              'Belum ada pengeluaran pada periode ini',
+                              style: TextStyle(
+                                color: colors.textSecondary,
+                                fontSize: 12,
+                                fontWeight: FontWeight.w600,
+                              ),
+                            ),
+                          ],
                         ),
                       )
                     else

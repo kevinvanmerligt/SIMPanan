@@ -1,4 +1,5 @@
 import 'dart:io';
+import 'dart:math' as math;
 import 'dart:ui' as ui;
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
@@ -6,7 +7,6 @@ import 'package:path_provider/path_provider.dart';
 import '../../../core/constants/app_colors.dart';
 import '../../../core/widgets/floating_notification.dart';
 
-/// Halaman crop foto profil interaktif, halus, tanpa lag (60/90/120/144Hz)
 class PhotoCropScreen extends StatefulWidget {
   final File imageFile;
 
@@ -21,6 +21,28 @@ class _PhotoCropScreenState extends State<PhotoCropScreen> {
   final TransformationController _transformController = TransformationController();
   int _rotationQuarterTurns = 0;
   bool _isProcessing = false;
+  int? _imageWidth;
+  int? _imageHeight;
+  double? _lastCropSize;
+
+  @override
+  void initState() {
+    super.initState();
+    _loadImageDimensions();
+  }
+
+  Future<void> _loadImageDimensions() async {
+    try {
+      final bytes = await widget.imageFile.readAsBytes();
+      final decoded = await decodeImageFromList(bytes);
+      if (mounted) {
+        setState(() {
+          _imageWidth = decoded.width;
+          _imageHeight = decoded.height;
+        });
+      }
+    } catch (_) {}
+  }
 
   @override
   void dispose() {
@@ -28,16 +50,33 @@ class _PhotoCropScreenState extends State<PhotoCropScreen> {
     super.dispose();
   }
 
-  void _rotate() {
+  void _calculateAndApplyTransform(double cropSize) {
+    if (_imageWidth == null || _imageHeight == null) return;
+
+    final isTurnsOdd = _rotationQuarterTurns % 2 == 1;
+    final effectiveW = isTurnsOdd ? _imageHeight!.toDouble() : _imageWidth!.toDouble();
+    final effectiveH = isTurnsOdd ? _imageWidth!.toDouble() : _imageHeight!.toDouble();
+
+    final scale = math.max(cropSize / effectiveW, cropSize / effectiveH);
+    final childW = effectiveW * scale;
+    final childH = effectiveH * scale;
+
+    final offsetX = -(childW - cropSize) / 2.0;
+    final offsetY = -(childH - cropSize) / 2.0;
+
+    _transformController.value = Matrix4.identity()..setTranslationRaw(offsetX, offsetY, 0.0);
+  }
+
+  void _rotate(double cropSize) {
     setState(() {
       _rotationQuarterTurns = (_rotationQuarterTurns + 1) % 4;
-      _transformController.value = Matrix4.identity();
+      _calculateAndApplyTransform(cropSize);
     });
   }
 
-  void _reset() {
+  void _reset(double cropSize) {
     setState(() {
-      _transformController.value = Matrix4.identity();
+      _calculateAndApplyTransform(cropSize);
     });
   }
 
@@ -51,7 +90,6 @@ class _PhotoCropScreenState extends State<PhotoCropScreen> {
         throw Exception('Gagal membaca area crop');
       }
 
-      // Render boundary ke ui.Image dengan pixelRatio tinggi agar tajam
       final ui.Image image = await boundary.toImage(pixelRatio: 3.0);
       final byteData = await image.toByteData(format: ui.ImageByteFormat.png);
 
@@ -85,12 +123,33 @@ class _PhotoCropScreenState extends State<PhotoCropScreen> {
   @override
   Widget build(BuildContext context) {
     final screenSize = MediaQuery.of(context).size;
-    final cropSize = (screenSize.width * 0.78).clamp(240.0, 340.0);
+    final cropSize = (screenSize.width * 0.85).clamp(260.0, 360.0);
+
+    if (_lastCropSize != cropSize && _imageWidth != null) {
+      _lastCropSize = cropSize;
+      WidgetsBinding.instance.addPostFrameCallback((_) {
+        if (mounted) {
+          _calculateAndApplyTransform(cropSize);
+        }
+      });
+    }
+
+    final isTurnsOdd = _rotationQuarterTurns % 2 == 1;
+    final effectiveW = (_imageWidth != null && _imageHeight != null)
+        ? (isTurnsOdd ? _imageHeight!.toDouble() : _imageWidth!.toDouble())
+        : cropSize;
+    final effectiveH = (_imageWidth != null && _imageHeight != null)
+        ? (isTurnsOdd ? _imageWidth!.toDouble() : _imageHeight!.toDouble())
+        : cropSize;
+
+    final scale = math.max(cropSize / effectiveW, cropSize / effectiveH);
+    final childW = effectiveW * scale;
+    final childH = effectiveH * scale;
 
     return Scaffold(
-      backgroundColor: const Color(0xFF121413),
+      backgroundColor: const Color(0xFF0F1115),
       appBar: AppBar(
-        backgroundColor: const Color(0xFF121413),
+        backgroundColor: const Color(0xFF0F1115),
         elevation: 0,
         leading: IconButton(
           icon: const Icon(Icons.close, color: Colors.white),
@@ -141,43 +200,69 @@ class _PhotoCropScreenState extends State<PhotoCropScreen> {
           ),
           const SizedBox(height: 20),
 
-          // Area Crop Utama
           Expanded(
             child: Center(
               child: SizedBox(
                 width: cropSize,
                 height: cropSize,
-                child: RepaintBoundary(
-                  key: _boundaryKey,
-                  child: ClipOval(
-                    child: Container(
-                      color: Colors.black,
-                      child: InteractiveViewer(
-                        transformationController: _transformController,
-                        minScale: 1.0,
-                        maxScale: 4.5,
-                        boundaryMargin: const EdgeInsets.all(double.infinity),
-                        clipBehavior: Clip.none,
-                        child: RotatedBox(
-                          quarterTurns: _rotationQuarterTurns,
-                          child: Image.file(
-                            widget.imageFile,
-                            fit: BoxFit.contain,
+                child: Stack(
+                  children: [
+                    RepaintBoundary(
+                      key: _boundaryKey,
+                      child: ClipOval(
+                        child: SizedBox(
+                          width: cropSize,
+                          height: cropSize,
+                          child: _imageWidth == null
+                              ? const Center(
+                                  child: CircularProgressIndicator(
+                                    strokeWidth: 2,
+                                    color: AppColors.primaryGreen,
+                                  ),
+                                )
+                              : InteractiveViewer(
+                                  transformationController: _transformController,
+                                  minScale: 1.0,
+                                  maxScale: 4.5,
+                                  boundaryMargin: EdgeInsets.zero,
+                                  clipBehavior: Clip.none,
+                                  child: SizedBox(
+                                    width: childW,
+                                    height: childH,
+                                    child: RotatedBox(
+                                      quarterTurns: _rotationQuarterTurns,
+                                      child: Image.file(
+                                        widget.imageFile,
+                                        width: isTurnsOdd ? childH : childW,
+                                        height: isTurnsOdd ? childW : childH,
+                                        fit: BoxFit.fill,
+                                      ),
+                                    ),
+                                  ),
+                                ),
+                        ),
+                      ),
+                    ),
+
+                    Positioned.fill(
+                      child: IgnorePointer(
+                        child: ClipOval(
+                          child: CustomPaint(
+                            painter: CropGridPainter(),
                           ),
                         ),
                       ),
                     ),
-                  ),
+                  ],
                 ),
               ),
             ),
           ),
 
-          // Border & Lingkaran Panduan Aksen
           Container(
             padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 20),
             decoration: const BoxDecoration(
-              color: Color(0xFF1C1E1D),
+              color: Color(0xFF181B20),
               borderRadius: BorderRadius.vertical(top: Radius.circular(24)),
             ),
             child: SafeArea(
@@ -188,12 +273,12 @@ class _PhotoCropScreenState extends State<PhotoCropScreen> {
                   _buildActionButton(
                     icon: Icons.rotate_right_rounded,
                     label: 'Putar 90°',
-                    onTap: _rotate,
+                    onTap: () => _rotate(cropSize),
                   ),
                   _buildActionButton(
                     icon: Icons.refresh_rounded,
                     label: 'Reset',
-                    onTap: _reset,
+                    onTap: () => _reset(cropSize),
                   ),
                 ],
               ),
@@ -232,4 +317,32 @@ class _PhotoCropScreenState extends State<PhotoCropScreen> {
       ),
     );
   }
+}
+
+class CropGridPainter extends CustomPainter {
+  @override
+  void paint(Canvas canvas, Size size) {
+    final linePaint = Paint()
+      ..color = Colors.white.withValues(alpha: 0.35)
+      ..strokeWidth = 1.0
+      ..style = PaintingStyle.stroke;
+
+    final borderPaint = Paint()
+      ..color = Colors.white.withValues(alpha: 0.85)
+      ..strokeWidth = 2.0
+      ..style = PaintingStyle.stroke;
+
+    final w = size.width;
+    final h = size.height;
+
+    canvas.drawLine(Offset(w / 3, 0), Offset(w / 3, h), linePaint);
+    canvas.drawLine(Offset(2 * w / 3, 0), Offset(2 * w / 3, h), linePaint);
+    canvas.drawLine(Offset(0, h / 3), Offset(w, h / 3), linePaint);
+    canvas.drawLine(Offset(0, 2 * h / 3), Offset(w, 2 * h / 3), linePaint);
+
+    canvas.drawCircle(Offset(w / 2, h / 2), (w / 2) - 1, borderPaint);
+  }
+
+  @override
+  bool shouldRepaint(covariant CustomPainter oldDelegate) => false;
 }

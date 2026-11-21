@@ -6,8 +6,8 @@
 
 <p align="center">
   <a href="https://flutter.dev"><img src="https://img.shields.io/badge/Flutter-3.47.7-blue.svg?logo=flutter" alt="Flutter" /></a>
-  <a href="https://raw.githubusercontent.com/kevinvanmerligt/SIMPanan/main/patch/SIMPanan-v1.4.1.7.apk" download="SIMPanan-v1.4.1.7.apk"><img src="https://img.shields.io/badge/Platform-Android-green.svg?logo=android" alt="Platform" /></a>
-  <a href="./patch/patch-1.4.1.7.md"><img src="https://img.shields.io/badge/Patch-v1.4.1.7-emerald.svg" alt="Patch Version" /></a>
+  <a href="https://raw.githubusercontent.com/kevinvanmerligt/SIMPanan/main/patch/SIMPanan-v1.4.2.apk" download="SIMPanan-v1.4.2.apk"><img src="https://img.shields.io/badge/Platform-Android-green.svg?logo=android" alt="Platform" /></a>
+  <a href="./patch/patch-1.4.2.md"><img src="https://img.shields.io/badge/Patch-v1.4.2-emerald.svg" alt="Patch Version" /></a>
 </p>
 
 **SIMPanan** is a modern personal finance and expense tracker engineered with **ultra-smooth physics animations (60–144Hz)**, an **adaptive theme engine (System / Light / Dark modes)**, **custom multi-savings pockets & goal tracking**, **real-time balance transfer guard**, and a comprehensive **debt and liability tracking system**. All financial records are stored securely and locally on your device using SQLite.
@@ -16,51 +16,48 @@
 
 ## 📥 Download APK (Direct Download)
 
-Download and install the official **SIMPanan v1.4.1.7** APK directly onto your Android smartphone. The link below is optimized for direct stream downloading: **clicking the link begins downloading the APK immediately without page redirects**.
+Download and install the official **SIMPanan v1.4.2** APK directly onto your Android smartphone. The link below is optimized for direct stream downloading: **clicking the link begins downloading the APK immediately without page redirects**.
 
 <p align="center">
-  <a href="https://raw.githubusercontent.com/kevinvanmerligt/SIMPanan/main/patch/SIMPanan-v1.4.1.7.apk" download="SIMPanan-v1.4.1.7.apk">
-    <img src="https://img.shields.io/badge/⬇️%20DOWNLOAD%20APK%20v1.4.1.7-DIRECT%20DOWNLOAD-059669?style=for-the-badge&logo=android&logoColor=white" alt="Download SIMPanan APK Directly" />
+  <a href="https://raw.githubusercontent.com/kevinvanmerligt/SIMPanan/main/patch/SIMPanan-v1.4.2.apk" download="SIMPanan-v1.4.2.apk">
+    <img src="https://img.shields.io/badge/⬇️%20DOWNLOAD%20APK%20v1.4.2-DIRECT%20DOWNLOAD-059669?style=for-the-badge&logo=android&logoColor=white" alt="Download SIMPanan APK Directly" />
   </a>
 </p>
 
 ### 🔗 Direct Download Links:
-- 🚀 **[⬇️ Download SIMPanan v1.4.1.7 APK (Automatic Direct Download)](https://raw.githubusercontent.com/kevinvanmerligt/SIMPanan/main/patch/SIMPanan-v1.4.1.7.apk)**
-- 🔗 **[GitHub Raw Mirror Download Link](https://github.com/kevinvanmerligt/SIMPanan/raw/main/patch/SIMPanan-v1.4.1.7.apk)**
+- 🚀 **[⬇️ Download SIMPanan v1.4.2 APK (Automatic Direct Download)](https://raw.githubusercontent.com/kevinvanmerligt/SIMPanan/main/patch/SIMPanan-v1.4.2.apk)**
+- 🔗 **[GitHub Raw Mirror Download Link](https://github.com/kevinvanmerligt/SIMPanan/raw/main/patch/SIMPanan-v1.4.2.apk)**
 
 > **Release File Metadata:**
-> - **Filename:** `SIMPanan-v1.4.1.7.apk`
-> - **Patch Version:** `1.4.1.7`
+> - **Filename:** `SIMPanan-v1.4.2.apk`
+> - **Patch Version:** `1.4.2`
 > - **Compressed Size:** ~20–22 MB
 > - **Category:** Personal Finance Management / Multi-Savings & Debt Tracker
 > - **Target OS:** Android 6.0+ (Marshmallow and above)
-> - **Repository Path:** [`patch/SIMPanan-v1.4.1.7.apk`](https://raw.githubusercontent.com/kevinvanmerligt/SIMPanan/main/patch/SIMPanan-v1.4.1.7.apk)
+> - **Repository Path:** [`patch/SIMPanan-v1.4.2.apk`](https://raw.githubusercontent.com/kevinvanmerligt/SIMPanan/main/patch/SIMPanan-v1.4.2.apk)
 
 ### 📲 How to Install the APK on Android:
-1. Tap the green **[Download APK v1.4.1.7]** button above. The APK file will download directly to your device.
+1. Tap the green **[Download APK v1.4.2]** button above. The APK file will download directly to your device.
 2. Once the download completes, open the APK file via the notification drawer or your device's **Files / File Manager** app.
 3. If an *"Install unknown apps"* prompt appears, enable permission for your browser or file manager.
 4. Tap **Install**, then open and enjoy **SIMPanan**!
 
 ---
 
-## 📦 Current Release Highlights: `Patch 1.4.1.7`
+## 📦 Current Release Highlights: `Patch 1.4.2`
 
-> 📄 Comprehensive release notes and changelog are documented in: **[`patch/patch-1.4.1.7.md`](./patch/patch-1.4.1.7.md)**
+> 📄 Comprehensive release notes and changelog are documented in: **[`patch/patch-1.4.2.md`](./patch/patch-1.4.2.md)**
 
-### ✨ What's New in Patch 1.4.1.7:
-- 🏷️ **Decoupled Neutral "Utama" Badge & Card Border:**
-  - Standardized badge and card border to neutral tokens, preventing misleading positive green cues on negative balances.
-- 📊 **Dynamic Hero Balance Card Gradient:**
-  - Automated background transitioning across positive emerald, zero slate, and dark crimson/rose gradients with high-contrast white typography.
-- 📈 **High-Contrast Bar Chart Tooltip:**
-  - Configured dark `#1F2937` tooltip styling with crisp white font for date and amount tags.
-- ☀️ **Enhanced Light Mode Readability & Contrast:**
-  - Upgraded typography hierarchy with deep slate primary texts and balanced borders, ensuring clean readability under bright environments.
-- 🌙 **Refined Dark Mode (Neon Removal):**
-  - Removed aggressive fluorescent neon glows and excessive border tints across cards and buttons.
-- 🌹 **Natural Financial Crimson Palette:**
-  - Redesigned expense and liability accent colors with elegant crimson and rose hues.
+### ✨ What's New in Patch 1.4.2:
+- 🖼️ **Full-Screen Profile Photo Cropper & Rule-of-Thirds Grid:**
+  - Automatic cover scaling fills the circular crop mask completely with zero black borders for portrait, landscape, and square images.
+  - Interactive 3x3 rule-of-thirds alignment grid guide with boundary clamping on pan and zoom.
+- 🔄 **Inter-Savings Transfer Guard:**
+  - Destination pocket dropdown automatically excludes the selected source pocket, completely preventing self-transfers.
+  - Added strict validation in transfer logic and informative warning banner when fewer than two tabungan pockets exist.
+- 📅 **Financial Report Period Filter (Laporan Keuangan):**
+  - Integrated quick period filter chips (Bulan Ini, Bulan Lalu, 7 Hari Terakhir, 30 Hari Terakhir, Semua) and custom date range picker.
+  - Active date range indicator, dynamic category expense distribution, percentage progress bars, and neat empty state handling.
 - 📦 **Optimized Arm64 APK Binary (~20–22 MB):**
   - Built specifically for arm64-v8a architecture, ensuring fast load speeds, minimal download footprint, and smooth execution.
 

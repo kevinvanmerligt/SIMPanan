@@ -216,7 +216,10 @@ class FinanceProvider extends ChangeNotifier {
     required int amount,
     String? note,
   }) async {
-    if (fromTabunganId == toTabunganId || amount <= 0) return;
+    if (fromTabunganId == toTabunganId) {
+      throw ArgumentError('Tabungan asal dan tujuan tidak boleh sama.');
+    }
+    if (amount <= 0) return;
 
     final fromTabungan = _allTabungan.firstWhere((t) => t.id == fromTabunganId);
     if (fromTabungan.currentBalance < amount) return;
