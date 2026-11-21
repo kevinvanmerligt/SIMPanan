@@ -19,7 +19,7 @@ android {
         targetSdk = flutter.targetSdkVersion
 
         versionCode = if (flutter.versionCode < 20) 20 else flutter.versionCode
-        versionName = flutter.versionName
+        versionName = "1.4.1.7"
 
         ndk {
             abiFilters.addAll(listOf("arm64-v8a"))

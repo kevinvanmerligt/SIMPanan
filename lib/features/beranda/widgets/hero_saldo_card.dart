@@ -21,24 +21,41 @@ class HeroSaldoCard extends StatelessWidget {
     final tanggalHariIni = DateFormatId.formatHariTanggal(DateTime.now());
     final netTotalSavings = totalSavings - summary.totalDebt;
     final isNegative = netTotalSavings < 0;
+    final isZero = netTotalSavings == 0;
 
     return Container(
       width: double.infinity,
       padding: const EdgeInsets.all(20),
       decoration: BoxDecoration(
-        color: colors.heroCardBg,
+        color: isNegative ? null : (isZero ? colors.heroZeroBg : colors.heroCardBg),
+        gradient: isNegative
+            ? LinearGradient(
+                begin: Alignment.topLeft,
+                end: Alignment.bottomRight,
+                colors: [
+                  colors.heroNegativeGradientStart,
+                  colors.heroNegativeGradientEnd,
+                ],
+              )
+            : null,
         borderRadius: BorderRadius.circular(20),
         border: Border.all(
           color: isNegative
-              ? colors.expenseIcon.withValues(alpha: 0.6)
+              ? colors.heroNegativeBorder
               : (colors.isDark ? colors.heroCardBorder : Colors.transparent),
           width: 1,
         ),
         boxShadow: [
           BoxShadow(
-            color: colors.isDark
-                ? Colors.black.withValues(alpha: 0.35)
-                : colors.primaryGreen.withValues(alpha: 0.18),
+            color: isNegative
+                ? (colors.isDark
+                    ? Colors.black.withValues(alpha: 0.45)
+                    : colors.heroNegativeGradientStart.withValues(alpha: 0.28))
+                : (colors.isDark
+                    ? Colors.black.withValues(alpha: 0.35)
+                    : (isZero
+                        ? colors.heroZeroBg.withValues(alpha: 0.18)
+                        : colors.primaryGreen.withValues(alpha: 0.18))),
             blurRadius: 16,
             offset: const Offset(0, 6),
           ),
@@ -54,14 +71,18 @@ class HeroSaldoCard extends StatelessWidget {
                 children: [
                   Icon(
                     Icons.calendar_today_outlined,
-                    color: colors.isDark ? colors.textSecondary : Colors.white.withValues(alpha: 0.85),
+                    color: (isNegative || !colors.isDark)
+                        ? Colors.white.withValues(alpha: 0.85)
+                        : colors.textSecondary,
                     size: 15,
                   ),
                   const SizedBox(width: 8),
                   Text(
                     tanggalHariIni,
                     style: TextStyle(
-                      color: colors.isDark ? colors.textSecondary : Colors.white,
+                      color: (isNegative || !colors.isDark)
+                          ? Colors.white
+                          : colors.textSecondary,
                       fontSize: 13,
                       fontWeight: FontWeight.w500,
                     ),
@@ -71,10 +92,14 @@ class HeroSaldoCard extends StatelessWidget {
               Container(
                 padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 5),
                 decoration: BoxDecoration(
-                  color: colors.heroCardPillBg,
+                  color: isNegative
+                      ? Colors.black.withValues(alpha: 0.25)
+                      : colors.heroCardPillBg,
                   borderRadius: BorderRadius.circular(20),
                   border: Border.all(
-                    color: colors.isDark ? colors.cardBorder : Colors.white.withValues(alpha: 0.25),
+                    color: isNegative
+                        ? Colors.white.withValues(alpha: 0.3)
+                        : (colors.isDark ? colors.cardBorder : Colors.white.withValues(alpha: 0.25)),
                   ),
                 ),
                 child: Row(
@@ -83,18 +108,22 @@ class HeroSaldoCard extends StatelessWidget {
                       summary.remainingBalance >= 0
                           ? Icons.trending_up_rounded
                           : Icons.trending_down_rounded,
-                      color: colors.isDark
-                          ? (summary.remainingBalance >= 0 ? colors.primaryGreen : colors.expenseIcon)
-                          : (summary.remainingBalance >= 0 ? Colors.white : const Color(0xFFFECACA)),
+                      color: isNegative
+                          ? Colors.white
+                          : (colors.isDark
+                              ? (summary.remainingBalance >= 0 ? colors.primaryGreen : colors.expenseIcon)
+                              : (summary.remainingBalance >= 0 ? Colors.white : const Color(0xFFFECACA))),
                       size: 14,
                     ),
                     const SizedBox(width: 4),
                     Text(
                       'Hari ini: ${summary.remainingBalance >= 0 ? '+' : ''}${CurrencyFormat.toRupiah(summary.remainingBalance)}',
                       style: TextStyle(
-                        color: colors.isDark
-                            ? colors.textPrimary
-                            : (summary.remainingBalance >= 0 ? Colors.white : const Color(0xFFFECACA)),
+                        color: isNegative
+                            ? Colors.white
+                            : (colors.isDark
+                                ? colors.textPrimary
+                                : (summary.remainingBalance >= 0 ? Colors.white : const Color(0xFFFECACA))),
                         fontSize: 11,
                         fontWeight: FontWeight.w700,
                       ),
@@ -111,9 +140,9 @@ class HeroSaldoCard extends StatelessWidget {
               Text(
                 isNegative ? 'Defisit Tabungan (Tanggungan Hutang)' : 'Total Saldo Tabungan',
                 style: TextStyle(
-                  color: isNegative
-                      ? (colors.isDark ? colors.expenseIcon : const Color(0xFFFECACA))
-                      : (colors.isDark ? colors.textSecondary : Colors.white.withValues(alpha: 0.85)),
+                  color: (isNegative || !colors.isDark)
+                      ? Colors.white.withValues(alpha: 0.95)
+                      : colors.textSecondary,
                   fontSize: 13,
                   fontWeight: isNegative ? FontWeight.w700 : FontWeight.w600,
                 ),
@@ -123,15 +152,14 @@ class HeroSaldoCard extends StatelessWidget {
                 Container(
                   padding: const EdgeInsets.symmetric(horizontal: 6, vertical: 2),
                   decoration: BoxDecoration(
-                    color: colors.isDark
-                        ? colors.expenseIcon.withValues(alpha: 0.2)
-                        : Colors.black.withValues(alpha: 0.25),
+                    color: Colors.black.withValues(alpha: 0.35),
                     borderRadius: BorderRadius.circular(6),
+                    border: Border.all(color: Colors.white.withValues(alpha: 0.5)),
                   ),
-                  child: Text(
+                  child: const Text(
                     'MINUS',
                     style: TextStyle(
-                      color: colors.isDark ? colors.expenseIcon : const Color(0xFFFECACA),
+                      color: Colors.white,
                       fontSize: 10,
                       fontWeight: FontWeight.w900,
                     ),
@@ -144,9 +172,7 @@ class HeroSaldoCard extends StatelessWidget {
           Text(
             CurrencyFormat.toRupiah(netTotalSavings),
             style: TextStyle(
-              color: isNegative
-                  ? (colors.isDark ? colors.expenseIcon : const Color(0xFFFECACA))
-                  : (colors.isDark ? colors.textPrimary : Colors.white),
+              color: (isNegative || !colors.isDark) ? Colors.white : colors.textPrimary,
               fontSize: 34,
               fontWeight: FontWeight.w800,
               letterSpacing: -0.5,
@@ -158,16 +184,18 @@ class HeroSaldoCard extends StatelessWidget {
                 ? 'Dipotong total kewajiban hutang aktif (${CurrencyFormat.toRupiah(summary.totalDebt)})'
                 : 'Akumulasi seluruh tabungan yang tersimpan selama ini',
             style: TextStyle(
-              color: colors.isDark ? colors.textMuted : Colors.white.withValues(alpha: 0.8),
+              color: (isNegative || !colors.isDark)
+                  ? Colors.white.withValues(alpha: 0.85)
+                  : colors.textMuted,
               fontSize: 12,
             ),
           ),
           const SizedBox(height: 18),
 
           Divider(
-            color: colors.isDark
-                ? colors.divider
-                : Colors.white.withValues(alpha: 0.2),
+            color: (isNegative || !colors.isDark)
+                ? Colors.white.withValues(alpha: 0.25)
+                : colors.divider,
             height: 1,
           ),
           const SizedBox(height: 16),
@@ -181,7 +209,9 @@ class HeroSaldoCard extends StatelessWidget {
                     Text(
                       AppStrings.pemasukan,
                       style: TextStyle(
-                        color: colors.isDark ? colors.primaryGreen : const Color(0xFFA7F3D0),
+                        color: isNegative
+                            ? Colors.white.withValues(alpha: 0.85)
+                            : (colors.isDark ? colors.primaryGreen : const Color(0xFFA7F3D0)),
                         fontSize: 11,
                         fontWeight: FontWeight.w700,
                         letterSpacing: 0.5,
@@ -191,7 +221,7 @@ class HeroSaldoCard extends StatelessWidget {
                     Text(
                       CurrencyFormat.toRupiah(summary.totalIncome),
                       style: TextStyle(
-                        color: colors.isDark ? colors.textPrimary : Colors.white,
+                        color: (isNegative || !colors.isDark) ? Colors.white : colors.textPrimary,
                         fontSize: 16,
                         fontWeight: FontWeight.w700,
                       ),
@@ -206,7 +236,9 @@ class HeroSaldoCard extends StatelessWidget {
                     Text(
                       AppStrings.pengeluaran,
                       style: TextStyle(
-                        color: colors.isDark ? colors.expenseIcon : const Color(0xFFFECACA),
+                        color: isNegative
+                            ? Colors.white.withValues(alpha: 0.85)
+                            : (colors.isDark ? colors.expenseIcon : const Color(0xFFFECACA)),
                         fontSize: 11,
                         fontWeight: FontWeight.w700,
                         letterSpacing: 0.5,
@@ -216,7 +248,7 @@ class HeroSaldoCard extends StatelessWidget {
                     Text(
                       CurrencyFormat.toRupiah(summary.totalExpense),
                       style: TextStyle(
-                        color: colors.isDark ? colors.textPrimary : Colors.white,
+                        color: (isNegative || !colors.isDark) ? Colors.white : colors.textPrimary,
                         fontSize: 16,
                         fontWeight: FontWeight.w700,
                       ),
@@ -232,7 +264,9 @@ class HeroSaldoCard extends StatelessWidget {
                       Text(
                         'Hutang',
                         style: TextStyle(
-                          color: colors.isDark ? colors.expenseIcon : const Color(0xFFFECACA),
+                          color: isNegative
+                              ? Colors.white.withValues(alpha: 0.85)
+                              : (colors.isDark ? colors.expenseIcon : const Color(0xFFFECACA)),
                           fontSize: 11,
                           fontWeight: FontWeight.w700,
                           letterSpacing: 0.5,
@@ -242,7 +276,9 @@ class HeroSaldoCard extends StatelessWidget {
                       Text(
                         CurrencyFormat.toRupiah(summary.totalDebt),
                         style: TextStyle(
-                          color: colors.isDark ? colors.expenseIcon : const Color(0xFFFECACA),
+                          color: isNegative
+                              ? Colors.white
+                              : (colors.isDark ? colors.expenseIcon : const Color(0xFFFECACA)),
                           fontSize: 16,
                           fontWeight: FontWeight.w700,
                         ),

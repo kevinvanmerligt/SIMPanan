@@ -29,6 +29,16 @@ class AppColorScheme {
   final Color heroCardBg;
   final Color heroCardBorder;
   final Color heroCardPillBg;
+  final Color heroZeroBg;
+  final Color heroNegativeGradientStart;
+  final Color heroNegativeGradientEnd;
+  final Color heroNegativeBorder;
+
+  final Color badgeNeutralBg;
+  final Color badgeNeutralText;
+
+  final Color chartTooltipBg;
+  final Color chartTooltipText;
 
   const AppColorScheme({
     required this.isDark,
@@ -52,6 +62,14 @@ class AppColorScheme {
     required this.heroCardBg,
     required this.heroCardBorder,
     required this.heroCardPillBg,
+    required this.heroZeroBg,
+    required this.heroNegativeGradientStart,
+    required this.heroNegativeGradientEnd,
+    required this.heroNegativeBorder,
+    required this.badgeNeutralBg,
+    required this.badgeNeutralText,
+    required this.chartTooltipBg,
+    required this.chartTooltipText,
   });
 }
 
@@ -78,6 +96,14 @@ class AppColors {
     heroCardBg: Color(0xFF047857),
     heroCardBorder: Colors.transparent,
     heroCardPillBg: Color(0x33FFFFFF),
+    heroZeroBg: Color(0xFF334155),
+    heroNegativeGradientStart: Color(0xFF9F1239),
+    heroNegativeGradientEnd: Color(0xFFBE123C),
+    heroNegativeBorder: Color(0xFF881337),
+    badgeNeutralBg: Color(0xFFEEF2FF),
+    badgeNeutralText: Color(0xFF4338CA),
+    chartTooltipBg: Color(0xFF1F2937),
+    chartTooltipText: Color(0xFFFFFFFF),
   );
 
   static const dark = AppColorScheme(
@@ -102,6 +128,14 @@ class AppColors {
     heroCardBg: Color(0xFF161E1A),
     heroCardBorder: Color(0xFF23322B),
     heroCardPillBg: Color(0xFF1E2A24),
+    heroZeroBg: Color(0xFF1E293B),
+    heroNegativeGradientStart: Color(0xFF881337),
+    heroNegativeGradientEnd: Color(0xFF9F1239),
+    heroNegativeBorder: Color(0xFFBE123C),
+    badgeNeutralBg: Color(0xFF1E1B4B),
+    badgeNeutralText: Color(0xFFA5B4FC),
+    chartTooltipBg: Color(0xFF1F2937),
+    chartTooltipText: Color(0xFFFFFFFF),
   );
 
   static AppColorScheme of(BuildContext context) {

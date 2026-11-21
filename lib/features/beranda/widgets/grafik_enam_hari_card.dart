@@ -68,6 +68,36 @@ class GrafikTujuhHariCard extends StatelessWidget {
               swapAnimationCurve: Curves.easeOutCubic,
               BarChartData(
                 maxY: maxY,
+                barTouchData: BarTouchData(
+                  touchTooltipData: BarTouchTooltipData(
+                    getTooltipColor: (_) => colors.chartTooltipBg,
+                    tooltipRoundedRadius: 8,
+                    tooltipPadding: const EdgeInsets.symmetric(horizontal: 10, vertical: 6),
+                    getTooltipItem: (group, groupIndex, rod, rodIndex) {
+                      final amount = data7Hari[groupIndex]['amount'] as int;
+                      final date = data7Hari[groupIndex]['date'] as DateTime;
+                      final dateStr = DateFormat('d MMM', 'id_ID').format(date);
+                      return BarTooltipItem(
+                        '$dateStr\n',
+                        TextStyle(
+                          color: colors.chartTooltipText.withValues(alpha: 0.75),
+                          fontSize: 11,
+                          fontWeight: FontWeight.w500,
+                        ),
+                        children: [
+                          TextSpan(
+                            text: CurrencyFormat.toRupiah(amount),
+                            style: TextStyle(
+                              color: colors.chartTooltipText,
+                              fontSize: 12,
+                              fontWeight: FontWeight.w700,
+                            ),
+                          ),
+                        ],
+                      );
+                    },
+                  ),
+                ),
                 gridData: FlGridData(
                   show: true,
                   drawVerticalLine: false,
@@ -132,8 +162,6 @@ class GrafikTujuhHariCard extends StatelessWidget {
             ),
           ),
           const SizedBox(height: 16),
-
-          // Legenda
           Row(
             children: [
               _buildLegendDot(colors.primaryGreen, AppStrings.harimuIniDanSebelumnya, colors),
@@ -142,8 +170,6 @@ class GrafikTujuhHariCard extends StatelessWidget {
             ],
           ),
           const SizedBox(height: 12),
-
-          // Tombol Lihat Data Grafik
           InkWell(
             onTap: onTapLihatGrafik,
             child: Text(

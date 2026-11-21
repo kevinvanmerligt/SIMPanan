@@ -223,10 +223,8 @@ class KantongTabunganSection extends StatelessWidget {
           color: colors.cardSurface,
           borderRadius: BorderRadius.circular(18),
           border: Border.all(
-            color: tabungan.isPrimary
-                ? colors.primaryGreen.withValues(alpha: 0.35)
-                : colors.cardBorder,
-            width: tabungan.isPrimary ? 1.5 : 1,
+            color: colors.cardBorder,
+            width: 1,
           ),
           boxShadow: [
             BoxShadow(
@@ -260,7 +258,7 @@ class KantongTabunganSection extends StatelessWidget {
                   Container(
                     padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 3),
                     decoration: BoxDecoration(
-                      color: colors.primaryPillBg,
+                      color: colors.badgeNeutralBg,
                       borderRadius: BorderRadius.circular(6),
                     ),
                     child: Text(
@@ -268,7 +266,7 @@ class KantongTabunganSection extends StatelessWidget {
                       style: TextStyle(
                         fontSize: 10,
                         fontWeight: FontWeight.w700,
-                        color: colors.primaryGreen,
+                        color: colors.badgeNeutralText,
                       ),
                     ),
                   )
@@ -311,7 +309,7 @@ class KantongTabunganSection extends StatelessWidget {
                     fontWeight: FontWeight.w800,
                     color: tabungan.currentBalance < 0
                         ? colors.expenseIcon
-                        : tabungan.color,
+                        : (tabungan.currentBalance == 0 ? colors.textSecondary : tabungan.color),
                   ),
                 ),
               ],

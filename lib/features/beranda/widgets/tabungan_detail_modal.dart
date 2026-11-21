@@ -97,7 +97,7 @@ class TabunganDetailModal extends StatelessWidget {
                           Container(
                             padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 2),
                             decoration: BoxDecoration(
-                              color: colors.primaryPillBg,
+                              color: colors.badgeNeutralBg,
                               borderRadius: BorderRadius.circular(6),
                             ),
                             child: Text(
@@ -105,7 +105,7 @@ class TabunganDetailModal extends StatelessWidget {
                               style: TextStyle(
                                 fontSize: 10,
                                 fontWeight: FontWeight.w700,
-                                color: colors.primaryGreen,
+                                color: colors.badgeNeutralText,
                               ),
                             ),
                           ),

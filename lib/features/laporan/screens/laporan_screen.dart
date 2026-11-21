@@ -297,12 +297,12 @@ class LaporanScreen extends StatelessWidget {
                               padding: const EdgeInsets.symmetric(horizontal: 6, vertical: 2),
                               decoration: BoxDecoration(
                                 color: tab.isPrimary
-                                    ? tab.color.withValues(alpha: 0.15)
+                                    ? colors.badgeNeutralBg
                                     : colors.inputBg,
                                 borderRadius: BorderRadius.circular(6),
                                 border: Border.all(
                                   color: tab.isPrimary
-                                      ? tab.color.withValues(alpha: 0.3)
+                                      ? colors.badgeNeutralText.withValues(alpha: 0.3)
                                       : colors.cardBorder,
                                 ),
                               ),
@@ -311,7 +311,7 @@ class LaporanScreen extends StatelessWidget {
                                 style: TextStyle(
                                   fontSize: 10,
                                   fontWeight: FontWeight.w700,
-                                  color: tab.isPrimary ? tab.color : colors.textSecondary,
+                                  color: tab.isPrimary ? colors.badgeNeutralText : colors.textSecondary,
                                 ),
                               ),
                             ),
